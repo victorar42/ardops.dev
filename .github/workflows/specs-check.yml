@@ -1,0 +1,41 @@
+name: Specs validation
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'src/**'
+  push:
+    branches: [main]
+
+jobs:
+  validate-specs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify all required specs exist
+        run: |
+          required=(
+            "docs/01-product-spec.md"
+            "docs/02-information-architecture.md"
+            "docs/03-design-system.md"
+            "docs/04-content-spec.md"
+            "docs/05-security-spec.md"
+            "docs/06-performance-spec.md"
+            "docs/07-accessibility-spec.md"
+            "docs/08-seo-spec.md"
+            "docs/09-deployment-spec.md"
+          )
+          for f in "${required[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "❌ Falta spec: $f"
+              exit 1
+            fi
+          done
+          echo "✅ Todas las specs presentes"
+
+      - name: Lint markdown
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: 'docs/**/*.md'
