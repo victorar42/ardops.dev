@@ -1,21 +1,47 @@
-# Copilot Instructions — ardops.dev
+# Instrucciones para GitHub Copilot — ardops.dev
 
-Este es un sitio estático spec-driven. Antes de generar o modificar código:
+## Contexto del proyecto
+ardops.dev es el sitio profesional de Victor Josue Ardón Rojas, DevOps
+Engineer. El sitio se desarrolla bajo **Spec-Driven Development** usando
+GitHub Spec Kit. Es un sitio estático desplegado en GitHub Pages con
+dominio personalizado.
 
-1. Leé TODAS las specs en /docs/ — son la fuente de verdad
-2. Si una request contradice una spec, señalalo y NO procedas sin
-   confirmación explícita
-3. Cero dependencias JS externas sin justificación documentada
-4. Cero inline scripts ni inline styles (salvo CSS crítico declarado)
-5. Todos los assets self-hosted
-6. Accesibilidad WCAG 2.1 AA es no-negociable
-7. Validá CSP compliance en cada cambio
-8. Imágenes siempre con alt text descriptivo
-9. Headings semánticamente correctos (un solo H1, jerarquía sin saltos)
-10. Si agregás un componente nuevo, documentalo en
-    docs/03-design-system.md
+## Reglas de oro
 
-<!-- SPECKIT START -->
-For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
-<!-- SPECKIT END -->
+1. **Leé la constitución antes de proponer cualquier cambio:**
+   `.specify/memory/constitution.md`
+
+2. **Leé la referencia visual siempre que generes HTML/CSS:**
+   `.reference/v1-design/index.html`
+   La paleta, tipografías y animaciones de ese archivo son la fuente
+   de verdad estética. NO inventes colores, NO cambies fonts.
+
+3. **Respetá el flujo Spec Kit:**
+   - Para una nueva feature/sección → `/specify`
+   - Para diseñar la implementación → `/plan`
+   - Para descomponer en tareas → `/tasks`
+   - Para implementar → `/implement`
+   No escribas código fuera de este flujo salvo correcciones triviales.
+
+4. **Antes de implementar, leé:**
+   - `.specify/memory/constitution.md`
+   - La spec activa en `specs/[feature]/spec.md`
+   - El plan en `specs/[feature]/plan.md`
+   - Las tasks en `specs/[feature]/tasks.md`
+
+5. **Si te pido algo que viola la constitución, deteneme.**
+   No asumas, no "encontrés un workaround". Decímelo y esperá decisión.
+
+6. **Convenciones técnicas:**
+   - HTML semántico (header, nav, main, section, article, footer)
+   - CSS con variables (`var(--accent)`, no `#22d3ee` hardcodeado)
+   - Mobile-first
+   - Sin frameworks JS salvo justificación en spec
+   - Sin inline JS, sin inline styles (excepto el CSS crítico declarado)
+   - Imágenes con alt obligatorio, lazy loading donde aplique
+   - Headings semánticamente correctos (un H1, sin saltos de jerarquía)
+
+7. **Cuando generés un PR description, incluí:**
+   - Spec ID que cumple
+   - Sección de la constitución relevante
+   - Checklist de gates aplicables (a11y, perf, security)
