@@ -14,3 +14,8 @@ Este es un sitio estático spec-driven. Antes de generar o modificar código:
 9. Headings semánticamente correctos (un solo H1, jerarquía sin saltos)
 10. Si agregás un componente nuevo, documentalo en
     docs/03-design-system.md
+
+<!-- SPECKIT START -->
+For additional context about technologies to be used, project structure,
+shell commands, and other important information, read the current plan
+<!-- SPECKIT END -->
