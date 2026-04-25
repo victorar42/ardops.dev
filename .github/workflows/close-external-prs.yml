@@ -1,0 +1,33 @@
+name: Close external PRs
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+
+permissions:
+  pull-requests: write
+  issues: write
+
+jobs:
+  close:
+    if: github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Close external PR
+        uses: peter-evans/close-pull@v3
+        with:
+          comment: |
+            ¡Gracias por tu interés en ardops.dev! 👋
+
+            Este repositorio es mi sitio personal y está publicado con
+            fines de transparencia y como ejemplo de Spec-Driven
+            Development. **No acepto Pull Requests externos.**
+
+            Sentite libre de:
+            - Hacer fork y adaptarlo a tu propio sitio (licencia MIT)
+            - Contactarme en hello@ardops.dev si encontraste algo
+              interesante o querés conversar
+
+            Este PR se cierra automáticamente. Saludos.
+          delete-branch: false
