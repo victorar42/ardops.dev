@@ -1,0 +1,71 @@
+/* ardops.dev — global layout: nav, footer, grain overlay */
+
+/* ── Decorative grain overlay (opt-in via .with-grain on body)
+      Removed by default to avoid axe false-positive contrast detection
+      on rendered noise pixels under translucent layers.            */
+body { position: relative; isolation: isolate; }
+
+/* ── Site header / Nav ──────────────────────────── */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: #0a0e17;
+  border-bottom: 1px solid var(--border);
+}
+
+.site-nav {
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.nav-logo span { color: var(--text-muted); }
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: color var(--dur-short) var(--ease-out);
+}
+
+.nav-links a:hover { color: var(--accent); }
+
+/* ── Footer ─────────────────────────────────────── */
+.site-footer {
+  text-align: center;
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.site-footer .footer-mono {
+  font-family: var(--font-mono);
+  color: var(--accent);
+}
+
+.site-footer .footer-tagline {
+  margin-top: 0.5rem;
+}

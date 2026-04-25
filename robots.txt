@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /legacy/
+Disallow: /.specify/
+Disallow: /specs/
+
+Sitemap: https://ardops.dev/sitemap.xml

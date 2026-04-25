@@ -1,0 +1,34 @@
+# lychee config — link checker
+# https://github.com/lycheeverse/lychee
+
+# HTTP statuses considered OK
+accept = ["200", "206", "429"]
+
+# Concurrency
+max_concurrency = 8
+
+# Retries
+max_retries = 2
+
+# Timeout per link (seconds)
+timeout = 20
+
+# Cache duration
+cache = true
+max_cache_age = "1d"
+
+# Only check http(s) and mailto
+include_verbatim = false
+
+# Skip patterns: localhost, fragment-only, private/reserved, schema
+exclude = [
+  "^https?://localhost",
+  "^https?://127\\.0\\.0\\.1",
+  "^https?://0\\.0\\.0\\.0",
+  "^mailto:",
+  "^https?://(www\\.)?linkedin\\.com",
+  "^https?://www\\.opengraph\\.xyz",
+  "^https?://ardops\\.dev"
+]
+
+

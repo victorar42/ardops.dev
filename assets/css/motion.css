@@ -1,0 +1,40 @@
+/* ardops.dev — motion primitives (mirrors legacy keyframes) */
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%   { opacity: 0.3; transform: scale(1); }
+  100% { opacity: 0.5; transform: scale(1.15); }
+}
+
+@keyframes blink {
+  0%, 50%   { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Reduced motion: disable decorative animations and transitions */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hero-tag,
+  .hero-name,
+  .hero-role,
+  .hero-desc,
+  .hero-ctas {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .hero-glow { animation: none !important; opacity: 0.2 !important; }
+  .terminal-cursor { animation: none !important; opacity: 1 !important; }
+}

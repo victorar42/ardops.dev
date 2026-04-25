@@ -1,0 +1,20 @@
+{
+  "name": "ardops-dev",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sitio profesional ardops.dev — DevOps Engineer (sitio estático).",
+  "scripts": {
+    "html-validate": "html-validate index.html blog/index.html talks/index.html 404.html",
+    "a11y": "node tests/a11y.js",
+    "pa11y": "pa11y-ci --config tests/pa11y.config.js",
+    "lhci": "lhci autorun --config=tests/lighthouserc.json",
+    "serve": "npx --yes serve -l 8080 ."
+  },
+  "devDependencies": {
+    "@lhci/cli": "^0.14.0",
+    "axe-core": "^4.11.3",
+    "html-validate": "^9.0.0",
+    "pa11y-ci": "^3.1.0",
+    "puppeteer": "^22.15.0"
+  }
+}

@@ -52,3 +52,38 @@ Nota: GitHub Pages no permite headers custom directamente. Opciones:
 - HTML validator
 - Lighthouse CI con score mínimo de seguridad
 - Mozilla Observatory check (objetivo: A+)
+---
+
+## Implementación v1 (001-landing-redesign)
+
+**CSP aplicada (vía `<meta http-equiv>`)**:
+
+```
+default-src 'self';
+script-src 'self';
+style-src 'self';
+font-src 'self';
+img-src 'self' data:;
+connect-src 'self';
+frame-ancestors 'none';
+base-uri 'self';
+form-action 'self';
+upgrade-insecure-requests
+```
+
+Sin `'unsafe-inline'`, sin `'unsafe-eval'`, sin CDNs.
+
+**Otras medidas aplicadas**:
+
+- Todos los `target="_blank"` llevan `rel="noopener noreferrer"`.
+- Sin inline `style=""` ni `onclick=`.
+- Self-hosted: fonts (`assets/fonts/*.woff2`), favicons, OG image.
+
+**Gap conocido — GitHub Pages**: Pages no permite headers HTTP custom
+(HSTS, Referrer-Policy, Permissions-Policy, X-Content-Type-Options,
+X-Frame-Options, COOP/COEP/CORP). Mitigación: la mayoría de las
+protecciones están cubiertas por la meta CSP (`frame-ancestors 'none'`,
+`upgrade-insecure-requests`). HSTS lo emite automáticamente Pages al
+servir HTTPS para dominios `*.github.io`; en dominio custom (`ardops.dev`)
+HSTS dependerá del navegador y de la lista preload (no controlable
+desde el sitio).

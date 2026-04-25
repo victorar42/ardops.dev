@@ -1,0 +1,42 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lhci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lhci:
+    name: Lighthouse (${{ matrix.preset }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [desktop, mobile]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Resolve config path
+        id: cfg
+        run: |
+          if [ "${{ matrix.preset }}" = "desktop" ]; then
+            echo "path=tests/lighthouserc.json" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=tests/lighthouserc.mobile.json" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Run Lighthouse CI
+        run: |
+          npx --yes @lhci/cli@0.14.x autorun \
+            --config=${{ steps.cfg.outputs.path }}
