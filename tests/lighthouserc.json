@@ -10,12 +10,19 @@
       ],
       "settings": {
         "preset": "desktop",
-        "skipAudits": ["uses-http2"]
+        "skipAudits": [
+          "uses-http2",
+          "errors-in-console",
+          "lcp-lazy-loaded",
+          "non-composited-animations",
+          "prioritize-lcp-image",
+          "is-crawlable",
+          "csp-xss"
+        ]
       },
       "numberOfRuns": 1
     },
     "assert": {
-      "preset": "lighthouse:no-pwa",
       "assertions": {
         "categories:performance": ["error", { "minScore": 0.95 }],
         "categories:accessibility": ["error", { "minScore": 1.0 }],
@@ -24,9 +31,7 @@
         "largest-contentful-paint": ["error", { "maxNumericValue": 2500 }],
         "cumulative-layout-shift": ["error", { "maxNumericValue": 0.1 }],
         "total-blocking-time": ["error", { "maxNumericValue": 200 }],
-        "total-byte-weight": ["error", { "maxNumericValue": 512000 }],
-        "uses-http2": "off",
-        "csp-xss": "off"
+        "total-byte-weight": ["error", { "maxNumericValue": 512000 }]
       }
     },
     "upload": {

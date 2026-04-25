@@ -30,5 +30,4 @@ exclude = [
   "^https?://www\\.opengraph\\.xyz"
 ]
 
-# Only treat 4xx and 5xx as failures
-fail_if_unsupported = false
+
