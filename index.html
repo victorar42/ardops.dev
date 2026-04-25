@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Content Security Policy (no third-party, self-hosted only) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+
+  <title>ardops.dev — Victor Josue Ardón Rojas · DevOps Engineer</title>
+  <meta name="description" content="DevOps Engineer especializado en DevSecOps Spec-Driven, GitHub Actions y seguridad para banca. Speaker en Techno Week 8.0 — Banco de Costa Rica.">
+  <meta name="author" content="Victor Josue Ardón Rojas">
+  <meta name="theme-color" content="#0a0e17">
+  <meta name="color-scheme" content="dark">
+  <link rel="canonical" href="https://ardops.dev/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CR">
+  <meta property="og:site_name" content="ardops.dev">
+  <meta property="og:title" content="ardops.dev — Victor Josue Ardón Rojas · DevOps Engineer">
+  <meta property="og:description" content="DevSecOps Spec-Driven sobre GitHub para banca. Pipelines de seguridad como código.">
+  <meta property="og:url" content="https://ardops.dev/">
+  <meta property="og:image" content="https://ardops.dev/public/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ardops.dev — DevOps Engineer · Security as Code">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ardops.dev — DevOps Engineer">
+  <meta name="twitter:description" content="DevSecOps Spec-Driven sobre GitHub para banca.">
+  <meta name="twitter:image" content="https://ardops.dev/public/og/og-default.png">
+
+  <!-- Favicons -->
+  <link rel="icon" href="/public/favicon/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/public/favicon/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/public/favicon/apple-touch-icon.png">
+  <link rel="manifest" href="/public/favicon/site.webmanifest">
+
+  <!-- Preload critical fonts -->
+  <link rel="preload" href="/assets/fonts/outfit-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/jetbrains-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Stylesheets (cascade order: tokens → base → motion → layout → components → home) -->
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/motion.css">
+  <link rel="stylesheet" href="/assets/css/layout.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/home.css">
+
+  <script defer src="/assets/js/main.js"></script>
+
+  <!-- JSON-LD: Person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Victor Josue Ardón Rojas",
+    "alternateName": "ardops",
+    "url": "https://ardops.dev/",
+    "image": "https://ardops.dev/public/og/og-default.png",
+    "jobTitle": "DevOps Engineer",
+    "description": "DevOps Engineer especializado en DevSecOps Spec-Driven, GitHub Actions y seguridad para banca.",
+    "email": "mailto:josuevjar@gmail.com",
+    "sameAs": [
+      "https://github.com/victorar42",
+      "https://www.linkedin.com/in/victorar42/"
+    ],
+    "knowsAbout": [
+      "DevOps",
+      "DevSecOps",
+      "GitHub Actions",
+      "Security as Code",
+      "OpenAPI",
+      "OWASP",
+      "Infrastructure as Code",
+      "Kubernetes",
+      "CI/CD"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "CR"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD: Event (Techno Week 8.0) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "Seguridad como Código: DevSecOps Spec-Driven sobre GitHub para Banca",
+    "description": "Cómo definir políticas de seguridad, calidad y cumplimiento como especificaciones versionadas en GitHub y aplicarlas automáticamente con GitHub Actions y GitHub Advanced Security en el contexto bancario.",
+    "startDate": "2026-05-18",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "location": {
+      "@type": "Place",
+      "name": "Techno Week 8.0 — Banco de Costa Rica",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "CR"
+      }
+    },
+    "performer": {
+      "@type": "Person",
+      "name": "Victor Josue Ardón Rojas",
+      "url": "https://ardops.dev/"
+    },
+    "organizer": {
+      "@type": "Organization",
+      "name": "Banco de Costa Rica"
+    },
+    "url": "https://ardops.dev/#talk"
+  }
+  </script>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Navegación principal">
+      <a href="#" class="nav-logo">ardops<span>.dev</span></a>
+      <ul class="nav-links">
+        <li><a href="#talk">Charla</a></li>
+        <li><a href="#pipeline">Pipeline</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#contact">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-grid-bg" aria-hidden="true"></div>
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-content">
+        <p class="hero-tag">security_as_code.init()</p>
+        <h1 id="hero-heading" class="hero-name">Victor Josue Ardón Rojas<span class="accent">.</span></h1>
+        <p class="hero-role">DevOps Engineer <span class="hero-sep" aria-hidden="true">—</span> Security as Code</p>
+        <p class="hero-desc">Ingeniero y Arquitecto de DevOps con experiencia liderando iniciativas de transformación digital en entornos corporativos. Especializado en la implementación de prácticas DevOps, automatización de pipelines CI/CD y gobierno de plataformas como Azure DevOps y GitHub. Cuenta con fuerte enfoque en optimización de procesos, monitoreo, seguridad y eficiencia operativa en la nube, especialmente en entornos Azure. Ha liderado estrategias de migración de repositorios, adopción de infraestructura como código (Terraform) y modernización de flujos de desarrollo. Destaca por su capacidad para alinear tecnología con objetivos de negocio, impulsar equipos y generar valor a través de la innovación.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#talk">Techno Week 8.0</a>
+          <a class="btn btn-ghost" href="https://github.com/victorar42/techno-week" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            Ver Repositorio
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Talk -->
+    <section id="talk" class="section" aria-labelledby="talk-heading">
+      <p class="section-label">// featured</p>
+      <h2 id="talk-heading" class="section-title">Techno Week 8.0</h2>
+      <article class="talk-card">
+        <p class="talk-badge"><span aria-hidden="true">★</span> 18 MAYO 2026</p>
+        <h3 class="talk-title">Seguridad como Código: DevSecOps Spec-Driven sobre GitHub para Banca</h3>
+        <p class="talk-event">Techno Week 8.0 — Banco de Costa Rica</p>
+        <p class="talk-desc">Cómo definir políticas de seguridad, calidad y cumplimiento como especificaciones versionadas en GitHub y hacer que los pipelines las apliquen automáticamente, usando GitHub Actions y GitHub Advanced Security en el contexto bancario.</p>
+        <div class="talk-resources">
+          <a class="resource-link" href="https://github.com/victorar42/techno-week" target="_blank" rel="noopener noreferrer" aria-label="Repositorio de la charla en GitHub (abre en nueva pestaña)">
+            <svg class="resource-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            <span>Repositorio</span>
+          </a>
+          <a class="resource-link" href="#pipeline" aria-label="Ir a la sección del Pipeline DevSecOps">
+            <svg class="resource-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Pipeline</span>
+          </a>
+          <span class="resource-link is-coming" aria-disabled="true">
+            <svg class="resource-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+            <span>Slides (próximamente)</span>
+          </span>
+          <span class="resource-link is-coming" aria-disabled="true">
+            <svg class="resource-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span>Guía (próximamente)</span>
+          </span>
+        </div>
+      </article>
+    </section>
+
+    <!-- Pipeline -->
+    <section id="pipeline" class="section" aria-labelledby="pipeline-heading">
+      <p class="section-label">// spec-driven</p>
+      <h2 id="pipeline-heading" class="section-title">El Pipeline de Seguridad</h2>
+      <p class="pipeline-intro">OpenAPI Spec → GitHub Actions → 7 etapas automáticas → Seguro o Bloqueado</p>
+      <div class="pipeline">
+        <article class="pipeline-step">
+          <p class="step-number">ETAPA 01</p>
+          <h3 class="step-name">Spec Lint</h3>
+          <p class="step-tool">Spectral</p>
+          <p class="step-desc">Valida reglas de seguridad bancarias en la OpenAPI spec.</p>
+        </article>
+        <article class="pipeline-step">
+          <p class="step-number">ETAPA 02</p>
+          <h3 class="step-name">SAST</h3>
+          <p class="step-tool">Semgrep</p>
+          <p class="step-desc">Análisis estático: patrones de código peligrosos.</p>
+        </article>
+        <article class="pipeline-step">
+          <p class="step-number">ETAPA 03</p>
+          <h3 class="step-name">Secret Detection</h3>
+          <p class="step-tool">Gitleaks</p>
+          <p class="step-desc">Detecta API keys y passwords en el código.</p>
+        </article>
+        <article class="pipeline-step">
+          <p class="step-number">ETAPA 04</p>
+          <h3 class="step-name">Dependency Scan</h3>
+          <p class="step-tool">npm audit</p>
+          <p class="step-desc">Vulnerabilidades conocidas en dependencias.</p>
+        </article>
+        <article class="pipeline-step">
+          <p class="step-number">ETAPA 05</p>
+          <h3 class="step-name">DAST</h3>
+          <p class="step-tool">OWASP ZAP</p>
+          <p class="step-desc">Pruebas dinámicas: ataca la API usando la spec.</p>
+        </article>
+        <article class="pipeline-step">
+          <p class="step-number">ETAPA 06</p>
+          <h3 class="step-name">Compliance</h3>
+          <p class="step-tool">Custom Action</p>
+          <p class="step-desc">Reporte automático en cada Pull Request.</p>
+        </article>
+        <article class="pipeline-step">
+          <p class="step-number">ETAPA 07</p>
+          <h3 class="step-name">Semantic Analysis</h3>
+          <p class="step-tool">CodeQL (GHAS)</p>
+          <p class="step-desc">Análisis de flujo de datos con GitHub Advanced Security.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="section" aria-labelledby="about-heading">
+      <p class="section-label">// whoami</p>
+      <h2 id="about-heading" class="section-title">Sobre mí</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>DevOps Engineer con enfoque en seguridad para el sector financiero. Creo pipelines que convierten políticas de seguridad en código ejecutable y auditable.</p>
+          <p>Mi misión: que ningún Pull Request llegue a producción sin pasar por validaciones de seguridad automáticas. Spec-driven. Reproducible. Sin excusas.</p>
+          <p class="about-stack">GitHub Actions · DevSecOps · OpenAPI · OWASP · IaC · Kubernetes · CI/CD</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-card">
+            <p class="stat-value">7</p>
+            <p class="stat-label">Etapas del Pipeline</p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-value">0</p>
+            <p class="stat-label">Costo de licencias</p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-value">100%</p>
+            <p class="stat-label">Cobertura de la spec</p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-value">&lt;5m</p>
+            <p class="stat-label">Tiempo del pipeline</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog -->
+    <section id="blog" class="section" aria-labelledby="blog-heading">
+      <p class="section-label">// blog</p>
+      <h2 id="blog-heading" class="section-title">Artículos</h2>
+      <div class="blog-coming">
+        <p>&gt; contenido_en_desarrollo<span class="terminal-cursor" aria-hidden="true"></span></p>
+        <p class="blog-coming-sub">Próximamente: guías, tutoriales y aprendizajes sobre DevSecOps en banca.</p>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section" aria-labelledby="contact-heading">
+      <p class="section-label">// ping</p>
+      <h2 id="contact-heading" class="section-title">Contacto</h2>
+      <p class="contact-intro">Hablemos de DevSecOps, seguridad en banca, o cualquier idea de colaboración.</p>
+      <div class="contact-links">
+        <a class="contact-link" href="https://github.com/victorar42" target="_blank" rel="noopener noreferrer" aria-label="Perfil de GitHub (abre en nueva pestaña)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>GitHub</span>
+        </a>
+        <a class="contact-link" href="https://www.linkedin.com/in/victorar42/" target="_blank" rel="noopener noreferrer" aria-label="Perfil de LinkedIn (abre en nueva pestaña)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          <span>LinkedIn</span>
+        </a>
+        <a class="contact-link" href="mailto:josuevjar@gmail.com" aria-label="Enviar correo a josuevjar@gmail.com">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span>josuevjar@gmail.com</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="footer-mono">ardops.dev</span> · Security as Code · Costa Rica · &copy; <span data-year>2026</span></p>
+    <p class="footer-tagline">Built with intention. Deployed with CI/CD.</p>
+  </footer>
+
+</body>
+</html>

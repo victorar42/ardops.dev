@@ -45,3 +45,7 @@ dominio personalizado.
    - Spec ID que cumple
    - Sección de la constitución relevante
    - Checklist de gates aplicables (a11y, perf, security)
+
+<!-- SPECKIT START -->
+**Plan activo**: [`specs/001-landing-redesign/plan.md`](../specs/001-landing-redesign/plan.md)
+<!-- SPECKIT END -->

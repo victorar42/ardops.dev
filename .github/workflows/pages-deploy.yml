@@ -1,0 +1,69 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build site artifact
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stage site (exclude non-public dirs)
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          rsync -a --delete \
+            --exclude '_site' \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude '.specify' \
+            --exclude '.reference' \
+            --exclude '.vscode' \
+            --exclude '.gitignore' \
+            --exclude '.htmlvalidate.json' \
+            --exclude 'node_modules' \
+            --exclude 'package.json' \
+            --exclude 'package-lock.json' \
+            --exclude 'specs' \
+            --exclude 'docs' \
+            --exclude 'tests' \
+            --exclude 'legacy' \
+            --exclude 'src' \
+            --exclude 'README.md' \
+            --exclude '.lighthouseci' \
+            ./ _site/
+          # Smoke check
+          test -f _site/index.html
+          test -f _site/CNAME
+          test -f _site/assets/css/tokens.css
+          test -f _site/assets/js/main.js
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

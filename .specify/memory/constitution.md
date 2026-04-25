@@ -54,11 +54,26 @@ Si una gate falla, el PR no se mergea. Sin excepciones.
 Todo archivo en `specs/`, `docs/` y `.specify/` se commitea.
 Las decisiones viven en git, no en Slack ni en la cabeza de nadie.
 
+## XI. Hosting y dominio fijos
+- Hosting: **GitHub Pages**.
+- Dominio: `ardops.dev` registrado en **GoDaddy**, con DNS gestionado en
+  el mismo GoDaddy (records `A`/`AAAA` apuntando a los IPs de GitHub
+  Pages, `CNAME www → <usuario>.github.io.`).
+- HTTPS enforced por GitHub Pages.
+- Implicación operativa: GitHub Pages **no permite headers HTTP custom**
+  (HSTS, Referrer-Policy, Permissions-Policy, COOP/COEP, X-Frame-Options,
+  CSP via header). La política de seguridad se expresa vía
+  `<meta http-equiv="Content-Security-Policy">` en cada HTML; el resto
+  queda como deuda documentada en `docs/05-security-spec.md`.
+- Cambiar de hosting o de registrar requiere PR a la constitución con
+  justificación, bump semántico y actualización de
+  `docs/09-deployment-spec.md`.
+
 ---
 
 **Owner:** Victor Josue Ardón Rojas
-**Última revisión constitucional:** [fecha]
-**Versión:** 1.0.0
+**Última revisión constitucional:** 2026-04-24
+**Versión:** 1.1.0
 
 Modificar esta constitución requiere PR con justificación explícita y
 bump de versión semántico.
