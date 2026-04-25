@@ -28,10 +28,15 @@ jobs:
           node-version: "20"
           cache: npm
       - run: npm ci || npm install --no-audit --no-fund
+      - name: Resolve config path
+        id: cfg
+        run: |
+          if [ "${{ matrix.preset }}" = "desktop" ]; then
+            echo "path=tests/lighthouserc.json" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=tests/lighthouserc.mobile.json" >> "$GITHUB_OUTPUT"
+          fi
       - name: Run Lighthouse CI
-        env:
-          LHCI_PRESET: ${{ matrix.preset }}
         run: |
           npx --yes @lhci/cli@0.14.x autorun \
-            --config=tests/lighthouserc.json \
-            --collect.settings.preset="${LHCI_PRESET}"
+            --config=${{ steps.cfg.outputs.path }}

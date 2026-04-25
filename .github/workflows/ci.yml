@@ -52,7 +52,7 @@ jobs:
         with:
           args: >-
             --config tests/links.config.toml
-            --base .
+            --root-dir ${{ github.workspace }}
             ./*.html
             ./blog/*.html
             ./talks/*.html
