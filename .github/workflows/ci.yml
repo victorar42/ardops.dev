@@ -136,3 +136,11 @@ jobs:
       - run: npm ci || npm install --no-audit --no-fund
       - name: Run interviews-negative gate
         run: bash tests/interviews-negative.sh
+
+  no-placeholders:
+    name: No placeholders gate (spec 004)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run no-placeholders gate
+        run: bash tests/no-placeholders.sh
