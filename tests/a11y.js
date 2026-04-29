@@ -26,7 +26,9 @@ const URLS = [
   'http://localhost:8080/',
   'http://localhost:8080/blog/',
   'http://localhost:8080/talks/',
-  'http://localhost:8080/404'
+  'http://localhost:8080/404',
+  'http://localhost:8080/interviews/',
+  'http://localhost:8080/interviews/valid-minimal.html'
 ];
 
 // Rules we treat as "must pass" for CI gate.

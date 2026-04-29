@@ -24,7 +24,20 @@ jobs:
           node-version: "20"
           cache: npm
       - run: npm ci || npm install --no-audit --no-fund
-      - run: npx html-validate index.html blog/index.html talks/index.html 404.html
+      - name: Build interviews (with fixtures)
+        run: node scripts/build-interviews.js --strict --include-fixtures --out interviews/
+      - name: Validate site HTML
+        run: npx html-validate index.html blog/index.html talks/index.html 404.html
+      - name: Validate emitted interviews HTML
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          files=(interviews/*.html)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "no interviews HTML emitted; skipping"
+            exit 0
+          fi
+          npx html-validate "${files[@]}"
 
   a11y:
     name: Accessibility (axe-core · WCAG 2.1 AA)
@@ -36,6 +49,8 @@ jobs:
           node-version: "20"
           cache: npm
       - run: npm ci || npm install --no-audit --no-fund
+      - name: Build interviews (with fixtures)
+        run: node scripts/build-interviews.js --strict --include-fixtures --out interviews/
       - name: Start static server
         run: |
           npx --yes serve -l 8080 . &
@@ -65,3 +80,59 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run forbidden-urls gate
         run: bash tests/forbidden-urls.sh
+
+  interviews-xss:
+    name: Interviews XSS gate (spec 003)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Build interviews (with fixtures)
+        run: node scripts/build-interviews.js --strict --include-fixtures --out interviews/
+      - name: Run interviews-xss gate
+        run: bash tests/interviews-xss.sh
+
+  interviews-size:
+    name: Interviews index.json size gate (spec 003)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Build interviews
+        run: node scripts/build-interviews.js --strict --out interviews/
+      - name: Run interviews-size gate
+        run: bash tests/interviews-size.sh
+
+  interviews-strict-build:
+    name: Interviews strict build (spec 003)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Strict build (production set, no fixtures)
+        run: node scripts/build-interviews.js --strict --out interviews/
+
+  interviews-negative:
+    name: Interviews negative validator gate (spec 003)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Run interviews-negative gate
+        run: bash tests/interviews-negative.sh

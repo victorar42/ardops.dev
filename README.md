@@ -45,3 +45,24 @@ La sección Techno Week 8.0 está actualmente en estado **`teaser`** (badge "Pr�
 
 Runbook completo paso a paso (con diffs ejecutables): [specs/002-techno-week-coming-soon/quickstart.md](specs/002-techno-week-coming-soon/quickstart.md) §2.
 
+## Entrevistas (spec 003)
+
+La sección [`/interviews/`](https://ardops.dev/interviews/) es un blog estático
+de entrevistas a profesionales del sector tecnológico. El contenido fuente vive
+en `content/interviews/` (Markdown + frontmatter YAML); el HTML servido y el
+`index.json` que alimenta la búsqueda client-side se generan en CI con
+`scripts/build-interviews.js` y se publican vía el workflow de Pages.
+
+- **Publicar una entrevista**: ver runbook editorial completo en
+  [content/interviews/README.md](content/interviews/README.md) y
+  [specs/003-interviews-section/quickstart.md](specs/003-interviews-section/quickstart.md) §A.
+- **Modificar el generador**: runbook dev en
+  [specs/003-interviews-section/quickstart.md](specs/003-interviews-section/quickstart.md) §B.
+- **Build local**: `npm run build:interviews` (emite a `interviews/`, gitignored).
+- **Gates en CI**: `interviews-strict-build`, `interviews-xss`, `interviews-size`,
+  más la cobertura habitual de `html-validate` y `a11y` extendida a las nuevas URLs.
+
+> Cero dependencias de terceros en runtime. `gray-matter`, `marked`, `dompurify`
+> y `jsdom` se usan solo en build time.
+
+

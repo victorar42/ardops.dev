@@ -28,3 +28,14 @@ coverage/
 playwright-report/
 test-results/
 .lighthouseci/
+
+# Generated artifacts (spec 003 — interviews section)
+# The /interviews/ tree is populated at build time and deployed via Pages.
+# Source content lives under content/interviews/ (committed); HTML/JSON output
+# lives under interviews/ (gitignored). Images are copied into interviews/images/
+# from content/interviews/images/ during the build.
+interviews/*.html
+interviews/index.json
+interviews/sitemap.xml
+interviews/images/
+!interviews/.gitkeep
