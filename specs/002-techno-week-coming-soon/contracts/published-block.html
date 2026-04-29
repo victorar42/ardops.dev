@@ -1,0 +1,69 @@
+<!--
+  Plantilla del estado "publicado". NO se commitea con URLs reales hasta
+  el día del evento (2026-05-18). En el PR de liberación, sustituir los
+  placeholders {{...}} por las URLs efectivas y reemplazar el bloque
+  TALK-STATE:teaser por este bloque (con marcadores TALK-STATE:published).
+
+  Si una URL no está disponible al momento de liberar, ELIMINAR el
+  <a class="resource-link"> correspondiente en lugar de dejarlo con
+  href="" o "#": evitamos enlaces vacíos (ver data-model invariante I-2).
+-->
+
+<!-- TALK-STATE:published START -->
+<article class="talk-card">
+  <p class="talk-badge">
+    <span aria-hidden="true">★</span> 18 MAYO 2026
+  </p>
+
+  <h3 class="talk-title">Seguridad como Código: DevSecOps Spec-Driven sobre GitHub para Banca</h3>
+  <p class="talk-event">Techno Week 8.0 — Banco de Costa Rica</p>
+
+  <p class="talk-desc">
+    Cómo definir políticas de seguridad, calidad y cumplimiento como
+    especificaciones versionadas en GitHub y hacer que los pipelines
+    las apliquen automáticamente, usando GitHub Actions y GitHub
+    Advanced Security en el contexto bancario.
+  </p>
+
+  <div class="talk-resources">
+    <a class="resource-link"
+       href="{{REPO_URL}}"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="Repositorio de la charla en GitHub (abre en nueva pestaña)">
+      <svg class="resource-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+      </svg>
+      <span>Repositorio</span>
+    </a>
+
+    <a class="resource-link"
+       href="{{SLIDES_URL}}"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="Slides de la charla (abre en nueva pestaña)">
+      <svg class="resource-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <rect x="2" y="3" width="20" height="14" rx="2"/>
+        <path d="M8 21h8m-4-4v4"/>
+      </svg>
+      <span>Slides</span>
+    </a>
+
+    <a class="resource-link" href="#pipeline"
+       aria-label="Ir a la sección del Pipeline DevSecOps">
+      <svg class="resource-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true" focusable="false">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <span>Pipeline</span>
+    </a>
+
+    <!-- {{EXTRA_RESOURCES}} -->
+  </div>
+</article>
+<!-- TALK-STATE:published END -->

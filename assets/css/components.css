@@ -159,6 +159,48 @@
   flex-shrink: 0;
 }
 
+/* ── Talk badge: "Próximamente" variant (spec 002) ── */
+/* Contraste: text var(--accent) #22d3ee sobre composición
+   var(--accent-dim) (alpha 0.15) + var(--bg-card) #1a2235 ≈ #22323e.
+   Ratio aprox 8.05:1 (≥ 4.5:1 AA, ≥ 7:1 AAA). Verificado contra
+   contracts/a11y-badge.md. */
+.talk-badge--coming {
+  border: 1px dashed var(--accent);
+  animation: pulse-glow 3s var(--ease-out) infinite alternate;
+  /* prefers-reduced-motion handled globally en motion.css */
+}
+
+.talk-meta {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.talk-meta-key {
+  color: var(--text-muted);
+  margin-right: 0.35rem;
+}
+
+.talk-cta-info {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px dashed var(--border);
+}
+
+.talk-cta-info > span[aria-hidden="true"] {
+  color: var(--accent);
+  margin-right: 0.4rem;
+}
+
 /* ── Pipeline step card ─────────────────────────── */
 .pipeline-step {
   background: var(--bg-card);

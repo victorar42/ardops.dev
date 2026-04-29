@@ -1,0 +1,89 @@
+<!--
+  Snippet de referencia: bloque HTML del estado "teaser" para la sección
+  Techno Week 8.0. Este archivo es PARTE DE LA SPEC, no se sirve en el sitio.
+
+  Usar este contenido como source-of-truth al editar:
+    - index.html → reemplazar la <article class="talk-card"> dentro de
+      <section id="talk"> por el bloque entre los marcadores TALK-STATE:teaser.
+    - talks/index.html → reemplazar la <article class="talk-card"> por la
+      misma estructura (con h2.talk-title en lugar de h3.talk-title,
+      ya que en talks/ es heading de nivel inmediatamente inferior al h1
+      "Charlas").
+
+  Reglas:
+    - Sin <a href="..."> a recursos externos del evento.
+    - Sin atributos data-* que contengan URLs sensibles.
+    - Sin comentarios HTML que mencionen URLs sensibles.
+    - El aria-label del badge debe coincidir con la fecha visible.
+-->
+
+<!-- TALK-STATE:teaser START -->
+<article class="talk-card">
+  <p class="talk-badge talk-badge--coming"
+     role="status"
+     aria-label="Contenido próximamente, disponible el 18 de mayo de 2026">
+    <span aria-hidden="true">★</span>
+    Próximamente · 18 mayo 2026
+  </p>
+
+  <h3 class="talk-title">Seguridad como Código: DevSecOps Spec-Driven sobre GitHub para Banca</h3>
+  <p class="talk-event">Techno Week 8.0 — Banco de Costa Rica</p>
+
+  <ul class="talk-meta" aria-label="Detalles de la charla">
+    <li><span class="talk-meta-key">fecha:</span> 18 de mayo de 2026</li>
+    <li><span class="talk-meta-key">audiencia:</span> sector financiero / banca CR</li>
+    <li><span class="talk-meta-key">formato:</span> presencial · 60 min</li>
+  </ul>
+
+  <p class="talk-desc">
+    Cómo definir políticas de seguridad, calidad y cumplimiento como
+    especificaciones versionadas en GitHub y hacer que los pipelines
+    las apliquen automáticamente, usando GitHub Actions y GitHub
+    Advanced Security en el contexto bancario.
+  </p>
+
+  <p class="talk-cta-info">
+    <span aria-hidden="true">›</span>
+    El material (slides, repositorio demo y guía) se publicará aquí
+    el día de la charla.
+  </p>
+</article>
+<!-- TALK-STATE:teaser END -->
+
+
+<!--
+  Variante para talks/index.html
+  (mismo contenido, pero h2.talk-title porque el h1 de la página es "Charlas")
+-->
+
+<!-- TALK-STATE:teaser START -->
+<article class="talk-card">
+  <p class="talk-badge talk-badge--coming"
+     role="status"
+     aria-label="Contenido próximamente, disponible el 18 de mayo de 2026">
+    <span aria-hidden="true">★</span>
+    Próximamente · 18 mayo 2026
+  </p>
+
+  <h2 class="talk-title">Seguridad como Código: DevSecOps Spec-Driven sobre GitHub para Banca</h2>
+  <p class="talk-event">Techno Week 8.0 — Banco de Costa Rica</p>
+
+  <ul class="talk-meta" aria-label="Detalles de la charla">
+    <li><span class="talk-meta-key">fecha:</span> 18 de mayo de 2026</li>
+    <li><span class="talk-meta-key">audiencia:</span> sector financiero / banca CR</li>
+    <li><span class="talk-meta-key">formato:</span> presencial · 60 min</li>
+  </ul>
+
+  <p class="talk-desc">
+    Cómo definir políticas de seguridad, calidad y cumplimiento como
+    especificaciones versionadas en GitHub y aplicarlas automáticamente
+    con GitHub Actions y GitHub Advanced Security.
+  </p>
+
+  <p class="talk-cta-info">
+    <span aria-hidden="true">›</span>
+    El material se publicará aquí el día de la charla
+    (18 de mayo de 2026).
+  </p>
+</article>
+<!-- TALK-STATE:teaser END -->

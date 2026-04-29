@@ -57,3 +57,11 @@ jobs:
             ./blog/*.html
             ./talks/*.html
           fail: true
+
+  forbidden-urls:
+    name: Forbidden URLs gate (spec 002)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run forbidden-urls gate
+        run: bash tests/forbidden-urls.sh
