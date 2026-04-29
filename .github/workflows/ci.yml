@@ -123,3 +123,16 @@ jobs:
       - run: npm ci || npm install --no-audit --no-fund
       - name: Strict build (production set, no fixtures)
         run: node scripts/build-interviews.js --strict --out interviews/
+
+  interviews-negative:
+    name: Interviews negative validator gate (spec 003)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Run interviews-negative gate
+        run: bash tests/interviews-negative.sh

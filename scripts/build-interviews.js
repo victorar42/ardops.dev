@@ -12,7 +12,9 @@
  *
  * CLI flags:
  *   --strict             fail with exit 1 if any frontmatter error is found
- *   --include-fixtures   include MDs under content/interviews/__fixtures__/ (CI only)
+ *   --include-fixtures   include MDs under content/interviews/__fixtures__/ (CI only).
+ *                        Files prefixed with `invalid-` are skipped (negative
+ *                        tests; covered by dedicated assertions).
  *   --out <dir>          output directory (default: interviews/)
  *   --dry-run            validate only, do not write artifacts
  *
@@ -618,7 +620,12 @@ function main() {
   const sources = [];
   for (const f of listMarkdownFiles(CONTENT_DIR)) sources.push(f);
   if (opts.includeFixtures) {
-    for (const f of listMarkdownFiles(FIXTURES_DIR)) sources.push(f);
+    // Skip negative-test fixtures (filenames prefixed with `invalid-`); those
+    // are exercised by dedicated tests that assert --strict aborts on them.
+    for (const f of listMarkdownFiles(FIXTURES_DIR)) {
+      if (path.basename(f).toLowerCase().startsWith('invalid-')) continue;
+      sources.push(f);
+    }
   }
 
   if (sources.length === 0) {
