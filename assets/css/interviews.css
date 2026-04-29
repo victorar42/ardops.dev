@@ -1,0 +1,513 @@
+/* ardops.dev — interviews section (spec 003)
+   Uses tokens from tokens.css. Mobile-first.
+   Intentionally avoids re-defining anything in components.css/base.css.
+*/
+
+/* ── Page shells ────────────────────────────────── */
+.interviews-page,
+.interview-page {
+  max-width: var(--max-content);
+  margin: 0 auto;
+  padding: 4rem 1.25rem 5rem;
+}
+
+/* ── Listing hero ───────────────────────────────── */
+.interviews-hero {
+  margin-bottom: 2rem;
+}
+
+.interviews-hero h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 0.5rem;
+}
+
+.interviews-lede {
+  color: var(--text-secondary);
+  max-width: 60ch;
+  line-height: 1.6;
+}
+
+/* ── Controls (search + tags + clear) ───────────── */
+.interviews-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.5rem 0 1rem;
+  padding: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.interviews-search {
+  display: block;
+  width: 100%;
+}
+
+.interviews-search input[type="search"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  transition: border-color var(--dur-short) var(--ease-out),
+              box-shadow var(--dur-short) var(--ease-out);
+}
+
+.interviews-search input[type="search"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.interviews-search input[type="search"]::placeholder {
+  color: var(--text-muted);
+}
+
+.interviews-tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.interviews-tag-filter:empty {
+  display: none;
+}
+
+.interviews-tag-filter button {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.3rem 0.7rem;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all var(--dur-short) var(--ease-out);
+}
+
+.interviews-tag-filter button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.interviews-tag-filter button[aria-pressed="true"] {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.interviews-tag-filter button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.interviews-clear {
+  align-self: flex-start;
+}
+
+/* ── Result count + empty ───────────────────────── */
+.interviews-count {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.interviews-empty,
+.interviews-noscript {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+}
+
+/* ── List of cards ──────────────────────────────── */
+.interviews-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.interview-card {
+  margin: 0;
+}
+
+.interview-card-link {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: inherit;
+  transition: background var(--dur-short) var(--ease-out),
+              border-color var(--dur-short) var(--ease-out),
+              transform var(--dur-short) var(--ease-out);
+}
+
+.interview-card-link:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.interview-card-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.interview-card-avatar {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  object-fit: cover;
+}
+
+.interview-card-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.interview-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.2px;
+  color: var(--text-primary);
+}
+
+.interview-card-author {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.interview-card-summary {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.interview-card-meta {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.interview-card-tags {
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.interview-card-tags li {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+}
+
+/* ── Individual interview page ──────────────────── */
+.interview {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.interview::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--green), var(--accent));
+}
+
+.interview-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.interview-eyebrow {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.interview-eyebrow a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.interview-eyebrow a:hover {
+  color: var(--accent);
+}
+
+.interview-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin: 0 0 1.25rem;
+  color: var(--text-primary);
+}
+
+.interview-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.interview-author {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.interview-avatar {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  object-fit: cover;
+}
+
+.interview-avatar--fallback {
+  background: transparent;
+}
+
+.interview-author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.interview-author-name {
+  margin: 0;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.interview-author-role {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.interview-linkedin {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  text-decoration: none;
+  margin-top: 0.15rem;
+  width: max-content;
+}
+
+.interview-linkedin:hover {
+  text-decoration: underline;
+}
+
+.interview-stats {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.interview-tags {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.interview-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 0.2rem 0.65rem;
+  border-radius: 14px;
+  text-decoration: none;
+  transition: background var(--dur-short) var(--ease-out);
+}
+
+.interview-tag:hover {
+  background: var(--accent-glow);
+}
+
+.interview-tag:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ── Body of the interview ──────────────────────── */
+.interview-body {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+.interview-body h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 2rem 0 0.75rem;
+  letter-spacing: -0.5px;
+}
+
+.interview-body h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.interview-body h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.interview-body p {
+  margin: 0 0 1rem;
+  color: var(--text-secondary);
+}
+
+.interview-body ul,
+.interview-body ol {
+  margin: 0 0 1rem;
+  padding-left: 1.5rem;
+  color: var(--text-secondary);
+}
+
+.interview-body li {
+  margin-bottom: 0.35rem;
+}
+
+.interview-body strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.interview-body a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.interview-body a:hover {
+  text-decoration: none;
+}
+
+.interview-body code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.1em 0.35em;
+  background: var(--bg-primary);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+}
+
+.interview-body pre {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 0 0 1rem;
+}
+
+.interview-body pre code {
+  background: transparent;
+  padding: 0;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+}
+
+.interview-body blockquote {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--accent);
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.interview-body hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+.interview-footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Larger screens ─────────────────────────────── */
+@media (min-width: 720px) {
+  .interviews-page,
+  .interview-page {
+    padding: 5rem 2rem 6rem;
+  }
+
+  .interviews-controls {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .interviews-search {
+    flex: 1 1 280px;
+  }
+
+  .interviews-tag-filter {
+    flex: 1 1 100%;
+  }
+
+  .interview {
+    padding: 3rem 2.5rem;
+  }
+
+  .interview-title {
+    font-size: 2.1rem;
+  }
+
+  .interviews-list {
+    gap: 1.25rem;
+  }
+}

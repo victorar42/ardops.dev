@@ -21,6 +21,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci || npm install --no-audit --no-fund
+
+      - name: Generate interviews (spec 003)
+        run: node scripts/build-interviews.js --strict --out interviews/
+
       - name: Stage site (exclude non-public dirs)
         run: |
           set -euo pipefail
@@ -42,6 +54,8 @@ jobs:
             --exclude 'tests' \
             --exclude 'legacy' \
             --exclude 'src' \
+            --exclude 'content' \
+            --exclude 'scripts' \
             --exclude 'README.md' \
             --exclude '.lighthouseci' \
             ./ _site/
@@ -50,6 +64,8 @@ jobs:
           test -f _site/CNAME
           test -f _site/assets/css/tokens.css
           test -f _site/assets/js/main.js
+          test -f _site/interviews/index.html
+          test -f _site/interviews/index.json
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
