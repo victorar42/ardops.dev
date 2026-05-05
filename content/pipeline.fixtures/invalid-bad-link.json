@@ -1,0 +1,5 @@
+{
+  "items": [
+    {"id":"bad-link","type":"interview","title":"A","stage":"backlog","description":"Lorem ipsum dolor sit amet.","link":"javascript:alert(1)"}
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "../specs/005-pipeline-section/contracts/pipeline-schema.json",
+  "items": [
+    {
+      "id": "talk-techno-week-banca",
+      "type": "talk",
+      "title": "Seguridad como Código: DevSecOps Spec-Driven sobre GitHub para banca",
+      "stage": "coming-soon",
+      "estimated": "Mayo 2026",
+      "description": "Charla en Techno Week 8.0 (Banco de Costa Rica). Cómo definir políticas de seguridad y cumplimiento como specs versionadas y aplicarlas con GitHub Actions y GitHub Advanced Security.",
+      "link": "/#talk"
+    },
+    {
+      "id": "interview-pernix-leadership",
+      "type": "interview",
+      "title": "Conversación con un líder técnico sobre scaling de equipos en banca regional",
+      "stage": "in-progress",
+      "estimated": "Junio 2026",
+      "description": "Charla sobre cómo se sostiene calidad y velocidad cuando el equipo crece y los compromisos regulatorios también. Aprendizajes sin recetas mágicas."
+    },
+    {
+      "id": "lab-spectral-banking-rules",
+      "type": "lab",
+      "title": "Spectral con reglas custom para APIs bancarias",
+      "stage": "backlog",
+      "estimated": "2026-Q3",
+      "description": "Hands-on para escribir reglas Spectral que validan diseños OpenAPI alineados a SUGEF y prácticas internas de banca CR."
+    },
+    {
+      "id": "post-pipelines-policy-as-code",
+      "type": "post",
+      "title": "Convertir políticas de seguridad en código auditable que viaja en el PR",
+      "stage": "review",
+      "estimated": "Pronto",
+      "description": "Patrón práctico para mover el control de seguridad del review final al pipeline: detección, evidencia y rollback dentro del flujo del developer."
+    }
+  ]
+}
