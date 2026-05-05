@@ -1,0 +1,6 @@
+{
+  "items": [
+    {"id":"dup-x","type":"interview","title":"A","stage":"backlog","description":"Lorem ipsum dolor sit amet."},
+    {"id":"dup-x","type":"lab","title":"B","stage":"backlog","description":"Lorem ipsum dolor sit amet."}
+  ]
+}

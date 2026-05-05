@@ -131,7 +131,6 @@
         <li><a href="#pipeline">Pipeline</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="/interviews/">Entrevistas</a></li>
-        <li><a href="#blog">Blog</a></li>
         <li><a href="#contact">Contacto</a></li>
       </ul>
     </nav>
@@ -187,10 +186,10 @@
     </section>
 
     <!-- Pipeline -->
-    <section id="pipeline" class="section" aria-labelledby="pipeline-heading">
+    <section id="security-pipeline" class="section" aria-labelledby="security-pipeline-heading">
       <p class="section-label">// spec-driven</p>
-      <h2 id="pipeline-heading" class="section-title">El Pipeline de Seguridad</h2>
-      <p class="pipeline-intro">OpenAPI Spec → GitHub Actions → 7 etapas automáticas → Seguro o Bloqueado</p>
+      <h2 id="security-pipeline-heading" class="section-title">El Pipeline de Seguridad</h2>
+      <p class="security-pipeline-intro">OpenAPI Spec → GitHub Actions → 7 etapas automáticas → Seguro o Bloqueado</p>
       <div class="pipeline">
         <article class="pipeline-step">
           <p class="step-number">ETAPA 01</p>
@@ -269,15 +268,46 @@
       </div>
     </section>
 
-    <!-- Blog -->
-    <section id="blog" class="section" aria-labelledby="blog-heading">
-      <p class="section-label">// blog</p>
-      <h2 id="blog-heading" class="section-title">Artículos</h2>
-      <div class="blog-coming">
-        <p>&gt; contenido_en_desarrollo<span class="terminal-cursor" aria-hidden="true"></span></p>
-        <p class="blog-coming-sub">Próximamente: guías, tutoriales y aprendizajes sobre DevSecOps en banca.</p>
-      </div>
+    <!-- Pipeline (spec 005, generated from content/pipeline.json by scripts/build-pipeline.js) -->
+    <!-- pipeline:start -->
+    <a id="blog" aria-hidden="true" tabindex="-1"></a>
+    <section id="pipeline" class="section" aria-labelledby="pipeline-heading">
+      <p class="section-label">// pipeline</p>
+      <h2 id="pipeline-heading" class="section-title">Pipeline</h2>
+      <p class="pipeline-intro">Así como un pipeline CI/CD muestra qué hay en cada etapa antes del deploy, esta sección muestra qué hay en preparación antes de la publicación.</p>
+      <ul class="pipeline-list">
+      <li class="pipeline-item pipeline-item--coming-soon">
+        <span class="pipeline-stage" data-stage="coming-soon"><svg class="pipeline-stage-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M8 1.5l1.6 4.9 4.9 1.6-4.9 1.6L8 14.5l-1.6-4.9L1.5 8l4.9-1.6z"/></svg><span class="pipeline-stage-label">Pronto</span></span>
+        <span class="pipeline-type" data-type="talk"><svg class="pipeline-type-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><rect x="6" y="1.5" width="4" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 8a4.5 4.5 0 0 0 9 0M8 12.5v2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span class="pipeline-type-label">Charla</span></span>
+        <h3 class="pipeline-item-title">Seguridad como Código: DevSecOps Spec-Driven sobre GitHub para banca</h3>
+        <p class="pipeline-item-estimated"><span class="pipeline-estimated-label">Estimado:</span> Mayo 2026</p>
+        <p class="pipeline-item-description">Charla en Techno Week 8.0 (Banco de Costa Rica). Cómo definir políticas de seguridad y cumplimiento como specs versionadas y aplicarlas con GitHub Actions y GitHub Advanced Security.</p>
+        <p class="pipeline-item-link"><a href="/#talk">Ver más →</a></p>
+      </li>
+      <li class="pipeline-item pipeline-item--review">
+        <span class="pipeline-stage" data-stage="review"><svg class="pipeline-stage-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z"/></svg><span class="pipeline-stage-label">En revisión</span></span>
+        <span class="pipeline-type" data-type="post"><svg class="pipeline-type-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M3 1.5h7l3 3v10a.5.5 0 0 1-.5.5h-9.5A.5.5 0 0 1 2.5 14V2a.5.5 0 0 1 .5-.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M5 7h6M5 9.5h6M5 12h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span class="pipeline-type-label">Artículo</span></span>
+        <h3 class="pipeline-item-title">Convertir políticas de seguridad en código auditable que viaja en el PR</h3>
+        <p class="pipeline-item-estimated"><span class="pipeline-estimated-label">Estimado:</span> Pronto</p>
+        <p class="pipeline-item-description">Patrón práctico para mover el control de seguridad del review final al pipeline: detección, evidencia y rollback dentro del flujo del developer.</p>
+      </li>
+      <li class="pipeline-item pipeline-item--in-progress">
+        <span class="pipeline-stage" data-stage="in-progress"><svg class="pipeline-stage-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M8 1.5l6.5 6.5L8 14.5 1.5 8z"/></svg><span class="pipeline-stage-label">En progreso</span></span>
+        <span class="pipeline-type" data-type="interview"><svg class="pipeline-type-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M2 3h12a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H6l-3 2.5V12H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span class="pipeline-type-label">Entrevista</span></span>
+        <h3 class="pipeline-item-title">Conversación con un líder técnico sobre scaling de equipos en banca regional</h3>
+        <p class="pipeline-item-estimated"><span class="pipeline-estimated-label">Estimado:</span> Junio 2026</p>
+        <p class="pipeline-item-description">Charla sobre cómo se sostiene calidad y velocidad cuando el equipo crece y los compromisos regulatorios también. Aprendizajes sin recetas mágicas.</p>
+      </li>
+      <li class="pipeline-item pipeline-item--backlog">
+        <span class="pipeline-stage" data-stage="backlog"><svg class="pipeline-stage-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span class="pipeline-stage-label">Backlog</span></span>
+        <span class="pipeline-type" data-type="lab"><svg class="pipeline-type-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><rect x="1" y="3" width="14" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 6l2 2-2 2M8 10h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="pipeline-type-label">Laboratorio</span></span>
+        <h3 class="pipeline-item-title">Spectral con reglas custom para APIs bancarias</h3>
+        <p class="pipeline-item-estimated"><span class="pipeline-estimated-label">Estimado:</span> 2026-Q3</p>
+        <p class="pipeline-item-description">Hands-on para escribir reglas Spectral que validan diseños OpenAPI alineados a SUGEF y prácticas internas de banca CR.</p>
+      </li>
+      </ul>
     </section>
+    <!-- pipeline:end -->
 
     <!-- Contact -->
     <section id="contact" class="section" aria-labelledby="contact-heading">

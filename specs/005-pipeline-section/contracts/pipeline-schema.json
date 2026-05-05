@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ardops.dev/specs/005-pipeline-section/contracts/pipeline-schema.json",
+  "title": "PipelineDataFile",
+  "description": "content/pipeline.json — fuente de verdad de la sección Pipeline (spec 005).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["items"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/PipelineItem" }
+    }
+  },
+  "definitions": {
+    "PipelineItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "title", "stage", "description"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]{3,80}$",
+          "description": "Slug único dentro del archivo. Inmutable."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["interview", "lab", "talk", "post", "other"]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "stage": {
+          "type": "string",
+          "enum": ["coming-soon", "review", "in-progress", "backlog"]
+        },
+        "estimated": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "Texto libre legible: '2026-Q3', 'Mayo 2026', 'Pronto'. Opcional."
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 280
+        },
+        "link": {
+          "type": "string",
+          "anyOf": [
+            { "pattern": "^https:\\/\\/[\\w.-]+(\\/[\\w./%#?&=+-]*)?$" },
+            { "pattern": "^\\/[\\w./#?&=+-]*$" }
+          ],
+          "description": "URL HTTPS absoluta o ruta interna que empieza con '/'. Otros esquemas son rechazados."
+        }
+      }
+    }
+  }
+}

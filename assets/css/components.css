@@ -313,3 +313,176 @@
   animation: blink 1s steps(1) infinite;
   vertical-align: text-bottom;
 }
+
+/* ── Pipeline section (spec 005) ────────────────── */
+.pipeline-intro {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 0 1.75rem;
+  max-width: 60ch;
+}
+
+.pipeline-empty {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.pipeline-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .pipeline-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+.pipeline-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.25rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  transition: border-color var(--dur-short) var(--ease-out),
+    background var(--dur-short) var(--ease-out);
+}
+
+.pipeline-item:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+.pipeline-item--coming-soon {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, var(--accent-dim), var(--bg-card));
+  box-shadow: 0 0 0 1px var(--accent-dim);
+}
+
+.pipeline-item--coming-soon:hover {
+  background: linear-gradient(180deg, var(--accent-dim), var(--bg-card-hover));
+}
+
+.pipeline-stage,
+.pipeline-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.55rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  width: fit-content;
+}
+
+.pipeline-stage[data-stage="coming-soon"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.pipeline-stage[data-stage="review"] {
+  color: var(--green);
+  border-color: rgba(74, 222, 128, 0.4);
+  background: var(--green-dim);
+}
+
+.pipeline-stage[data-stage="in-progress"] {
+  color: var(--orange);
+  border-color: rgba(251, 146, 60, 0.4);
+  background: rgba(251, 146, 60, 0.12);
+}
+
+.pipeline-stage[data-stage="backlog"] {
+  color: var(--text-muted);
+  border-color: var(--border);
+  background: transparent;
+}
+
+.pipeline-type {
+  color: var(--text-secondary);
+  background: transparent;
+}
+
+.pipeline-stage-icon,
+.pipeline-type-icon {
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+.pipeline-stage-label,
+.pipeline-type-label {
+  line-height: 1;
+}
+
+.pipeline-item-title {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0.25rem 0 0;
+  line-height: 1.35;
+}
+
+.pipeline-item-estimated {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.pipeline-estimated-label {
+  color: var(--text-secondary);
+}
+
+.pipeline-item-description {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.pipeline-item-link {
+  margin: 0.25rem 0 0;
+}
+
+.pipeline-item-link a {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-short) var(--ease-out);
+}
+
+.pipeline-item-link a:hover,
+.pipeline-item-link a:focus-visible {
+  border-bottom-color: var(--accent);
+}
+
+/* Group separation: when coming-soon items are followed by other stages,
+   add a subtle divider only on the FIRST item of each subsequent stage.
+   Achieved with sibling selectors. */
+.pipeline-item--coming-soon + .pipeline-item:not(.pipeline-item--coming-soon),
+.pipeline-item--review + .pipeline-item:not(.pipeline-item--coming-soon):not(.pipeline-item--review),
+.pipeline-item--in-progress + .pipeline-item--backlog {
+  position: relative;
+}
