@@ -13,10 +13,34 @@
     {
       "id": "interview-pernix-leadership",
       "type": "interview",
-      "title": "Conversación con un líder técnico sobre scaling de equipos en banca regional",
+      "title": "IA como co-developer: ¿estamos delegando o colaborando?",
+      "stage": "in-progress",
+      "estimated": "Mayo 2026",
+      "description": "Cómo la IA está cambiando el día a día real de equipos de desarrollo, qué problemas resuelve bien y cuáles no, habilidades que un developer necesita ahora."
+    },
+    {
+      "id": "interview-hulihealth-productmanager",
+      "type": "interview",
+      "title": "Diseñar productos de salud que cambian comportamientos: cuando la tecnología se vuelve invisible",
+      "stage": "in-progress",
+      "estimated": "Mayo 2026",
+      "description": "Intersección entre tecnología, diseño y behavioral design aplicado a salud. Cómo se construyen productos que la gente realmente usa."
+    },
+    {
+      "id": "interview-bancogalicia-productanalyst",
+      "type": "interview",
+      "title": "Banca digital en Latinoamérica: lo que el developer no ve pero debería saber",
+      "stage": "in-progress",
+      "estimated": "Mayo 2026",
+      "description": "Perspectiva desde el negocio bancario — qué necesita producto de los técnicos, expectativas del cliente, restricciones reales del sector financiero."
+    },
+    {
+      "id": "interview-babel-softwareexperts",
+      "type": "interview",
+      "title": "Lo que viene después: cómo las empresas de tecnología están apostando sus fichas para 2027",
       "stage": "in-progress",
       "estimated": "Junio 2026",
-      "description": "Charla sobre cómo se sostiene calidad y velocidad cuando el equipo crece y los compromisos regulatorios también. Aprendizajes sin recetas mágicas."
+      "description": "Santiago ve el mercado desde arriba (estrategia, qué piden clientes). Bryan desde abajo (arquitectura, qué funciona en la trinchera). 7 preguntas combinadas."
     },
     {
       "id": "lab-spectral-banking-rules",
@@ -25,14 +49,6 @@
       "stage": "backlog",
       "estimated": "2026-Q3",
       "description": "Hands-on para escribir reglas Spectral que validan diseños OpenAPI alineados a SUGEF y prácticas internas de banca CR."
-    },
-    {
-      "id": "post-pipelines-policy-as-code",
-      "type": "post",
-      "title": "Convertir políticas de seguridad en código auditable que viaja en el PR",
-      "stage": "review",
-      "estimated": "Pronto",
-      "description": "Patrón práctico para mover el control de seguridad del review final al pipeline: detección, evidencia y rollback dentro del flujo del developer."
     }
   ]
 }
