@@ -20,6 +20,7 @@ const NAV = Object.freeze([
   Object.freeze({ href: '/blog/',       label: 'Blog',        match: Object.freeze(['/blog/']) }),
   Object.freeze({ href: '/interviews/', label: 'Entrevistas', match: Object.freeze(['/interviews/']) }),
   Object.freeze({ href: '/talks/',      label: 'Charlas',     match: Object.freeze(['/talks/']) }),
+  Object.freeze({ href: '/uses/',       label: 'Uses',        match: Object.freeze(['/uses/']) }),
   Object.freeze({ href: '/#contact',    label: 'Contacto',    match: Object.freeze([]), isAnchor: true }),
 ]);
 

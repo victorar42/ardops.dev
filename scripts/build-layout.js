@@ -39,6 +39,7 @@ const PAGES = [
   { file: 'index.html',       currentPath: '/' },
   { file: '404.html',         currentPath: '/404' },
   { file: 'talks/index.html', currentPath: '/talks/' },
+  { file: 'uses/index.html',  currentPath: '/uses/' },
 ];
 
 function die(msg) {

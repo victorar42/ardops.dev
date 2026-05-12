@@ -27,6 +27,7 @@ const URLS = [
   'http://localhost:8080/blog/',
   'http://localhost:8080/blog/pipeline-seguridad-spec-driven.html',
   'http://localhost:8080/talks/',
+  'http://localhost:8080/uses/',
   'http://localhost:8080/404',
   'http://localhost:8080/interviews/',
   'http://localhost:8080/interviews/valid-minimal.html'
