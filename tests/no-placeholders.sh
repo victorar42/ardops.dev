@@ -23,6 +23,7 @@ declare -a candidates=(
   404.html
   blog/index.html
   talks/index.html
+  uses/index.html
   sitemap.xml
   robots.txt
   public/favicon/site.webmanifest
