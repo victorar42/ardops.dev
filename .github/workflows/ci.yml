@@ -242,3 +242,52 @@ jobs:
         run: node scripts/build-interviews.js --strict --out interviews/
       - name: Run sitemap-drift gate
         run: bash tests/sitemap-drift.sh
+
+  feed-validate:
+    name: Feed validate gate (spec 011)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Build blog (so blog/feed.{xml,json} exist)
+        run: node scripts/build-blog.js
+      - name: Run feed-validate gate
+        run: bash tests/feed-validate.sh
+
+  jsonld-validate:
+    name: JSON-LD validate gate (spec 011)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Build blog (so blog/*.html exist)
+        run: node scripts/build-blog.js
+      - name: Build interviews (so interviews/*.html exist)
+        run: node scripts/build-interviews.js --strict --out interviews/
+      - name: Run jsonld-validate gate
+        run: bash tests/jsonld-validate.sh
+
+  seo-meta:
+    name: SEO meta gate (spec 011)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Build blog (so blog/*.html exist)
+        run: node scripts/build-blog.js
+      - name: Build interviews (so interviews/*.html exist)
+        run: node scripts/build-interviews.js --strict --out interviews/
+      - name: Run seo-meta gate
+        run: bash tests/seo-meta.sh

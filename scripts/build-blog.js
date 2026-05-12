@@ -37,6 +37,13 @@ const { JSDOM } = require('jsdom');
 const createDOMPurify = require('dompurify');
 const { renderHeader, renderFooter } = require('./lib/layout');
 const { META_REFERRER } = require('./lib/head');
+const { renderRss, renderJsonFeed } = require('./lib/feeds');
+const {
+  serialize: serializeJsonLd,
+  articleSchema,
+  blogSchema,
+  breadcrumbsSchema,
+} = require('./lib/jsonld');
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -48,6 +55,20 @@ const FIXTURES_DIR = path.join(CONTENT_DIR, '__fixtures__');
 const BLOG_OUT_DIR = path.join(REPO_ROOT, 'blog');
 const LANDING_PATH = path.join(REPO_ROOT, 'index.html');
 const TAG_CSS_PATH = path.join(REPO_ROOT, 'assets', 'css', 'blog-tag-rules.css');
+const FEED_XML_PATH = path.join(BLOG_OUT_DIR, 'feed.xml');
+const FEED_JSON_PATH = path.join(BLOG_OUT_DIR, 'feed.json');
+
+// spec 011 — feed metadata
+const BLOG_URL = `${'https://ardops.dev'}/blog/`;
+const FEED_XML_URL = `${'https://ardops.dev'}/blog/feed.xml`;
+const FEED_JSON_URL = `${'https://ardops.dev'}/blog/feed.json`;
+const FEED_TITLE = 'ardops.dev — Blog';
+// Sentinel used when there are zero published posts: keeps RSS valid + builds reproducible.
+const FEED_SENTINEL_DATE = '2026-01-01';
+
+// spec 011 — auto-discovery <link rel="alternate"> for blog index + post pages
+const FEED_DISCOVERY_LINKS =
+  '<link rel="alternate" type="application/rss+xml" title="ardops.dev — Blog" href="/blog/feed.xml">\n  <link rel="alternate" type="application/feed+json" title="ardops.dev — Blog" href="/blog/feed.json">';
 
 const SLUG_RE = /^[a-z0-9-]{1,80}$/;
 const TAG_RE = /^[a-z0-9-]{1,32}$/;
@@ -900,6 +921,11 @@ function renderBlogIndex(published) {
   <link rel="stylesheet" href="/assets/css/layout.css">
   <link rel="stylesheet" href="/assets/css/components.css">
   <link rel="stylesheet" href="/assets/css/blog-tag-rules.css">
+
+  ${FEED_DISCOVERY_LINKS}
+
+  ${serializeJsonLd(blogSchema({ name: FEED_TITLE, url: BLOG_URL, description: BLOG_INTRO_TEXT, inLanguage: 'es-CR' }, published)).replace(/\n/g, '\n  ')}
+  ${serializeJsonLd(breadcrumbsSchema([{ name: 'Home', item: 'https://ardops.dev/' }, { name: 'Blog', item: BLOG_URL }])).replace(/\n/g, '\n  ')}
 </head>
 <body>
 ${renderHeader('/blog/')}
@@ -997,6 +1023,11 @@ function renderPostPage(post, bodyHtml) {
   <link rel="stylesheet" href="/assets/css/motion.css">
   <link rel="stylesheet" href="/assets/css/layout.css">
   <link rel="stylesheet" href="/assets/css/components.css">
+
+  ${FEED_DISCOVERY_LINKS}
+
+  ${serializeJsonLd(articleSchema(post)).replace(/\n/g, '\n  ')}
+  ${serializeJsonLd(breadcrumbsSchema([{ name: 'Home', item: 'https://ardops.dev/' }, { name: 'Blog', item: BLOG_URL }, { name: post.title, item: canonicalUrl(post.slug) }])).replace(/\n/g, '\n  ')}
 </head>
 <body>
 ${renderHeader('/blog/')}
@@ -1068,7 +1099,43 @@ function buildArtifacts(collection) {
     const bodyHtml = renderBodyHtml(p.bodyMd);
     postPages.set(p.slug, renderPostPage(p, bodyHtml));
   }
-  return { landingBlock, blogIndexHtml, tagCss, postPages };
+  const { feedXml, feedJson } = buildFeeds(published);
+  return { landingBlock, blogIndexHtml, tagCss, postPages, feedXml, feedJson };
+}
+
+/**
+ * spec 011 — derive last build date from most recent published post.
+ * If there are zero publishable posts, fall back to a sentinel
+ * (FEED_SENTINEL_DATE) so the feed remains valid and reproducible.
+ */
+function deriveLastBuildIso(published) {
+  if (published.length === 0) return `${FEED_SENTINEL_DATE}T00:00:00Z`;
+  return `${published[0].date}T00:00:00Z`;
+}
+
+function buildFeeds(published) {
+  const lastBuildIso = deriveLastBuildIso(published);
+  const channel = {
+    title: FEED_TITLE,
+    link: BLOG_URL,
+    description: BLOG_INTRO_TEXT,
+    language: 'es-CR',
+    lastBuildDate: lastBuildIso,
+    selfHref: FEED_XML_URL,
+  };
+  const items = published.map((p) => ({
+    id: canonicalUrl(p.slug),
+    url: canonicalUrl(p.slug),
+    title: p.title,
+    summary: p.summary,
+    datePublished: `${p.date}T00:00:00Z`,
+    tags: p.tags,
+  }));
+  const feedXml = renderRss(channel, items);
+  // Override selfHref for JSON Feed
+  const jsonChannel = { ...channel, selfHref: FEED_JSON_URL };
+  const feedJson = renderJsonFeed(jsonChannel, items);
+  return { feedXml, feedJson };
 }
 
 /**
@@ -1127,6 +1194,7 @@ function writeAll(collection) {
   let orphans = 0;
   for (const entry of fs.readdirSync(BLOG_OUT_DIR)) {
     if (entry === 'index.html') continue;
+    if (entry === 'feed.xml' || entry === 'feed.json') continue;
     if (!entry.endsWith('.html')) continue;
     const slug = entry.slice(0, -'.html'.length);
     if (!wantedSlugs.has(slug)) {
@@ -1135,8 +1203,12 @@ function writeAll(collection) {
     }
   }
 
+  // 5. spec 011 — feeds
+  fs.writeFileSync(FEED_XML_PATH, arts.feedXml, 'utf8');
+  fs.writeFileSync(FEED_JSON_PATH, arts.feedJson, 'utf8');
+
   process.stdout.write(
-    `blog-build: ✓ rendered ${published.length} published post(s) — index.html (${arts.landingBlock !== '' ? Math.min(published.length, 3) : 0} cards), blog/index.html (${published.length} entries), blog/<slug>.html × ${published.length}\n`,
+    `blog-build: ✓ rendered ${published.length} published post(s) — index.html (${arts.landingBlock !== '' ? Math.min(published.length, 3) : 0} cards), blog/index.html (${published.length} entries), blog/<slug>.html × ${published.length}, blog/feed.{xml,json}\n`,
   );
   if (orphans > 0) {
     process.stdout.write(
@@ -1214,6 +1286,7 @@ function checkAll(collection) {
   if (fs.existsSync(BLOG_OUT_DIR)) {
     for (const entry of fs.readdirSync(BLOG_OUT_DIR)) {
       if (entry === 'index.html') continue;
+      if (entry === 'feed.xml' || entry === 'feed.json') continue;
       if (!entry.endsWith('.html')) continue;
       const slug = entry.slice(0, -'.html'.length);
       if (!wantedSlugs.has(slug)) {
@@ -1222,6 +1295,22 @@ function checkAll(collection) {
         );
         process.exit(1);
       }
+    }
+  }
+
+  // 5. spec 011 — feeds in sync
+  for (const [target, expected] of [
+    [FEED_XML_PATH, arts.feedXml],
+    [FEED_JSON_PATH, arts.feedJson],
+  ]) {
+    const rel = path.relative(REPO_ROOT, target);
+    const actual = fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : '';
+    if (actual !== expected) {
+      process.stderr.write(
+        `blog-build: ${rel} is out of sync — run 'node scripts/build-blog.js' and commit.\n`,
+      );
+      reportDiff(actual, expected);
+      process.exit(1);
     }
   }
 

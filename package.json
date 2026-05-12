@@ -18,6 +18,10 @@
     "check:csp": "bash tests/csp-no-unsafe-inline.sh",
     "check:links": "bash tests/external-links.sh",
     "check:sitemap": "bash tests/sitemap-drift.sh",
+    "check:feeds": "bash tests/feed-validate.sh",
+    "check:jsonld": "bash tests/jsonld-validate.sh",
+    "check:seo": "bash tests/seo-meta.sh",
+    "check:distribution": "npm run check:feeds && npm run check:jsonld && npm run check:seo",
     "check:security": "npm run check:csp && npm run check:links && npm run check:sitemap"
   },
   "devDependencies": {

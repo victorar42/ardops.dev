@@ -22,6 +22,8 @@ declare -a candidates=(
   index.html
   404.html
   blog/index.html
+  blog/feed.xml
+  blog/feed.json
   talks/index.html
   uses/index.html
   sitemap.xml
@@ -30,7 +32,7 @@ declare -a candidates=(
 )
 
 shopt -s nullglob
-candidates+=(interviews/index.html interviews/*.html)
+candidates+=(blog/*.html interviews/index.html interviews/*.html)
 
 declare -a existing=()
 for f in "${candidates[@]}"; do
