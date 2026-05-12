@@ -314,7 +314,6 @@ function sortItems(items) {
 
 function renderEmpty() {
   return `${MARKER_START}
-    <a id="blog" aria-hidden="true" tabindex="-1"></a>
     <section id="pipeline" class="section" aria-labelledby="pipeline-heading">
       <p class="section-label">// pipeline</p>
       <h2 id="pipeline-heading" class="section-title">Pipeline</h2>
@@ -331,7 +330,6 @@ function renderSection(items) {
   const sorted = sortItems(items);
   const itemsHTML = sorted.map(renderItem).join('\n');
   return `${MARKER_START}
-    <a id="blog" aria-hidden="true" tabindex="-1"></a>
     <section id="pipeline" class="section" aria-labelledby="pipeline-heading">
       <p class="section-label">// pipeline</p>
       <h2 id="pipeline-heading" class="section-title">Pipeline</h2>

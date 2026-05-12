@@ -4,12 +4,13 @@
   "private": true,
   "description": "Sitio profesional ardops.dev — DevOps Engineer (sitio estático).",
   "scripts": {
-    "html-validate": "html-validate index.html blog/index.html talks/index.html 404.html",
+    "html-validate": "html-validate index.html blog/index.html blog/pipeline-seguridad-spec-driven.html talks/index.html 404.html",
     "a11y": "node tests/a11y.js",
     "pa11y": "pa11y-ci --config tests/pa11y.config.js",
     "lhci": "lhci autorun --config=tests/lighthouserc.json",
     "serve": "npx --yes serve -l 8080 .",
-    "build:interviews": "node scripts/build-interviews.js --strict --out interviews/"
+    "build:interviews": "node scripts/build-interviews.js --strict --out interviews/",
+    "build:blog": "node scripts/build-blog.js"
   },
   "devDependencies": {
     "@lhci/cli": "^0.14.0",
