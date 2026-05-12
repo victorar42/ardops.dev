@@ -25,6 +25,7 @@ declare -a candidates=(
   blog/feed.xml
   blog/feed.json
   talks/index.html
+  speaking/index.html
   uses/index.html
   sitemap.xml
   robots.txt

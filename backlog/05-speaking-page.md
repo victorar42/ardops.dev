@@ -1,6 +1,6 @@
 # Backlog 05 — `/speaking/` page (kit de prensa para invitaciones)
 
-> **Estado**: backlog · **Prioridad**: P2
+> **Estado**: ✅ completado en spec [012-speaking-page](../specs/012-speaking-page/) · **Prioridad original**: P2
 > **Esfuerzo estimado**: S (~medio día) · **ROI networking**: alto
 
 ---

@@ -17,7 +17,7 @@ const { JSDOM } = require('jsdom');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 
-const STATIC_PAGES = ['index.html', '404.html', 'talks/index.html', 'uses/index.html'];
+const STATIC_PAGES = ['index.html', '404.html', 'talks/index.html', 'uses/index.html', 'speaking/index.html'];
 
 // Per D-008: 404.html is not indexable; canonical is intentionally optional.
 const PER_PAGE_RULES = {

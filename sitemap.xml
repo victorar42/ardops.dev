@@ -13,6 +13,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ardops.dev/speaking/</loc>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ardops.dev/blog/</loc>
     <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>

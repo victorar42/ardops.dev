@@ -12,6 +12,7 @@ module.exports = {
     'http://localhost:8080/',
     'http://localhost:8080/blog/',
     'http://localhost:8080/talks/',
+    'http://localhost:8080/speaking/',
     'http://localhost:8080/404'
   ]
 };
