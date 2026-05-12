@@ -33,6 +33,7 @@ const matter = require('gray-matter');
 const { marked } = require('marked');
 const { JSDOM } = require('jsdom');
 const createDOMPurify = require('dompurify');
+const { renderHeader, renderFooter } = require('./lib/layout');
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -315,28 +316,16 @@ function validateFrontmatter(rel, data, ctx) {
 // Site shell (header / footer)
 // ---------------------------------------------------------------------------
 
-function siteHeader({ activeInterviews }) {
-  const ariaCurrent = activeInterviews ? ' aria-current="page"' : '';
-  return `  <header class="site-header">
-    <nav class="site-nav" aria-label="Navegación principal">
-      <a href="/" class="nav-logo">ardops<span>.dev</span></a>
-      <ul class="nav-links">
-        <li><a href="/talks/">Charlas</a></li>
-        <li><a href="/#pipeline">Pipeline</a></li>
-        <li><a href="/#about">About</a></li>
-        <li><a href="/interviews/"${ariaCurrent}>Entrevistas</a></li>
-        <li><a href="/blog/">Blog</a></li>
-        <li><a href="/#contact">Contacto</a></li>
-      </ul>
-    </nav>
-  </header>`;
+// ---------------------------------------------------------------------------
+// Site shell (header / footer) — delegated to scripts/lib/layout.js (spec 008)
+// ---------------------------------------------------------------------------
+
+function siteHeader() {
+  return renderHeader('/interviews/');
 }
 
 function siteFooter() {
-  return `  <footer class="site-footer">
-    <p><span class="footer-mono">ardops.dev</span> · Security as Code · Costa Rica · &copy; <span data-year>${new Date().getUTCFullYear()}</span></p>
-    <p class="footer-tagline">Built with intention. Deployed with CI/CD.</p>
-  </footer>`;
+  return renderFooter();
 }
 
 function commonHead({ title, description, canonical, ogType, ogImage, extraJsonLd }) {
@@ -440,9 +429,7 @@ ${commonHead({
 </head>
 <body>
 
-  <a class="skip-link" href="#main">Saltar al contenido</a>
-
-${siteHeader({ activeInterviews: true })}
+${siteHeader()}
 
   <main id="main" class="interview-page">
     <article class="interview" aria-labelledby="interview-title">
@@ -505,9 +492,7 @@ ${commonHead({
 </head>
 <body>
 
-  <a class="skip-link" href="#main">Saltar al contenido</a>
-
-${siteHeader({ activeInterviews: true })}
+${siteHeader()}
 
   <main id="main" class="interviews-page">
     <header class="interviews-hero">

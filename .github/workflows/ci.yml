@@ -172,3 +172,22 @@ jobs:
         run: node scripts/build-blog.js --check
       - name: Run blog schema negative-fixture + XSS gate
         run: bash tests/blog-schema.sh
+
+  nav-consistency:
+    name: Nav & footer consistency gate (spec 008)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Verify static pages in sync with scripts/lib/layout.js
+        run: node scripts/build-layout.js --check
+      - name: Build blog (so blog/*.html exist for the gate)
+        run: node scripts/build-blog.js
+      - name: Build interviews with fixtures (so interviews/*.html exist)
+        run: node scripts/build-interviews.js --strict --include-fixtures --out interviews/
+      - name: Run nav-consistency gate
+        run: bash tests/nav-consistency.sh
