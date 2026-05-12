@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Blog — ardops.dev</title>
   <meta name="description" content="Notas técnicas en primera persona de Victor Josue Ardón Rojas sobre DevSecOps, automation y arquitectura.">
   <meta name="theme-color" content="#0a0e17">
@@ -37,27 +38,7 @@
   <link rel="stylesheet" href="/assets/css/motion.css">
   <link rel="stylesheet" href="/assets/css/layout.css">
   <link rel="stylesheet" href="/assets/css/components.css">
-  <style id="blog-tag-rules">
-.blog-index:has(#blog-tag-devsecops:checked) .post-card:not([data-tags~="devsecops"]) { display: none; }
-.blog-index:has(#blog-tag-devsecops:checked) .chip--filter[for="blog-tag-devsecops"] { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }
-.blog-index:has(#blog-tag-devsecops:checked) .chip--filter[for="blog-tag-devsecops"] .chip-count { color: var(--chip-active-text); }
-.blog-index:has(#blog-tag-devsecops:focus-visible) .chip--filter[for="blog-tag-devsecops"] { outline: 2px solid var(--accent); outline-offset: 2px; }
-.blog-index:has(#blog-tag-github-actions:checked) .post-card:not([data-tags~="github-actions"]) { display: none; }
-.blog-index:has(#blog-tag-github-actions:checked) .chip--filter[for="blog-tag-github-actions"] { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }
-.blog-index:has(#blog-tag-github-actions:checked) .chip--filter[for="blog-tag-github-actions"] .chip-count { color: var(--chip-active-text); }
-.blog-index:has(#blog-tag-github-actions:focus-visible) .chip--filter[for="blog-tag-github-actions"] { outline: 2px solid var(--accent); outline-offset: 2px; }
-.blog-index:has(#blog-tag-seguridad:checked) .post-card:not([data-tags~="seguridad"]) { display: none; }
-.blog-index:has(#blog-tag-seguridad:checked) .chip--filter[for="blog-tag-seguridad"] { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }
-.blog-index:has(#blog-tag-seguridad:checked) .chip--filter[for="blog-tag-seguridad"] .chip-count { color: var(--chip-active-text); }
-.blog-index:has(#blog-tag-seguridad:focus-visible) .chip--filter[for="blog-tag-seguridad"] { outline: 2px solid var(--accent); outline-offset: 2px; }
-.blog-index:has(#blog-tag-spec-driven:checked) .post-card:not([data-tags~="spec-driven"]) { display: none; }
-.blog-index:has(#blog-tag-spec-driven:checked) .chip--filter[for="blog-tag-spec-driven"] { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }
-.blog-index:has(#blog-tag-spec-driven:checked) .chip--filter[for="blog-tag-spec-driven"] .chip-count { color: var(--chip-active-text); }
-.blog-index:has(#blog-tag-spec-driven:focus-visible) .chip--filter[for="blog-tag-spec-driven"] { outline: 2px solid var(--accent); outline-offset: 2px; }
-.blog-index:has(#blog-tag-all:checked) .chip--filter[for="blog-tag-all"] { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }
-.blog-index:has(#blog-tag-all:checked) .chip--filter[for="blog-tag-all"] .chip-count { color: var(--chip-active-text); }
-.blog-index:has(#blog-tag-all:focus-visible) .chip--filter[for="blog-tag-all"] { outline: 2px solid var(--accent); outline-offset: 2px; }
-  </style>
+  <link rel="stylesheet" href="/assets/css/blog-tag-rules.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Saltar al contenido</a>

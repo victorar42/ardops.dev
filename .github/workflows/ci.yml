@@ -191,3 +191,54 @@ jobs:
         run: node scripts/build-interviews.js --strict --include-fixtures --out interviews/
       - name: Run nav-consistency gate
         run: bash tests/nav-consistency.sh
+
+  csp-no-unsafe-inline:
+    name: CSP no-unsafe-inline gate (spec 009)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Build blog (so blog/*.html exist for the gate)
+        run: node scripts/build-blog.js
+      - name: Build interviews (so interviews/*.html exist)
+        run: node scripts/build-interviews.js --strict --out interviews/
+      - name: Run csp-no-unsafe-inline gate
+        run: bash tests/csp-no-unsafe-inline.sh
+
+  external-links:
+    name: External links anti-tabnabbing gate (spec 009)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Build blog (so blog/*.html exist for the gate)
+        run: node scripts/build-blog.js
+      - name: Build interviews (so interviews/*.html exist)
+        run: node scripts/build-interviews.js --strict --out interviews/
+      - name: Run external-links gate
+        run: bash tests/external-links.sh
+
+  sitemap-drift:
+    name: Sitemap drift gate (spec 009)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Build blog (so blog/*.html exist for the gate)
+        run: node scripts/build-blog.js
+      - name: Build interviews (so interviews/*.html and interviews/sitemap.xml exist)
+        run: node scripts/build-interviews.js --strict --out interviews/
+      - name: Run sitemap-drift gate
+        run: bash tests/sitemap-drift.sh

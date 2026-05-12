@@ -34,6 +34,7 @@ const { marked } = require('marked');
 const { JSDOM } = require('jsdom');
 const createDOMPurify = require('dompurify');
 const { renderHeader, renderFooter } = require('./lib/layout');
+const { META_REFERRER } = require('./lib/head');
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -59,8 +60,8 @@ const TAGS_MAX = 10;
 
 const CSP =
   "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; " +
-  "img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; " +
-  "base-uri 'self'; form-action 'self'; upgrade-insecure-requests";
+  "img-src 'self' data:; connect-src 'self'; object-src 'none'; " +
+  "frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests";
 
 // DOMPurify configuration aligned with contracts/csp-policy.md
 const PURIFY_CONFIG = {
@@ -333,6 +334,7 @@ function commonHead({ title, description, canonical, ogType, ogImage, extraJsonL
   return `  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="${CSP}">
+  ${META_REFERRER}
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(description)}">
   <meta name="author" content="Victor Josue Ardón Rojas">

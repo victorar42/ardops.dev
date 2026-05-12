@@ -24,6 +24,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { renderHeader, renderFooter } = require('./lib/layout');
+const { META_REFERRER } = require('./lib/head');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 
@@ -31,6 +32,8 @@ const NAV_START = '<!-- nav:start -->';
 const NAV_END = '<!-- nav:end -->';
 const FOOTER_START = '<!-- footer:start -->';
 const FOOTER_END = '<!-- footer:end -->';
+const HEAD_META_START = '<!-- head-meta:start -->';
+const HEAD_META_END = '<!-- head-meta:end -->';
 
 const PAGES = [
   { file: 'index.html',       currentPath: '/' },
@@ -58,6 +61,25 @@ function replaceBlock(html, startMarker, endMarker, newInner, file) {
   return `${before}\n${newInner}\n  ${after}`;
 }
 
+/**
+ * spec 009: replace the contents between <!-- head-meta:start --> and
+ * <!-- head-meta:end --> with the canonical head meta block (currently
+ * just the referrer policy). Indented to fit inside <head>.
+ */
+function replaceHeadMeta(html, file) {
+  const startIdx = html.indexOf(HEAD_META_START);
+  const endIdx = html.indexOf(HEAD_META_END);
+  if (startIdx < 0 || endIdx < 0) {
+    die(`${file}: missing markers '${HEAD_META_START}' / '${HEAD_META_END}'`);
+  }
+  if (endIdx < startIdx) {
+    die(`${file}: '${HEAD_META_END}' appears before '${HEAD_META_START}'`);
+  }
+  const before = html.slice(0, startIdx + HEAD_META_START.length);
+  const after = html.slice(endIdx);
+  return `${before}\n  ${META_REFERRER}\n  ${after}`;
+}
+
 function processPage({ file, currentPath }, { check }) {
   const abs = path.join(REPO_ROOT, file);
   if (!fs.existsSync(abs)) {
@@ -79,6 +101,7 @@ function processPage({ file, currentPath }, { check }) {
     renderFooter(),
     file,
   );
+  updated = replaceHeadMeta(updated, file);
 
   if (updated === original) {
     return { file, changed: false };

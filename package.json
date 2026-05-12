@@ -14,7 +14,11 @@
     "build:blog": "node scripts/build-blog.js",
     "build": "npm run build:layout && npm run build:blog && npm run build:interviews",
     "check:layout": "node scripts/build-layout.js --check",
-    "check:nav": "bash tests/nav-consistency.sh"
+    "check:nav": "bash tests/nav-consistency.sh",
+    "check:csp": "bash tests/csp-no-unsafe-inline.sh",
+    "check:links": "bash tests/external-links.sh",
+    "check:sitemap": "bash tests/sitemap-drift.sh",
+    "check:security": "npm run check:csp && npm run check:links && npm run check:sitemap"
   },
   "devDependencies": {
     "@lhci/cli": "^0.14.0",

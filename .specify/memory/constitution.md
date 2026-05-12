@@ -40,11 +40,20 @@ Lighthouse Performance ≥ 95. LCP < 2.5s, CLS < 0.1, INP < 200ms.
 Cualquier feature que degrade estos números debe rediseñarse.
 
 ## VIII. Seguridad por defecto
-- CSP estricto (sin 'unsafe-eval', mínimo 'unsafe-inline')
-- HTTPS forzado
-- Cero secrets en repo
-- Cero tracking de terceros
-- SRI en todo recurso externo (si se justifica)
+- CSP estricto: cero `'unsafe-eval'` y cero `'unsafe-inline'` en
+  ninguna directiva. Cualquier hash `'sha256-...'` requiere spec
+  dedicada justificándolo.
+- Invariante "cero externals en runtime": cero scripts, fonts, CSS o
+  imágenes de origen externo cargadas por el navegador. Cualquier
+  excepción requiere SRI explícito documentado en spec dedicada.
+- HTTPS forzado.
+- Cero secrets en repo.
+- Cero tracking de terceros.
+- Referrer policy uniforme:
+  `<meta name="referrer" content="strict-origin-when-cross-origin">`
+  en cada página servida.
+- Anti-tabnabbing: `<a target="_blank">` externo SIEMPRE con
+  `rel="noopener noreferrer"` (gate `tests/external-links.sh`).
 
 ## IX. Cada PR pasa todas las gates
 Lint, validación de specs, security scan, a11y, performance, link check.
@@ -72,8 +81,22 @@ Las decisiones viven en git, no en Slack ni en la cabeza de nadie.
 ---
 
 **Owner:** Victor Josue Ardón Rojas
-**Última revisión constitucional:** 2026-04-24
-**Versión:** 1.1.0
+**Última revisión constitucional:** 2026-05-11
+**Versión:** 1.2.0
+
+<!--
+Sync Impact Report (2026-05-11, v1.1.0 → v1.2.0):
+- Principle VIII (Seguridad por defecto) reinforced:
+  - CSP: explicitly forbids both 'unsafe-eval' AND 'unsafe-inline'
+    (was "mínimo 'unsafe-inline'", now "cero 'unsafe-inline'").
+  - Added invariant: "cero externals en runtime" (no third-party JS,
+    CSS, fonts, or images loaded by the browser at runtime).
+  - Added: uniform referrer policy meta on every served page.
+  - Added: anti-tabnabbing rel="noopener noreferrer" requirement.
+- Driven by spec 009 (Security headers hardening). Net-positive: closes
+  the 'unsafe-inline' regression that was inadvertently introduced by
+  spec 007 in blog/index.html.
+-->
 
 Modificar esta constitución requiere PR con justificación explícita y
 bump de versión semántico.
