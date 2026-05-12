@@ -6,6 +6,7 @@
         "http://localhost/index.html",
         "http://localhost/blog/index.html",
         "http://localhost/talks/index.html",
+        "http://localhost/speaking/index.html",
         "http://localhost/404.html"
       ],
       "settings": {

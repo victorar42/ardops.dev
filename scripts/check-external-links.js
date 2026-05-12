@@ -27,7 +27,7 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 const SITE_ORIGIN = 'https://ardops.dev';
 const REQUIRED_REL_TOKENS = ['noopener', 'noreferrer'];
 
-const STATIC_PAGES = ['index.html', '404.html', 'talks/index.html'];
+const STATIC_PAGES = ['index.html', '404.html', 'talks/index.html', 'speaking/index.html'];
 
 function listGenerated(dir) {
   const abs = path.join(REPO_ROOT, dir);

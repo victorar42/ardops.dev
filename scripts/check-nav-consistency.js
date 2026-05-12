@@ -25,6 +25,7 @@ const STATIC_PAGES = [
   { file: 'index.html',       currentPath: '/' },
   { file: '404.html',         currentPath: '/404' },
   { file: 'talks/index.html', currentPath: '/talks/' },
+  { file: 'speaking/index.html', currentPath: '/speaking/' },
   { file: 'uses/index.html',  currentPath: '/uses/' },
 ];
 

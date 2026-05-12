@@ -291,3 +291,11 @@ jobs:
         run: node scripts/build-interviews.js --strict --out interviews/
       - name: Run seo-meta gate
         run: bash tests/seo-meta.sh
+
+  headshot-size:
+    name: Headshot size gate (spec 012)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run headshot-size gate
+        run: bash tests/headshot-size.sh
