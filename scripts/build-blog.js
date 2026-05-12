@@ -35,6 +35,7 @@ const matter = require('gray-matter');
 const { marked } = require('marked');
 const { JSDOM } = require('jsdom');
 const createDOMPurify = require('dompurify');
+const { renderHeader, renderFooter } = require('./lib/layout');
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -896,21 +897,7 @@ ${tagRules}
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#main">Saltar al contenido</a>
-
-  <header class="site-header">
-    <nav class="site-nav" aria-label="Navegación principal">
-      <a href="/" class="nav-logo">ardops<span>.dev</span></a>
-      <ul class="nav-links">
-        <li><a href="/#talk">Charla</a></li>
-        <li><a href="/#pipeline">Pipeline</a></li>
-        <li><a href="/blog/" aria-current="page">Blog</a></li>
-        <li><a href="/#about">About</a></li>
-        <li><a href="/interviews/">Entrevistas</a></li>
-        <li><a href="/#contact">Contacto</a></li>
-      </ul>
-    </nav>
-  </header>
+${renderHeader('/blog/')}
 
   <main id="main">
     <section class="blog-index section" aria-labelledby="blog-index-heading">
@@ -946,10 +933,7 @@ ${cards}
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p><span class="footer-mono">ardops.dev</span> · Security as Code · Costa Rica · &copy; <span data-year>2026</span></p>
-    <p class="footer-tagline">Built with intention. Deployed with CI/CD.</p>
-  </footer>
+${renderFooter()}
 
   <script type="module" src="/assets/js/blog-filter.js" defer></script>
 </body>
@@ -1009,21 +993,7 @@ function renderPostPage(post, bodyHtml) {
   <link rel="stylesheet" href="/assets/css/components.css">
 </head>
 <body>
-  <a class="skip-link" href="#main">Saltar al contenido</a>
-
-  <header class="site-header">
-    <nav class="site-nav" aria-label="Navegación principal">
-      <a href="/" class="nav-logo">ardops<span>.dev</span></a>
-      <ul class="nav-links">
-        <li><a href="/#talk">Charla</a></li>
-        <li><a href="/#pipeline">Pipeline</a></li>
-        <li><a href="/blog/" aria-current="page">Blog</a></li>
-        <li><a href="/#about">About</a></li>
-        <li><a href="/interviews/">Entrevistas</a></li>
-        <li><a href="/#contact">Contacto</a></li>
-      </ul>
-    </nav>
-  </header>
+${renderHeader('/blog/')}
 
   <main id="main">
     <div class="post-layout">
@@ -1055,10 +1025,7 @@ ${shareBlock}
     </div>
   </main>
 
-  <footer class="site-footer">
-    <p><span class="footer-mono">ardops.dev</span> · Security as Code · Costa Rica · &copy; <span data-year>2026</span></p>
-    <p class="footer-tagline">Built with intention. Deployed with CI/CD.</p>
-  </footer>
+${renderFooter()}
 </body>
 </html>
 `;
