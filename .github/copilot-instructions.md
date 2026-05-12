@@ -47,5 +47,5 @@ dominio personalizado.
    - Checklist de gates aplicables (a11y, perf, security)
 
 <!-- SPECKIT START -->
-**Plan activo**: [`specs/006-blog-section/plan.md`](../specs/006-blog-section/plan.md)
+**Plan activo**: [`specs/007-blog-ux-polish/plan.md`](../specs/007-blog-ux-polish/plan.md)
 <!-- SPECKIT END -->

@@ -18,6 +18,7 @@ date: 2026-05-11                       # YYYY-MM-DD calendario válido
 summary: "Resumen 20..280 caracteres." # string
 tags: ["tag-a", "tag-b"]               # array de strings (puede ir vacío)
 published: true                        # boolean (false → no se publica)
+cover: "assets/img/blog/slug-cover.webp"  # OPCIONAL: ruta a webp/png/jpg
 ---
 ```
 
@@ -27,6 +28,11 @@ Reglas:
 - `date` se parsea como fecha de calendario (`2026-13-01` ⇒ falla).
 - `summary` se valida 20..280 caracteres.
 - `published: false` excluye el post del build pero no falla.
+- `cover` es **opcional**. Si se especifica:
+  - Debe empezar con `assets/img/blog/`.
+  - Extensión `.webp`, `.png`, `.jpg` o `.jpeg`.
+  - El archivo debe existir en disco; sino, el build falla.
+  - Se muestra como hero en la card del blog index (aspect-ratio 16/9).
 
 ## Estructura de un post
 

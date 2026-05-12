@@ -37,4 +37,13 @@
   --dur-short: 0.3s;
   --dur-medium: 0.6s;
   --dur-long: 0.8s;
+
+  /* Blog (spec 007) — derived from existing palette, no new literals */
+  --code-bg: rgba(34, 211, 238, 0.08);      /* accent-tinted, very subtle */
+  --code-border: rgba(34, 211, 238, 0.25);
+  --blockquote-border: var(--accent);
+  --toc-bg: var(--bg-secondary);
+  --toc-text: var(--text-secondary);
+  --chip-active-bg: var(--accent);
+  --chip-active-text: var(--bg-primary);
 }

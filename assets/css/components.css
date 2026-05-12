@@ -814,3 +814,433 @@
     shape-outside: circle();
   }
 }
+
+/* ── Blog UX polish (spec 007) ──────────────────── */
+
+/* Post layout: aside TOC + article column */
+.post-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .post-layout {
+    grid-template-columns: 240px minmax(0, 1fr);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+}
+
+/* Override .post-article max-width inside layout (already 720px) */
+.post-layout .post-article {
+  margin: 0;
+}
+
+@media (min-width: 1024px) {
+  .post-layout .post-article {
+    max-width: 760px;
+  }
+}
+
+/* Refined typography for body */
+.post-article-header {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-article-body p {
+  line-height: 1.75;
+}
+
+.post-article-body h2 {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  margin-top: 2.5rem;
+  font-size: 1.4rem;
+  scroll-margin-top: 6rem;
+}
+
+.post-article-body h3 {
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  scroll-margin-top: 6rem;
+}
+
+.post-article-body h4,
+.post-article-body h5,
+.post-article-body h6 {
+  scroll-margin-top: 6rem;
+}
+
+/* Inline code differentiated */
+.post-article-body code {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  color: var(--accent);
+  font-size: 0.88em;
+}
+
+/* Fenced code block: keep dark, add accent rail */
+.post-article-body pre {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+}
+
+.post-article-body pre code {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* Blockquote with accent rail */
+.post-article-body blockquote {
+  border-left: 3px solid var(--blockquote-border);
+  background: rgba(34, 211, 238, 0.04);
+  padding: 0.75rem 1rem;
+  margin-left: 0;
+  margin-right: 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--text-secondary);
+  font-style: normal;
+}
+
+/* Responsive table */
+.post-article-body table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .post-article-body table {
+    display: table;
+    white-space: normal;
+  }
+}
+
+/* TOC */
+.post-toc {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--toc-text);
+}
+
+.post-toc--aside {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .post-toc--aside {
+    display: block;
+    position: sticky;
+    top: 6rem;
+    background: var(--toc-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+  }
+  .post-toc--mobile {
+    display: none;
+  }
+}
+
+.post-toc-label {
+  margin: 0 0 0.5rem 0;
+  color: var(--accent);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+.post-toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.post-toc-item--h3 {
+  padding-left: 1rem;
+  font-size: 0.8rem;
+}
+
+.post-toc-list a {
+  color: var(--toc-text);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  padding-left: 0.5rem;
+  display: inline-block;
+  line-height: 1.4;
+}
+
+.post-toc-list a:hover,
+.post-toc-list a:focus-visible {
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+.post-toc--mobile {
+  background: var(--toc-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.post-toc--mobile summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0;
+}
+
+.post-toc--mobile .post-toc-list {
+  margin-top: 0.75rem;
+}
+
+/* Post footer: tags + back + share */
+.post-article-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.post-article-footer .post-tags {
+  margin: 0;
+}
+
+.post-share {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+}
+
+.post-share-label {
+  margin: 0 0 0.5rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.post-share-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.post-share-link {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  transition: background var(--dur-short) var(--ease-out);
+}
+
+.post-share-link:hover,
+.post-share-link:focus-visible {
+  background: var(--code-bg);
+}
+
+/* ── Blog index (spec 007 — US2) ─────────────────── */
+
+.blog-index {
+  /* uses .section spacing */
+}
+
+.section-lead {
+  color: var(--text-secondary);
+  margin: 0.5rem 0 2rem 0;
+  max-width: 60ch;
+}
+
+.blog-filters-radios {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* Focus ring on chip when the linked hidden radio receives focus */
+.blog-filters-radios input:focus-visible + .chip--filter,
+.blog-index input[name="blog-tag"]:focus-visible ~ .blog-filters .chip--filter {
+  /* generic fallback; chip-specific rules below */
+}
+
+.blog-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .blog-filters {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+}
+
+.blog-chips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip--filter {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-sm);
+  transition: border-color var(--dur-short) var(--ease-out),
+              background var(--dur-short) var(--ease-out),
+              color var(--dur-short) var(--ease-out);
+  user-select: none;
+}
+
+.chip--filter:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.chip-count {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+/* When the chip's label is active, count inherits the active text color. */
+.chip--filter:hover .chip-count,
+.blog-index:has(input[name="blog-tag"]:checked) .chip--filter[for] .chip-count {
+  /* generic — overridden below by per-tag rule via :has() */
+}
+
+/* Focus ring for hidden radios reflected on the label */
+.blog-filters-radios input:focus-visible + * ~ .blog-filters .chip--filter,
+.blog-filters-radios input:focus-visible ~ .blog-filters .chip--filter {
+  /* no-op fallback; specific chip rule is injected per-tag from build */
+}
+
+.blog-search {
+  flex: 1;
+  max-width: 320px;
+}
+
+.blog-search input {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  transition: border-color var(--dur-short) var(--ease-out);
+}
+
+.blog-search input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-color: var(--accent);
+}
+
+.blog-results-count {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  min-height: 1.2em;
+}
+
+.blog-empty {
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+.blog-clear-filters {
+  display: inline-block;
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  transition: background var(--dur-short) var(--ease-out);
+}
+
+.blog-clear-filters:hover,
+.blog-clear-filters:focus-visible {
+  background: var(--code-bg);
+}
+
+/* Refined post card layout */
+.post-card-cover {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  margin: -1.25rem -1.25rem 0.75rem -1.25rem;
+  width: calc(100% + 2.5rem);
+  display: block;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-card-cta {
+  margin: 0.5rem 0 0 0;
+}
+
+.post-card-cta a {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.post-card-cta a:hover,
+.post-card-cta a:focus-visible {
+  text-decoration: underline;
+}
+
+@media (min-width: 1200px) {
+  .post-list--index {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
