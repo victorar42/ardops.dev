@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
   <title>Blog — ardops.dev</title>
-  <meta name="description" content="Artículos sobre DevSecOps, GitHub Actions, seguridad como código y banca digital. Próximamente.">
+  <meta name="description" content="Notas técnicas en primera persona de Victor Josue Ardón Rojas sobre DevSecOps, automation y arquitectura.">
   <meta name="theme-color" content="#0a0e17">
   <meta name="color-scheme" content="dark">
   <link rel="canonical" href="https://ardops.dev/blog/">
@@ -14,7 +14,7 @@
   <meta property="og:locale" content="es_CR">
   <meta property="og:site_name" content="ardops.dev">
   <meta property="og:title" content="Blog — ardops.dev">
-  <meta property="og:description" content="Artículos sobre DevSecOps, GitHub Actions y seguridad como código.">
+  <meta property="og:description" content="Notas técnicas en primera persona de Victor Josue Ardón Rojas sobre DevSecOps, automation y arquitectura.">
   <meta property="og:url" content="https://ardops.dev/blog/">
   <meta property="og:image" content="https://ardops.dev/public/og/og-default.png">
   <meta property="og:image:width" content="1200">
@@ -22,12 +22,11 @@
   <meta property="og:image:alt" content="ardops.dev — Blog">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Blog — ardops.dev">
-  <meta name="twitter:description" content="Artículos sobre DevSecOps, GitHub Actions y seguridad como código.">
+  <meta name="twitter:description" content="Notas técnicas en primera persona sobre DevSecOps y automation.">
   <meta name="twitter:image" content="https://ardops.dev/public/og/og-default.png">
 
   <link rel="icon" href="/public/favicon/favicon.svg" type="image/svg+xml">
   <link rel="alternate icon" href="/public/favicon/favicon.ico" sizes="any">
-  <link rel="apple-touch-icon" sizes="180x180" href="/public/favicon/apple-touch-icon.png">
   <link rel="manifest" href="/public/favicon/site.webmanifest">
 
   <link rel="preload" href="/assets/fonts/outfit-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -38,12 +37,8 @@
   <link rel="stylesheet" href="/assets/css/motion.css">
   <link rel="stylesheet" href="/assets/css/layout.css">
   <link rel="stylesheet" href="/assets/css/components.css">
-  <link rel="stylesheet" href="/assets/css/home.css">
-
-  <script defer src="/assets/js/main.js"></script>
 </head>
 <body>
-
   <a class="skip-link" href="#main">Saltar al contenido</a>
 
   <header class="site-header">
@@ -52,23 +47,37 @@
       <ul class="nav-links">
         <li><a href="/#talk">Charla</a></li>
         <li><a href="/#pipeline">Pipeline</a></li>
+        <li><a href="/blog/" aria-current="page">Blog</a></li>
         <li><a href="/#about">About</a></li>
         <li><a href="/interviews/">Entrevistas</a></li>
-        <li><a href="/blog/" aria-current="page">Blog</a></li>
         <li><a href="/#contact">Contacto</a></li>
       </ul>
     </nav>
   </header>
 
   <main id="main">
-    <section class="section" aria-labelledby="blog-heading">
+    <section class="section" aria-labelledby="blog-index-heading">
       <p class="section-label">// blog</p>
-      <h1 id="blog-heading" class="section-title">Blog</h1>
-      <div class="blog-coming">
-        <p>&gt; contenido_en_desarrollo<span class="terminal-cursor" aria-hidden="true"></span></p>
-        <p class="blog-coming-sub">Próximamente: guías, tutoriales y aprendizajes sobre DevSecOps en banca.</p>
-      </div>
-      <p class="back-cta"><a class="btn btn-ghost" href="/">← Volver al inicio</a></p>
+      <h1 id="blog-index-heading" class="section-title">Blog</h1>
+      <p class="blog-intro">Todos los posts, ordenados por fecha.</p>
+      <ul class="post-list post-list--index">
+      <li>
+        <article class="post-card" aria-labelledby="post-pipeline-seguridad-spec-driven-title">
+          <header class="post-card-header">
+            <h2 id="post-pipeline-seguridad-spec-driven-title" class="post-card-title">
+              <a href="/blog/pipeline-seguridad-spec-driven.html">Cómo construí mi pipeline de seguridad spec-driven</a>
+            </h2>
+            <p class="post-meta">
+              <time datetime="2026-05-11" class="post-date">11 May 2026</time>
+              <span class="post-meta-sep" aria-hidden="true">·</span>
+              <span class="post-reading-time">5 min de lectura</span>
+            </p>
+          </header>
+          <p class="post-summary">El proceso (en primera persona) detrás del pipeline DevSecOps que ejecuta 7 análisis automáticos sobre cada PR a este sitio, sin licencias y en menos de 5 minutos.</p>
+          <ul class="post-tags"><li><span class="post-tag">devsecops</span></li><li><span class="post-tag">github-actions</span></li><li><span class="post-tag">spec-driven</span></li><li><span class="post-tag">seguridad</span></li></ul>
+        </article>
+      </li>
+      </ul>
     </section>
   </main>
 
@@ -76,6 +85,5 @@
     <p><span class="footer-mono">ardops.dev</span> · Security as Code · Costa Rica · &copy; <span data-year>2026</span></p>
     <p class="footer-tagline">Built with intention. Deployed with CI/CD.</p>
   </footer>
-
 </body>
 </html>

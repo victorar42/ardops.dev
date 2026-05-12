@@ -129,6 +129,7 @@
       <ul class="nav-links">
         <li><a href="#talk">Charla</a></li>
         <li><a href="#pipeline">Pipeline</a></li>
+        <li><a href="/blog/">Blog</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="/interviews/">Entrevistas</a></li>
         <li><a href="#contact">Contacto</a></li>
@@ -185,56 +186,35 @@
       <!-- TALK-STATE:teaser END -->
     </section>
 
-    <!-- Pipeline -->
-    <section id="security-pipeline" class="section" aria-labelledby="security-pipeline-heading">
-      <p class="section-label">// spec-driven</p>
-      <h2 id="security-pipeline-heading" class="section-title">El Pipeline de Seguridad</h2>
-      <p class="security-pipeline-intro">OpenAPI Spec → GitHub Actions → 7 etapas automáticas → Seguro o Bloqueado</p>
-      <div class="pipeline">
-        <article class="pipeline-step">
-          <p class="step-number">ETAPA 01</p>
-          <h3 class="step-name">Spec Lint</h3>
-          <p class="step-tool">Spectral</p>
-          <p class="step-desc">Valida reglas de seguridad bancarias en la OpenAPI spec.</p>
+    <!-- Blog (spec 006, generated from content/blog/*.md by scripts/build-blog.js) -->
+    <!-- blog:start -->
+    <section id="blog" class="section" aria-labelledby="blog-heading">
+      <p class="section-label">// blog</p>
+      <h2 id="blog-heading" class="section-title">Blog</h2>
+      <p class="blog-intro">Notas técnicas en primera persona sobre lo que estoy construyendo.</p>
+      <ul class="post-list post-list--landing">
+      <li>
+        <article class="post-card" aria-labelledby="post-pipeline-seguridad-spec-driven-title">
+          <header class="post-card-header">
+            <h3 id="post-pipeline-seguridad-spec-driven-title" class="post-card-title">
+              <a href="/blog/pipeline-seguridad-spec-driven.html">Cómo construí mi pipeline de seguridad spec-driven</a>
+            </h3>
+            <p class="post-meta">
+              <time datetime="2026-05-11" class="post-date">11 May 2026</time>
+              <span class="post-meta-sep" aria-hidden="true">·</span>
+              <span class="post-reading-time">5 min de lectura</span>
+            </p>
+          </header>
+          <p class="post-summary">El proceso (en primera persona) detrás del pipeline DevSecOps que ejecuta 7 análisis automáticos sobre cada PR a este sitio, sin licencias y en menos de 5 minutos.</p>
+          <ul class="post-tags"><li><span class="post-tag">devsecops</span></li><li><span class="post-tag">github-actions</span></li><li><span class="post-tag">spec-driven</span></li><li><span class="post-tag">seguridad</span></li></ul>
         </article>
-        <article class="pipeline-step">
-          <p class="step-number">ETAPA 02</p>
-          <h3 class="step-name">SAST</h3>
-          <p class="step-tool">Semgrep</p>
-          <p class="step-desc">Análisis estático: patrones de código peligrosos.</p>
-        </article>
-        <article class="pipeline-step">
-          <p class="step-number">ETAPA 03</p>
-          <h3 class="step-name">Secret Detection</h3>
-          <p class="step-tool">Gitleaks</p>
-          <p class="step-desc">Detecta API keys y passwords en el código.</p>
-        </article>
-        <article class="pipeline-step">
-          <p class="step-number">ETAPA 04</p>
-          <h3 class="step-name">Dependency Scan</h3>
-          <p class="step-tool">npm audit</p>
-          <p class="step-desc">Vulnerabilidades conocidas en dependencias.</p>
-        </article>
-        <article class="pipeline-step">
-          <p class="step-number">ETAPA 05</p>
-          <h3 class="step-name">DAST</h3>
-          <p class="step-tool">OWASP ZAP</p>
-          <p class="step-desc">Pruebas dinámicas: ataca la API usando la spec.</p>
-        </article>
-        <article class="pipeline-step">
-          <p class="step-number">ETAPA 06</p>
-          <h3 class="step-name">Compliance</h3>
-          <p class="step-tool">Custom Action</p>
-          <p class="step-desc">Reporte automático en cada Pull Request.</p>
-        </article>
-        <article class="pipeline-step">
-          <p class="step-number">ETAPA 07</p>
-          <h3 class="step-name">Semantic Analysis</h3>
-          <p class="step-tool">CodeQL (GHAS)</p>
-          <p class="step-desc">Análisis de flujo de datos con GitHub Advanced Security.</p>
-        </article>
-      </div>
+      </li>
+      </ul>
+      <p class="blog-see-all">
+        <a href="/blog/" class="blog-see-all-link">Ver todos los posts →</a>
+      </p>
     </section>
+    <!-- blog:end -->
 
     <!-- About -->
     <section id="about" class="section" aria-labelledby="about-heading">
@@ -242,6 +222,11 @@
       <h2 id="about-heading" class="section-title">Sobre mí</h2>
       <div class="about-grid">
         <div class="about-text">
+          <img src="/assets/img/josue-256.webp"
+               alt="Retrato de Victor Josue Ardón Rojas"
+               width="256" height="256"
+               loading="lazy" decoding="async"
+               class="about-portrait">
           <p>Diseño y opero plataformas DevOps en banca centroamericana. Mi trabajo diario es convertir políticas de seguridad en código ejecutable y auditable, para que ningún Pull Request llegue a producción sin pasar por validaciones automáticas.</p>
           <p>Creo que la mejor seguridad es la que no se nota: la que vive dentro del pipeline, se documenta en specs versionadas y no depende de que alguien recuerde un checklist. Spec-driven, reproducible, sin excusas.</p>
           <p>Fuera del trabajo soy felizmente casado y papá de tres — dos chicos y una chica. Y si hay fútbol de por medio, mejor. Si algo de lo que escribo acá te resuena, escribime: por trabajo, por una charla o solo para conversar.</p>
@@ -249,20 +234,20 @@
         </div>
         <div class="about-stats">
           <div class="stat-card">
-            <p class="stat-value">7</p>
-            <p class="stat-label">Etapas del Pipeline</p>
+            <p class="stat-value">17</p>
+            <p class="stat-label">Años en desarrollo de software</p>
           </div>
           <div class="stat-card">
-            <p class="stat-value">0</p>
-            <p class="stat-label">Costo de licencias</p>
+            <p class="stat-value">10</p>
+            <p class="stat-label">Años en DevOps</p>
           </div>
           <div class="stat-card">
-            <p class="stat-value">100%</p>
-            <p class="stat-label">Cobertura de la spec</p>
+            <p class="stat-value">+12</p>
+            <p class="stat-label">Clientes (bancos LATAM + corporaciones)</p>
           </div>
           <div class="stat-card">
-            <p class="stat-value">&lt;5m</p>
-            <p class="stat-label">Tiempo del pipeline</p>
+            <p class="stat-value">1%</p>
+            <p class="stat-label">Mejor cada día</p>
           </div>
         </div>
       </div>
@@ -270,7 +255,6 @@
 
     <!-- Pipeline (spec 005, generated from content/pipeline.json by scripts/build-pipeline.js) -->
     <!-- pipeline:start -->
-    <a id="blog" aria-hidden="true" tabindex="-1"></a>
     <section id="pipeline" class="section" aria-labelledby="pipeline-heading">
       <p class="section-label">// pipeline</p>
       <h2 id="pipeline-heading" class="section-title">Pipeline</h2>

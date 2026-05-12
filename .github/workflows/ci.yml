@@ -157,3 +157,18 @@ jobs:
         run: node scripts/build-pipeline.js --check
       - name: Run pipeline schema negative-fixture gate
         run: bash tests/pipeline-schema.sh
+
+  blog-build-check:
+    name: Blog build & schema gate (spec 006)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Verify landing + /blog/ in sync with content/blog/
+        run: node scripts/build-blog.js --check
+      - name: Run blog schema negative-fixture + XSS gate
+        run: bash tests/blog-schema.sh

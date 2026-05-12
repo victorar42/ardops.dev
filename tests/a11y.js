@@ -25,6 +25,7 @@ const AXE_SOURCE = fs.readFileSync(require.resolve('axe-core'), 'utf8');
 const URLS = [
   'http://localhost:8080/',
   'http://localhost:8080/blog/',
+  'http://localhost:8080/blog/pipeline-seguridad-spec-driven.html',
   'http://localhost:8080/talks/',
   'http://localhost:8080/404',
   'http://localhost:8080/interviews/',
