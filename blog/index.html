@@ -37,6 +37,27 @@
   <link rel="stylesheet" href="/assets/css/motion.css">
   <link rel="stylesheet" href="/assets/css/layout.css">
   <link rel="stylesheet" href="/assets/css/components.css">
+  <style id="blog-tag-rules">
+.blog-index:has(#blog-tag-devsecops:checked) .post-card:not([data-tags~="devsecops"]) { display: none; }
+.blog-index:has(#blog-tag-devsecops:checked) .chip--filter[for="blog-tag-devsecops"] { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }
+.blog-index:has(#blog-tag-devsecops:checked) .chip--filter[for="blog-tag-devsecops"] .chip-count { color: var(--chip-active-text); }
+.blog-index:has(#blog-tag-devsecops:focus-visible) .chip--filter[for="blog-tag-devsecops"] { outline: 2px solid var(--accent); outline-offset: 2px; }
+.blog-index:has(#blog-tag-github-actions:checked) .post-card:not([data-tags~="github-actions"]) { display: none; }
+.blog-index:has(#blog-tag-github-actions:checked) .chip--filter[for="blog-tag-github-actions"] { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }
+.blog-index:has(#blog-tag-github-actions:checked) .chip--filter[for="blog-tag-github-actions"] .chip-count { color: var(--chip-active-text); }
+.blog-index:has(#blog-tag-github-actions:focus-visible) .chip--filter[for="blog-tag-github-actions"] { outline: 2px solid var(--accent); outline-offset: 2px; }
+.blog-index:has(#blog-tag-seguridad:checked) .post-card:not([data-tags~="seguridad"]) { display: none; }
+.blog-index:has(#blog-tag-seguridad:checked) .chip--filter[for="blog-tag-seguridad"] { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }
+.blog-index:has(#blog-tag-seguridad:checked) .chip--filter[for="blog-tag-seguridad"] .chip-count { color: var(--chip-active-text); }
+.blog-index:has(#blog-tag-seguridad:focus-visible) .chip--filter[for="blog-tag-seguridad"] { outline: 2px solid var(--accent); outline-offset: 2px; }
+.blog-index:has(#blog-tag-spec-driven:checked) .post-card:not([data-tags~="spec-driven"]) { display: none; }
+.blog-index:has(#blog-tag-spec-driven:checked) .chip--filter[for="blog-tag-spec-driven"] { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }
+.blog-index:has(#blog-tag-spec-driven:checked) .chip--filter[for="blog-tag-spec-driven"] .chip-count { color: var(--chip-active-text); }
+.blog-index:has(#blog-tag-spec-driven:focus-visible) .chip--filter[for="blog-tag-spec-driven"] { outline: 2px solid var(--accent); outline-offset: 2px; }
+.blog-index:has(#blog-tag-all:checked) .chip--filter[for="blog-tag-all"] { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }
+.blog-index:has(#blog-tag-all:checked) .chip--filter[for="blog-tag-all"] .chip-count { color: var(--chip-active-text); }
+.blog-index:has(#blog-tag-all:focus-visible) .chip--filter[for="blog-tag-all"] { outline: 2px solid var(--accent); outline-offset: 2px; }
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -56,28 +77,58 @@
   </header>
 
   <main id="main">
-    <section class="section" aria-labelledby="blog-index-heading">
+    <section class="blog-index section" aria-labelledby="blog-index-heading">
       <p class="section-label">// blog</p>
       <h1 id="blog-index-heading" class="section-title">Blog</h1>
-      <p class="blog-intro">Todos los posts, ordenados por fecha.</p>
-      <ul class="post-list post-list--index">
-      <li>
-        <article class="post-card" aria-labelledby="post-pipeline-seguridad-spec-driven-title">
-          <header class="post-card-header">
-            <h2 id="post-pipeline-seguridad-spec-driven-title" class="post-card-title">
-              <a href="/blog/pipeline-seguridad-spec-driven.html">Cómo construí mi pipeline de seguridad spec-driven</a>
-            </h2>
-            <p class="post-meta">
-              <time datetime="2026-05-11" class="post-date">11 May 2026</time>
-              <span class="post-meta-sep" aria-hidden="true">·</span>
-              <span class="post-reading-time">5 min de lectura</span>
-            </p>
-          </header>
+      <p class="section-lead">Notas en primera persona sobre DevSecOps, automation y arquitectura. Filtrá por tag o buscá por palabra clave.</p>
+
+      <fieldset class="blog-filters-radios">
+        <legend class="visually-hidden">Filtrar por tag</legend>
+      <input type="radio" name="blog-tag" id="blog-tag-all" value="" class="visually-hidden" checked>
+      <input type="radio" name="blog-tag" id="blog-tag-devsecops" value="devsecops" class="visually-hidden">
+      <input type="radio" name="blog-tag" id="blog-tag-github-actions" value="github-actions" class="visually-hidden">
+      <input type="radio" name="blog-tag" id="blog-tag-seguridad" value="seguridad" class="visually-hidden">
+      <input type="radio" name="blog-tag" id="blog-tag-spec-driven" value="spec-driven" class="visually-hidden">
+      </fieldset>
+
+      <div class="blog-filters">
+        <ul class="blog-chips">
+        <li><label for="blog-tag-all" class="chip chip--filter">Todos <span class="chip-count">(1)</span></label></li>
+        <li><label for="blog-tag-devsecops" class="chip chip--filter">devsecops <span class="chip-count">(1)</span></label></li>
+        <li><label for="blog-tag-github-actions" class="chip chip--filter">github-actions <span class="chip-count">(1)</span></label></li>
+        <li><label for="blog-tag-seguridad" class="chip chip--filter">seguridad <span class="chip-count">(1)</span></label></li>
+        <li><label for="blog-tag-spec-driven" class="chip chip--filter">spec-driven <span class="chip-count">(1)</span></label></li>
+        </ul>
+        <div class="blog-search" hidden>
+          <label for="blog-search-input" class="visually-hidden">Buscar posts</label>
+          <input type="search" id="blog-search-input" placeholder="Buscar por título, resumen o tag…" autocomplete="off">
+        </div>
+      </div>
+
+      <output class="blog-results-count" aria-live="polite" aria-atomic="true"></output>
+
+      <ol class="post-list post-list--index" id="blog-post-list">
+      <li class="post-card" data-card data-slug="pipeline-seguridad-spec-driven" data-tags="devsecops github-actions spec-driven seguridad" data-index="0" aria-labelledby="post-pipeline-seguridad-spec-driven-title">
+        <article>
+          <p class="post-meta">
+            <time datetime="2026-05-11" class="post-date">11 May 2026</time>
+            <span class="post-meta-sep" aria-hidden="true">·</span>
+            <span class="post-reading-time">5 min</span>
+          </p>
+          <h2 id="post-pipeline-seguridad-spec-driven-title" class="post-card-title">
+            <a href="/blog/pipeline-seguridad-spec-driven.html">Cómo construí mi pipeline de seguridad spec-driven</a>
+          </h2>
           <p class="post-summary">El proceso (en primera persona) detrás del pipeline DevSecOps que ejecuta 7 análisis automáticos sobre cada PR a este sitio, sin licencias y en menos de 5 minutos.</p>
           <ul class="post-tags"><li><span class="post-tag">devsecops</span></li><li><span class="post-tag">github-actions</span></li><li><span class="post-tag">spec-driven</span></li><li><span class="post-tag">seguridad</span></li></ul>
+          <p class="post-card-cta"><a href="/blog/pipeline-seguridad-spec-driven.html">Leer →</a></p>
         </article>
       </li>
-      </ul>
+      </ol>
+
+      <p class="blog-empty" hidden>No encontré nada con eso. Probá otra palabra o limpiá los filtros.</p>
+      <p><button type="button" class="blog-clear-filters" hidden>Limpiar filtros</button></p>
+
+      <script id="blog-index" type="application/json">[{"slug":"pipeline-seguridad-spec-driven","title":"Cómo construí mi pipeline de seguridad spec-driven","summary":"El proceso (en primera persona) detrás del pipeline DevSecOps que ejecuta 7 análisis automáticos sobre cada PR a este sitio, sin licencias y en menos de 5 minutos.","tags":["devsecops","github-actions","spec-driven","seguridad"]}]</script>
     </section>
   </main>
 
@@ -85,5 +136,7 @@
     <p><span class="footer-mono">ardops.dev</span> · Security as Code · Costa Rica · &copy; <span data-year>2026</span></p>
     <p class="footer-tagline">Built with intention. Deployed with CI/CD.</p>
   </footer>
+
+  <script type="module" src="/assets/js/blog-filter.js" defer></script>
 </body>
 </html>

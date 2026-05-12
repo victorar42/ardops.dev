@@ -65,7 +65,15 @@ const ALLOWED_FIELDS = new Set([
   'summary',
   'tags',
   'published',
+  'cover',
 ]);
+
+const COVER_EXT_RE = /\.(webp|png|jpe?g)$/i;
+const COVER_PREFIX = 'assets/img/blog/';
+const COVER_PATH_RE = /^[A-Za-z0-9._/-]+$/;
+
+const TOC_MIN_H2 = 3;
+const CANONICAL_ORIGIN = 'https://ardops.dev';
 
 const MARKER_START = '<!-- blog:start -->';
 const MARKER_END = '<!-- blog:end -->';
@@ -75,7 +83,8 @@ const CSP =
 
 const BLOG_INTRO_TEXT =
   'Notas técnicas en primera persona sobre lo que estoy construyendo.';
-const BLOG_INDEX_INTRO_TEXT = 'Todos los posts, ordenados por fecha.';
+const BLOG_INDEX_INTRO_TEXT =
+  'Notas en primera persona sobre DevSecOps, automation y arquitectura. Filtrá por tag o buscá por palabra clave.';
 const EMPTY_LANDING_TEXT = 'Aún no hay posts publicados — pronto.';
 const EMPTY_INDEX_TEXT = 'Aún no hay posts publicados. Volvé pronto.';
 
@@ -188,6 +197,70 @@ function unicodeLength(s) {
 }
 
 // ---------------------------------------------------------------------------
+// Helpers — spec 007 (slugify, share, canonical, cover validation)
+// ---------------------------------------------------------------------------
+
+function slugifyHeading(text) {
+  return String(text)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function slugifyTag(label) {
+  return String(label)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function urlEncodeForShare(text) {
+  return encodeURIComponent(String(text));
+}
+
+function canonicalUrl(slug) {
+  return `${CANONICAL_ORIGIN}/blog/${slug}.html`;
+}
+
+function validateCoverField(file, fm) {
+  if (!('cover' in fm)) return null;
+  const errs = [];
+  if (typeof fm.cover !== 'string' || fm.cover.length === 0) {
+    errs.push(`field 'cover' must be non-empty string`);
+    return errs;
+  }
+  const cover = fm.cover;
+  if (!COVER_PATH_RE.test(cover) || cover.includes('..')) {
+    errs.push(`field 'cover' contains invalid characters or '..' segments`);
+    return errs;
+  }
+  if (!cover.startsWith(COVER_PREFIX)) {
+    errs.push(
+      `field 'cover' must start with '${COVER_PREFIX}' (got '${cover}')`,
+    );
+    return errs;
+  }
+  if (!COVER_EXT_RE.test(cover)) {
+    errs.push(
+      `field 'cover' must end in .webp/.png/.jpg/.jpeg (got '${cover}')`,
+    );
+    return errs;
+  }
+  const abs = path.join(REPO_ROOT, cover);
+  if (!fs.existsSync(abs)) {
+    errs.push(`field 'cover' points to missing file '${cover}'`);
+    return errs;
+  }
+  return null; // ok
+}
+
+// ---------------------------------------------------------------------------
 // Frontmatter validation
 // ---------------------------------------------------------------------------
 
@@ -296,6 +369,12 @@ function validatePost(file, parsed) {
     );
   }
 
+  // cover (optional)
+  const coverErrs = validateCoverField(file, fm);
+  if (coverErrs && coverErrs.length > 0) {
+    errs.push(...coverErrs);
+  }
+
   // body
   if (
     typeof parsed.content !== 'string' ||
@@ -374,8 +453,10 @@ function loadAllPosts() {
       slug: fm.slug,
       summary: fm.summary,
       tags: fm.tags,
+      tagSlugs: fm.tags.map(slugifyTag),
       published: fm.published === true,
       isFuture: isFutureDate(fm.date),
+      cover: typeof fm.cover === 'string' ? fm.cover : null,
       readingTime,
       bodyMd: parsed.content,
     });
@@ -406,8 +487,10 @@ function loadSinglePost(file) {
     slug: fm.slug,
     summary: fm.summary,
     tags: fm.tags,
+    tagSlugs: fm.tags.map(slugifyTag),
     published: fm.published === true,
     isFuture: isFutureDate(fm.date),
+    cover: typeof fm.cover === 'string' ? fm.cover : null,
     readingTime,
     bodyMd: parsed.content,
   };
@@ -485,6 +568,105 @@ function renderBodyHtml(bodyMd) {
 }
 
 // ---------------------------------------------------------------------------
+// TOC (spec 007 — T007/T008) — build-time, deterministic ids
+// ---------------------------------------------------------------------------
+
+/**
+ * Parses sanitized HTML, assigns unique IDs to h2..h6, validates images
+ * have alt text, and returns the augmented HTML + TOC entries.
+ */
+function buildToc(bodyHtml, postSlug) {
+  const dom = new JSDOM(`<!doctype html><body>${bodyHtml}</body>`);
+  const doc = dom.window.document;
+
+  // Validate: every <img> in body must have alt
+  for (const img of doc.querySelectorAll('img')) {
+    if (!img.hasAttribute('alt')) {
+      throw new BuildError(
+        `post '${postSlug}': <img> in body missing 'alt' attribute (src='${img.getAttribute('src') || ''}')`,
+      );
+    }
+  }
+
+  const used = new Set();
+  const headings = doc.querySelectorAll('h2, h3, h4, h5, h6');
+  const items = [];
+  for (const h of headings) {
+    const text = (h.textContent || '').trim();
+    if (text.length === 0) {
+      throw new BuildError(
+        `post '${postSlug}': empty <${h.tagName.toLowerCase()}> heading not allowed`,
+      );
+    }
+    let base = slugifyHeading(text) || 'section';
+    let id = base;
+    let n = 2;
+    while (used.has(id)) id = `${base}-${n++}`;
+    used.add(id);
+    if (!h.id) h.setAttribute('id', id);
+    const level = parseInt(h.tagName.slice(1), 10);
+    if (level === 2 || level === 3) {
+      items.push({ id, level, text });
+    }
+  }
+
+  return {
+    items,
+    bodyHtmlWithIds: doc.body.innerHTML,
+  };
+}
+
+function renderToc(items) {
+  const h2Count = items.filter((i) => i.level === 2).length;
+  if (h2Count < TOC_MIN_H2) {
+    return { aside: '', mobile: '' };
+  }
+  const listItems = items
+    .map(
+      (i) =>
+        `        <li class="post-toc-item post-toc-item--h${i.level}"><a href="#${escapeHTML(i.id)}">${escapeHTML(i.text)}</a></li>`,
+    )
+    .join('\n');
+
+  const aside = `      <aside class="post-toc post-toc--aside" aria-label="Tabla de contenidos">
+        <p class="post-toc-label">En este post</p>
+        <ol class="post-toc-list">
+${listItems}
+        </ol>
+      </aside>`;
+
+  const mobile = `        <details class="post-toc post-toc--mobile">
+          <summary>En este post</summary>
+          <ol class="post-toc-list">
+${listItems}
+          </ol>
+        </details>`;
+
+  return { aside, mobile };
+}
+
+// ---------------------------------------------------------------------------
+// Share links (spec 007 — T009)
+// ---------------------------------------------------------------------------
+
+function renderShareLinks(post) {
+  const url = canonicalUrl(post.slug);
+  const titleEnc = urlEncodeForShare(post.title);
+  const urlEnc = urlEncodeForShare(url);
+  const mailto = `mailto:?subject=${titleEnc}&body=${urlEnc}`;
+  const linkedin = `https://www.linkedin.com/sharing/share-offsite/?url=${urlEnc}`;
+  const xUrl = `https://x.com/intent/post?text=${titleEnc}&url=${urlEnc}`;
+  return `        <aside class="post-share" aria-label="Compartir este post">
+          <p class="post-share-label">¿Te sirvió? Compartilo:</p>
+          <ul class="post-share-links">
+            <li><a class="post-share-link" href="${escapeHTML(mailto)}" rel="noopener">Mail</a></li>
+            <li><a class="post-share-link" href="${escapeHTML(linkedin)}" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a class="post-share-link" href="${escapeHTML(xUrl)}" target="_blank" rel="noopener noreferrer">X</a></li>
+          </ul>
+        </aside>`;
+}
+
+// ---------------------------------------------------------------------------
 // Render helpers — landing block
 // ---------------------------------------------------------------------------
 
@@ -549,32 +731,127 @@ ${cards}
 // Render helpers — blog index page
 // ---------------------------------------------------------------------------
 
-function renderCardIndex(post) {
-  return `      <li>
-        <article class="post-card" aria-labelledby="post-${escapeHTML(post.slug)}-title">
-          <header class="post-card-header">
-            <h2 id="post-${escapeHTML(post.slug)}-title" class="post-card-title">
-              <a href="/blog/${escapeHTML(post.slug)}.html">${escapeHTML(post.title)}</a>
-            </h2>
-            <p class="post-meta">
-              <time datetime="${escapeHTML(post.date)}" class="post-date">${escapeHTML(post.dateFormatted)}</time>
-              <span class="post-meta-sep" aria-hidden="true">·</span>
-              <span class="post-reading-time">${post.readingTime} min de lectura</span>
-            </p>
-          </header>
+function renderCardIndex(post, idx) {
+  const cover = post.cover
+    ? `\n          <img class="post-card-cover" src="/${escapeHTML(post.cover)}" alt="" width="640" height="360" loading="lazy" decoding="async">`
+    : '';
+  const tagsAttr = (post.tagSlugs || []).join(' ');
+  return `      <li class="post-card" data-card data-slug="${escapeHTML(post.slug)}" data-tags="${escapeHTML(tagsAttr)}" data-index="${idx}" aria-labelledby="post-${escapeHTML(post.slug)}-title">
+        <article>${cover}
+          <p class="post-meta">
+            <time datetime="${escapeHTML(post.date)}" class="post-date">${escapeHTML(post.dateFormatted)}</time>
+            <span class="post-meta-sep" aria-hidden="true">·</span>
+            <span class="post-reading-time">${post.readingTime} min</span>
+          </p>
+          <h2 id="post-${escapeHTML(post.slug)}-title" class="post-card-title">
+            <a href="/blog/${escapeHTML(post.slug)}.html">${escapeHTML(post.title)}</a>
+          </h2>
           <p class="post-summary">${escapeHTML(post.summary)}</p>
           ${renderTags(post.tags)}
+          <p class="post-card-cta"><a href="/blog/${escapeHTML(post.slug)}.html">Leer →</a></p>
         </article>
       </li>`;
 }
 
+/**
+ * Build a sorted, deduplicated list of {slug,label,count} tags.
+ */
+function collectTags(published) {
+  const map = new Map();
+  for (const p of published) {
+    for (let i = 0; i < p.tags.length; i++) {
+      const label = p.tags[i];
+      const slug = p.tagSlugs[i];
+      if (!map.has(slug)) {
+        map.set(slug, { slug, label, count: 0 });
+      } else if (map.get(slug).label !== label) {
+        throw new BuildError(
+          `tag slug collision: '${slug}' produced by both '${map.get(slug).label}' and '${label}'`,
+        );
+      }
+      map.get(slug).count++;
+    }
+  }
+  return Array.from(map.values()).sort((a, b) =>
+    a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0,
+  );
+}
+
+/**
+ * Emit one CSS rule per tag, using `:has()` to hide non-matching cards
+ * and another to mark the active chip. The block is determined by the
+ * current set of tags so it's emitted inline inside /blog/index.html.
+ */
+function renderTagCssRules(tags) {
+  const lines = [];
+  for (const t of tags) {
+    const s = t.slug;
+    lines.push(
+      `.blog-index:has(#blog-tag-${s}:checked) .post-card:not([data-tags~="${s}"]) { display: none; }`,
+    );
+    lines.push(
+      `.blog-index:has(#blog-tag-${s}:checked) .chip--filter[for="blog-tag-${s}"] { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }`,
+    );
+    lines.push(
+      `.blog-index:has(#blog-tag-${s}:checked) .chip--filter[for="blog-tag-${s}"] .chip-count { color: var(--chip-active-text); }`,
+    );
+    lines.push(
+      `.blog-index:has(#blog-tag-${s}:focus-visible) .chip--filter[for="blog-tag-${s}"] { outline: 2px solid var(--accent); outline-offset: 2px; }`,
+    );
+  }
+  // "Todos" active + focus state
+  lines.push(
+    `.blog-index:has(#blog-tag-all:checked) .chip--filter[for="blog-tag-all"] { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }`,
+  );
+  lines.push(
+    `.blog-index:has(#blog-tag-all:checked) .chip--filter[for="blog-tag-all"] .chip-count { color: var(--chip-active-text); }`,
+  );
+  lines.push(
+    `.blog-index:has(#blog-tag-all:focus-visible) .chip--filter[for="blog-tag-all"] { outline: 2px solid var(--accent); outline-offset: 2px; }`,
+  );
+  return lines.join('\n');
+}
+
 function renderBlogIndex(published) {
-  const body =
+  const tags = collectTags(published);
+
+  // A. radios (one per tag + Todos) — visually hidden but keyboard-accessible
+  const radios = [
+    `      <input type="radio" name="blog-tag" id="blog-tag-all" value="" class="visually-hidden" checked>`,
+    ...tags.map(
+      (t) =>
+        `      <input type="radio" name="blog-tag" id="blog-tag-${t.slug}" value="${t.slug}" class="visually-hidden">`,
+    ),
+  ].join('\n');
+
+  // B. chips
+  const chips = [
+    `        <li><label for="blog-tag-all" class="chip chip--filter">Todos <span class="chip-count">(${published.length})</span></label></li>`,
+    ...tags.map(
+      (t) =>
+        `        <li><label for="blog-tag-${t.slug}" class="chip chip--filter">${escapeHTML(t.label)} <span class="chip-count">(${t.count})</span></label></li>`,
+    ),
+  ].join('\n');
+
+  // C. cards
+  const cards =
     published.length === 0
       ? `      <p class="post-empty">${escapeHTML(EMPTY_INDEX_TEXT)}</p>`
-      : `      <ul class="post-list post-list--index">
-${published.map(renderCardIndex).join('\n')}
-      </ul>`;
+      : published.map((p, i) => renderCardIndex(p, i)).join('\n');
+
+  // D. JSON index for JS search
+  const indexJson = JSON.stringify(
+    published.map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      summary: p.summary,
+      tags: p.tagSlugs,
+    })),
+  );
+
+  // E. per-tag CSS rules
+  const tagRules = renderTagCssRules(tags);
+
   return `<!doctype html>
 <html lang="es">
 <head>
@@ -614,6 +891,9 @@ ${published.map(renderCardIndex).join('\n')}
   <link rel="stylesheet" href="/assets/css/motion.css">
   <link rel="stylesheet" href="/assets/css/layout.css">
   <link rel="stylesheet" href="/assets/css/components.css">
+  <style id="blog-tag-rules">
+${tagRules}
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -633,11 +913,36 @@ ${published.map(renderCardIndex).join('\n')}
   </header>
 
   <main id="main">
-    <section class="section" aria-labelledby="blog-index-heading">
+    <section class="blog-index section" aria-labelledby="blog-index-heading">
       <p class="section-label">// blog</p>
       <h1 id="blog-index-heading" class="section-title">Blog</h1>
-      <p class="blog-intro">${escapeHTML(BLOG_INDEX_INTRO_TEXT)}</p>
-${body}
+      <p class="section-lead">${escapeHTML(BLOG_INDEX_INTRO_TEXT)}</p>
+
+      <fieldset class="blog-filters-radios">
+        <legend class="visually-hidden">Filtrar por tag</legend>
+${radios}
+      </fieldset>
+
+      <div class="blog-filters">
+        <ul class="blog-chips">
+${chips}
+        </ul>
+        <div class="blog-search" hidden>
+          <label for="blog-search-input" class="visually-hidden">Buscar posts</label>
+          <input type="search" id="blog-search-input" placeholder="Buscar por título, resumen o tag…" autocomplete="off">
+        </div>
+      </div>
+
+      <output class="blog-results-count" aria-live="polite" aria-atomic="true"></output>
+
+      <ol class="post-list post-list--index" id="blog-post-list">
+${cards}
+      </ol>
+
+      <p class="blog-empty" hidden>No encontré nada con eso. Probá otra palabra o limpiá los filtros.</p>
+      <p><button type="button" class="blog-clear-filters" hidden>Limpiar filtros</button></p>
+
+      <script id="blog-index" type="application/json">${indexJson}</script>
     </section>
   </main>
 
@@ -645,6 +950,8 @@ ${body}
     <p><span class="footer-mono">ardops.dev</span> · Security as Code · Costa Rica · &copy; <span data-year>2026</span></p>
     <p class="footer-tagline">Built with intention. Deployed with CI/CD.</p>
   </footer>
+
+  <script type="module" src="/assets/js/blog-filter.js" defer></script>
 </body>
 </html>
 `;
@@ -655,7 +962,11 @@ ${body}
 // ---------------------------------------------------------------------------
 
 function renderPostPage(post, bodyHtml) {
-  const tags = renderTags(post.tags);
+  const { items: tocItems, bodyHtmlWithIds } = buildToc(bodyHtml, post.slug);
+  const { aside, mobile } = renderToc(tocItems);
+  const tagsHeader = renderTags(post.tags);
+  const tagsFooter = renderTags(post.tags);
+  const shareBlock = renderShareLinks(post);
   return `<!doctype html>
 <html lang="es">
 <head>
@@ -666,14 +977,14 @@ function renderPostPage(post, bodyHtml) {
   <meta name="description" content="${escapeHTML(post.summary)}">
   <meta name="theme-color" content="#0a0e17">
   <meta name="color-scheme" content="dark">
-  <link rel="canonical" href="https://ardops.dev/blog/${escapeHTML(post.slug)}.html">
+  <link rel="canonical" href="${escapeHTML(canonicalUrl(post.slug))}">
 
   <meta property="og:type" content="article">
   <meta property="og:locale" content="es_CR">
   <meta property="og:site_name" content="ardops.dev">
   <meta property="og:title" content="${escapeHTML(post.title)}">
   <meta property="og:description" content="${escapeHTML(post.summary)}">
-  <meta property="og:url" content="https://ardops.dev/blog/${escapeHTML(post.slug)}.html">
+  <meta property="og:url" content="${escapeHTML(canonicalUrl(post.slug))}">
   <meta property="og:image" content="https://ardops.dev/public/og/og-default.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -706,7 +1017,7 @@ function renderPostPage(post, bodyHtml) {
       <ul class="nav-links">
         <li><a href="/#talk">Charla</a></li>
         <li><a href="/#pipeline">Pipeline</a></li>
-        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/blog/" aria-current="page">Blog</a></li>
         <li><a href="/#about">About</a></li>
         <li><a href="/interviews/">Entrevistas</a></li>
         <li><a href="/#contact">Contacto</a></li>
@@ -715,26 +1026,33 @@ function renderPostPage(post, bodyHtml) {
   </header>
 
   <main id="main">
-    <article class="post-article" aria-labelledby="post-title">
-      <header class="post-article-header">
-        <p class="section-label">// blog</p>
-        <h1 id="post-title" class="post-article-title">${escapeHTML(post.title)}</h1>
-        <p class="post-meta">
-          <time datetime="${escapeHTML(post.date)}" class="post-date">${escapeHTML(post.dateFormatted)}</time>
-          <span class="post-meta-sep" aria-hidden="true">·</span>
-          <span class="post-reading-time">${post.readingTime} min de lectura</span>
-        </p>
-        ${tags}
-      </header>
+    <div class="post-layout">
+${aside}
+      <article class="post-article" aria-labelledby="post-title">
+        <header class="post-article-header">
+          <p class="section-label">// blog</p>
+          <h1 id="post-title" class="post-article-title">${escapeHTML(post.title)}</h1>
+          <p class="post-meta">
+            <time datetime="${escapeHTML(post.date)}" class="post-date">${escapeHTML(post.dateFormatted)}</time>
+            <span class="post-meta-sep" aria-hidden="true">·</span>
+            <span class="post-reading-time">${post.readingTime} min de lectura</span>
+          </p>
+          ${tagsHeader}
+        </header>
 
-      <div class="post-article-body">
-${bodyHtml}
-      </div>
+${mobile}
 
-      <footer class="post-article-footer">
-        <p><a href="/blog/" class="post-back-link">← Volver al blog</a></p>
-      </footer>
-    </article>
+        <div class="post-article-body">
+${bodyHtmlWithIds}
+        </div>
+
+        <footer class="post-article-footer">
+          ${tagsFooter}
+          <p><a href="/blog/" class="btn btn-ghost post-back-link">← Volver al blog</a></p>
+${shareBlock}
+        </footer>
+      </article>
+    </div>
   </main>
 
   <footer class="site-footer">
