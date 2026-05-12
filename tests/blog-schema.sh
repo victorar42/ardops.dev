@@ -62,15 +62,10 @@ out=$(node -e "
 # native behavior — it scans REPO_ROOT/content/blog. We can't easily
 # point it elsewhere without modifying the script. So instead: stage the
 # duplicate fixture *temporarily* into content/blog and assert build fails.
-stagedup="content/blog/__zz_dup_test.md"
-cp content/blog/__fixtures__/invalid-duplicate-slug.md "$stagedup"
-# Real file must have a slug that collides with at least one existing
-# published post. invalid-duplicate-slug.md uses slug 'valid-minimal'
-# which is the same as the fixture in __fixtures__/, but __fixtures__/ is
-# excluded by the loader. To make it actually collide we rewrite the slug
-# on-the-fly to match the real published post slug.
 real_slug=$(grep -E '^slug:' content/blog/*.md | grep -v __fixtures__ | head -1 | awk '{print $2}')
 if [ -n "$real_slug" ]; then
+  stagedup="content/blog/9999-99-${real_slug}.md"
+  cp content/blog/__fixtures__/invalid-duplicate-slug.md "$stagedup"
   sed -i.bak "s/^slug: .*/slug: $real_slug/" "$stagedup" && rm "$stagedup.bak"
   out=$(node scripts/build-blog.js --check 2>&1)
   rc=$?
@@ -80,11 +75,16 @@ if [ -n "$real_slug" ]; then
     fail=$((fail + 1))
   else
     msg=$(echo "$out" | head -1)
-    echo "OK: duplicate-slug staging rejected — $msg"
-    ok=$((ok + 1))
+    if echo "$msg" | grep -q 'duplicate slug'; then
+      echo "OK: duplicate-slug staging rejected — $msg"
+      ok=$((ok + 1))
+    else
+      echo "FAIL: rejected for wrong reason — $msg"
+      fail=$((fail + 1))
+    fi
   fi
 else
-  rm -f "$stagedup"
+  rm -f "$stagedup" 2>/dev/null
   echo "SKIP: no published post available to stage duplicate-slug test"
 fi
 

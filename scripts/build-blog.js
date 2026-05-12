@@ -329,7 +329,12 @@ function listMarkdownFiles(dir) {
   if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir, { withFileTypes: true })
-    .filter((e) => e.isFile() && e.name.endsWith('.md'))
+    .filter(
+      (e) =>
+        e.isFile() &&
+        e.name.endsWith('.md') &&
+        FILENAME_RE.test(e.name),
+    )
     .map((e) => path.join(dir, e.name))
     .sort();
 }
