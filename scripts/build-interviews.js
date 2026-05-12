@@ -34,6 +34,11 @@ const { marked } = require('marked');
 const { JSDOM } = require('jsdom');
 const createDOMPurify = require('dompurify');
 const { renderHeader, renderFooter } = require('./lib/layout');
+const {
+  serialize: serializeJsonLd,
+  itemListSchema,
+  breadcrumbsSchema,
+} = require('./lib/jsonld');
 const { META_REFERRER } = require('./lib/head');
 
 // ---------------------------------------------------------------------------
@@ -329,8 +334,12 @@ function siteFooter() {
   return renderFooter();
 }
 
-function commonHead({ title, description, canonical, ogType, ogImage, extraJsonLd }) {
+function commonHead({ title, description, canonical, ogType, ogImage, extraJsonLd, extraJsonLdBlocks }) {
   const ogImg = ogImage || 'https://ardops.dev/public/og/og-default.png';
+  const blocks = Array.isArray(extraJsonLdBlocks) ? extraJsonLdBlocks : [];
+  const blocksHtml = blocks
+    .map((b) => `\n\n  ${serializeJsonLd(b).replace(/\n/g, '\n  ')}`)
+    .join('');
   return `  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="${CSP}">
@@ -368,7 +377,7 @@ function commonHead({ title, description, canonical, ogType, ogImage, extraJsonL
   <link rel="stylesheet" href="/assets/css/components.css">
   <link rel="stylesheet" href="/assets/css/interviews.css">
 
-  <script defer src="/assets/js/main.js"></script>${extraJsonLd ? `\n\n  <script type="application/ld+json">\n${extraJsonLd}\n  </script>` : ''}`;
+  <script defer src="/assets/js/main.js"></script>${extraJsonLd ? `\n\n  <script type="application/ld+json">\n${extraJsonLd}\n  </script>` : ''}${blocksHtml}`;
 }
 
 // ---------------------------------------------------------------------------
@@ -393,9 +402,11 @@ function renderInterviewHtml(it) {
   const jsonLd = escapeJsonForScript({
     '@context': 'https://schema.org',
     '@type': 'Article',
+    '@id': `${url}#article`,
     headline: it.title,
     datePublished: it.date,
-    author: { '@type': 'Person', name: 'Victor Josue Ardón Rojas' },
+    dateModified: it.date,
+    author: { '@id': 'https://ardops.dev/#person' },
     about: {
       '@type': 'Person',
       name: it.interviewee.name,
@@ -427,6 +438,13 @@ ${commonHead({
   ogType: 'article',
   ogImage,
   extraJsonLd: jsonLd,
+  extraJsonLdBlocks: [
+    breadcrumbsSchema([
+      { name: 'Home', item: 'https://ardops.dev/' },
+      { name: 'Entrevistas', item: 'https://ardops.dev/interviews/' },
+      { name: it.title, item: url },
+    ]),
+  ],
 })}
 </head>
 <body>
@@ -478,7 +496,11 @@ ${siteFooter()}
 // Templates: index (listing) page
 // ---------------------------------------------------------------------------
 
-function renderIndexHtml() {
+function renderIndexHtml(interviews) {
+  const itemListItems = (interviews || []).map((it) => ({
+    url: `https://ardops.dev/interviews/${it.slug}.html`,
+    name: it.title,
+  }));
   return `<!doctype html>
 <html lang="es">
 <head>
@@ -488,6 +510,13 @@ ${commonHead({
     'Conversaciones con profesionales del sector tecnológico: ingeniería, liderazgo, plataforma y aprendizajes de carrera.',
   canonical: 'https://ardops.dev/interviews/',
   ogType: 'website',
+  extraJsonLdBlocks: [
+    itemListSchema(itemListItems),
+    breadcrumbsSchema([
+      { name: 'Home', item: 'https://ardops.dev/' },
+      { name: 'Entrevistas', item: 'https://ardops.dev/interviews/' },
+    ]),
+  ],
 })}
 
   <script defer src="/assets/js/interviews.js"></script>
@@ -770,7 +799,7 @@ function main() {
   }
 
   // Index
-  fs.writeFileSync(path.join(outDir, 'index.html'), renderIndexHtml(), 'utf8');
+  fs.writeFileSync(path.join(outDir, 'index.html'), renderIndexHtml(interviews), 'utf8');
   const indexJson = renderIndexJson(interviews);
   fs.writeFileSync(path.join(outDir, 'index.json'), indexJson, 'utf8');
 

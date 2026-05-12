@@ -1,0 +1,30 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "ardops.dev — Blog",
+  "home_page_url": "https://ardops.dev/blog/",
+  "feed_url": "https://ardops.dev/blog/feed.json",
+  "description": "Notas técnicas en primera persona sobre lo que estoy construyendo.",
+  "language": "es-CR",
+  "authors": [
+    {
+      "name": "Victor Josue Ardón Rojas",
+      "url": "https://ardops.dev/"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://ardops.dev/blog/pipeline-seguridad-spec-driven.html",
+      "url": "https://ardops.dev/blog/pipeline-seguridad-spec-driven.html",
+      "title": "Cómo construí mi pipeline de seguridad spec-driven",
+      "summary": "El proceso (en primera persona) detrás del pipeline DevSecOps que ejecuta 7 análisis automáticos sobre cada PR a este sitio, sin licencias y en menos de 5 minutos.",
+      "date_published": "2026-05-11T00:00:00Z",
+      "language": "es-CR",
+      "tags": [
+        "devsecops",
+        "github-actions",
+        "spec-driven",
+        "seguridad"
+      ]
+    }
+  ]
+}

@@ -76,6 +76,11 @@ function pathToFile(p) {
   const stripped = p.startsWith('/') ? p.slice(1) : p;
   if (stripped.endsWith('/')) return stripped + 'index.html';
   if (stripped.endsWith('.html')) return stripped;
+  // spec 011 — feed files (and other direct artifacts) are addressable
+  // directly; treat any path with a recognized non-html extension as a file.
+  if (/\.(xml|json|txt|webmanifest|ico|svg|png|jpe?g|webp|woff2?)$/i.test(stripped)) {
+    return stripped;
+  }
   // bare directory without trailing slash (already normalized) → index.html
   return stripped + '/index.html';
 }

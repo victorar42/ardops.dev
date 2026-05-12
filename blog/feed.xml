@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ardops.dev — Blog</title>
+    <link>https://ardops.dev/blog/</link>
+    <description>Notas técnicas en primera persona sobre lo que estoy construyendo.</description>
+    <language>es-CR</language>
+    <lastBuildDate>Mon, 11 May 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ardops.dev/blog/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>Cómo construí mi pipeline de seguridad spec-driven</title>
+      <link>https://ardops.dev/blog/pipeline-seguridad-spec-driven.html</link>
+      <guid isPermaLink="true">https://ardops.dev/blog/pipeline-seguridad-spec-driven.html</guid>
+      <pubDate>Mon, 11 May 2026 00:00:00 +0000</pubDate>
+      <description>El proceso (en primera persona) detrás del pipeline DevSecOps que ejecuta 7 análisis automáticos sobre cada PR a este sitio, sin licencias y en menos de 5 minutos.</description>
+      <category>devsecops</category>
+      <category>github-actions</category>
+      <category>spec-driven</category>
+      <category>seguridad</category>
+    </item>
+  </channel>
+</rss>

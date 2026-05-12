@@ -1,6 +1,7 @@
 # Backlog 04 — RSS, JSON-LD y SEO distribution
 
-> **Estado**: backlog · **Prioridad**: P1
+> **Estado**: ✅ completado en spec [011-rss-jsonld-seo](../specs/011-rss-jsonld-seo/)
+> **Prioridad original**: P1
 > **Esfuerzo estimado**: M (~1 día) · **ROI networking**: **muy alto**
 
 ---
