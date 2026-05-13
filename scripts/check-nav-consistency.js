@@ -27,6 +27,7 @@ const STATIC_PAGES = [
   { file: 'talks/index.html', currentPath: '/talks/' },
   { file: 'speaking/index.html', currentPath: '/speaking/' },
   { file: 'uses/index.html',  currentPath: '/uses/' },
+  { file: 'now/index.html',   currentPath: '/now/' },
 ];
 
 function listGenerated(dir, currentPath) {

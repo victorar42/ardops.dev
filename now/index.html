@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+  <!-- head-meta:start -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <!-- head-meta:end -->
+  <title>Now — qué estoy haciendo este mes · ardops.dev</title>
+  <meta name="description" content="Qué estoy construyendo, aprendiendo y leyendo este mes. Página /now/ de Victor Ardón actualizada con regularidad — convención nownownow.com.">
+  <meta name="author" content="Victor Josue Ardón Rojas">
+  <meta name="theme-color" content="#0a0e17">
+  <meta name="color-scheme" content="dark">
+  <link rel="canonical" href="https://ardops.dev/now/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CR">
+  <meta property="og:site_name" content="ardops.dev">
+  <meta property="og:title" content="Now — qué estoy haciendo este mes · ardops.dev">
+  <meta property="og:description" content="Qué estoy construyendo, aprendiendo y leyendo este mes. Página /now/ actualizada con regularidad.">
+  <meta property="og:url" content="https://ardops.dev/now/">
+  <meta property="og:image" content="https://ardops.dev/public/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ardops.dev — Now">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Now — qué estoy haciendo este mes · ardops.dev">
+  <meta name="twitter:description" content="Qué estoy construyendo, aprendiendo y leyendo este mes.">
+  <meta name="twitter:image" content="https://ardops.dev/public/og/og-default.png">
+
+  <link rel="icon" href="/public/favicon/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/public/favicon/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" sizes="180x180" href="/public/favicon/apple-touch-icon.png">
+  <link rel="manifest" href="/public/favicon/site.webmanifest">
+
+  <link rel="preload" href="/assets/fonts/outfit-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/jetbrains-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/motion.css">
+  <link rel="stylesheet" href="/assets/css/layout.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/home.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://ardops.dev/now/#webpage",
+    "url": "https://ardops.dev/now/",
+    "name": "Now — qué estoy haciendo este mes",
+    "description": "Qué estoy construyendo, aprendiendo y leyendo este mes. Página /now/ de Victor Ardón actualizada con regularidad — convención nownownow.com.",
+    "inLanguage": "es",
+    "dateModified": "2026-05-13",
+    "isPartOf": { "@id": "https://ardops.dev/#website" },
+    "about": { "@id": "https://ardops.dev/#person" },
+    "mainEntityOfPage": { "@id": "https://ardops.dev/now/#webpage" }
+  }
+  </script>
+
+  <script defer src="/assets/js/main.js"></script>
+</head>
+<body>
+
+  <!-- nav:start -->
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Navegación principal">
+      <a href="/" class="nav-logo">ardops<span>.dev</span></a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#pipeline">Pipeline</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/interviews/">Entrevistas</a></li>
+        <li><a href="/talks/">Charlas</a></li>
+        <li><a href="/speaking/">Speaking</a></li>
+        <li><a href="/uses/">Uses</a></li>
+        <li><a href="/#contact">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+  <!-- nav:end -->
+
+  <main id="main">
+
+    <section class="section now-hero" aria-labelledby="now-heading">
+      <p class="section-label">// now</p>
+      <p class="now-banner">
+        Última actualización:
+        <time datetime="2026-05-13">13 de mayo de 2026</time>
+      </p>
+      <h1 id="now-heading" class="section-title">Now — qué estoy haciendo este mes</h1>
+      <p class="section-lead">
+        Inspirado en el movimiento
+        <a href="https://nownownow.com/about" target="_blank" rel="noopener noreferrer">nownownow.com</a>:
+        una sola página, actualizada cada 4-6 semanas, que resume en
+        qué ando ahora mismo. Más concreto que un blog, más honesto
+        que un perfil estático.
+      </p>
+    </section>
+
+    <section class="section now-section" data-now-section="trabajo" aria-labelledby="now-trabajo">
+      <p class="section-label">// trabajo</p>
+      <h2 id="now-trabajo" class="section-title">Trabajo</h2>
+      <ul class="now-list">
+        <li>
+          Construyendo <strong>ardops.dev</strong> bajo Spec-Driven
+          Development con GitHub Spec Kit: cada feature pasa por
+          <code>/specify → /plan → /tasks → /implement</code> antes de
+          tocar HTML.
+        </li>
+        <li>
+          Diseñando pipelines GitHub Actions con gates de
+          seguridad por defecto (CSP, anti-tabnabbing, JSON-LD,
+          a11y, lighthouse) reutilizables para clientes de banca.
+        </li>
+        <li>
+          Mentoreando a un equipo en Costa Rica sobre DevSecOps
+          práctico: cómo correr trivy, gitleaks y semgrep en PR sin
+          frenar la velocidad del feature.
+        </li>
+      </ul>
+    </section>
+
+    <section class="section now-section" data-now-section="aprendiendo" aria-labelledby="now-aprendiendo">
+      <p class="section-label">// aprendiendo</p>
+      <h2 id="now-aprendiendo" class="section-title">Aprendiendo</h2>
+      <ul class="now-list">
+        <li>
+          Profundizando en <strong>OpenTelemetry</strong> para
+          observabilidad uniforme entre runtimes (Node, Python, Go)
+          sin vendor lock-in.
+        </li>
+        <li>
+          Releyendo el <em>WCAG 2.2 Understanding</em> doc para
+          afinar criterios AAA donde el costo es bajo (focus
+          visible, target size).
+        </li>
+        <li>
+          Explorando <strong>eBPF</strong> aplicado a runtime
+          security en clusters Kubernetes (Cilium Tetragon).
+        </li>
+      </ul>
+    </section>
+
+    <section class="section now-section" data-now-section="leyendo" aria-labelledby="now-leyendo">
+      <p class="section-label">// leyendo</p>
+      <h2 id="now-leyendo" class="section-title">Leyendo</h2>
+      <ul class="now-list">
+        <li>
+          <em>Building Secure and Reliable Systems</em> de Google
+          (SRE/Security). Capítulos sobre design for understandability.
+        </li>
+        <li>
+          <em>Software Engineering at Google</em> — relectura
+          dirigida al capítulo de code review culture.
+        </li>
+        <li>
+          Newsletter
+          <a href="https://tldrsec.com/" target="_blank" rel="noopener noreferrer">tldrsec</a>
+          (semanal) para mantenerme al día con CVEs y herramientas
+          DevSecOps.
+        </li>
+      </ul>
+    </section>
+
+    <section class="section now-section" data-now-section="hablando" aria-labelledby="now-hablando">
+      <p class="section-label">// hablando</p>
+      <h2 id="now-hablando" class="section-title">Hablando</h2>
+      <ul class="now-list">
+        <li>
+          Preparando charla sobre <strong>Spec-Driven Development
+          aplicado a sitios estáticos seguros</strong> para un meetup
+          local en San José.
+        </li>
+        <li>
+          Disponible para podcasts y conferencias — ver
+          <a href="/speaking/">kit de prensa</a>.
+        </li>
+      </ul>
+    </section>
+
+    <section class="section now-section" data-now-section="vida" aria-labelledby="now-vida">
+      <p class="section-label">// vida</p>
+      <h2 id="now-vida" class="section-title">Vida</h2>
+      <ul class="now-list">
+        <li>
+          Caminando por San José temprano antes de empezar a tipear.
+          Buen reset mental.
+        </li>
+        <li>
+          Volviendo al café de filtro v60 con grano local.
+        </li>
+      </ul>
+    </section>
+
+    <section class="section now-credit" aria-labelledby="now-credit-heading">
+      <h2 id="now-credit-heading" class="section-title">Sobre esta página</h2>
+      <p>
+        Esta página sigue la convención
+        <a href="https://nownownow.com/about" target="_blank" rel="noopener noreferrer">/now/</a>
+        propuesta por Derek Sivers: actualizada con regularidad para
+        que cualquiera pueda ver en qué ando, sin tener que leer todo
+        el blog.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- footer:start -->
+  <footer class="site-footer">
+    <p><span class="footer-mono">ardops.dev</span> · Security as Code · Costa Rica · &copy; <span data-year>2026</span></p>
+    <p class="footer-tagline">Built with intention. Deployed with CI/CD.</p>
+    <p class="footer-links"><a href="/now/">/now/</a></p>
+  </footer>
+  <!-- footer:end -->
+
+</body>
+</html>
