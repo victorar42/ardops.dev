@@ -1,6 +1,6 @@
 # Backlog 06 — `/now/` page (qué estoy haciendo este mes)
 
-> **Estado**: backlog · **Prioridad**: P2
+> **Estado**: ✅ completado en spec [013-now-page](../specs/013-now-page/) · **Prioridad original**: P2
 > **Esfuerzo estimado**: XS (~2-3 horas) · **ROI networking**: medio (sustento de actividad)
 
 ---

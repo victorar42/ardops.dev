@@ -27,6 +27,7 @@ declare -a candidates=(
   talks/index.html
   speaking/index.html
   uses/index.html
+  now/index.html
   sitemap.xml
   robots.txt
   public/favicon/site.webmanifest

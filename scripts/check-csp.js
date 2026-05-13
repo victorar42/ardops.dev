@@ -28,7 +28,7 @@ const { JSDOM } = require('jsdom');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 
-const STATIC_PAGES = ['index.html', '404.html', 'talks/index.html', 'uses/index.html', 'speaking/index.html'];
+const STATIC_PAGES = ['index.html', '404.html', 'talks/index.html', 'uses/index.html', 'speaking/index.html', 'now/index.html'];
 
 const FORBIDDEN_TOKENS = ["'unsafe-inline'", "'unsafe-eval'"];
 

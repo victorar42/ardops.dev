@@ -1459,3 +1459,88 @@
 .speaking-highlights a {
   color: var(--accent);
 }
+
+/* Now page (spec 013) */
+.now-hero {
+  padding-bottom: 1.5rem;
+}
+
+.now-banner {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0 0 1rem;
+  letter-spacing: 0.02em;
+}
+
+.now-banner time {
+  color: var(--accent);
+}
+
+.now-section {
+  padding-block: 2rem;
+}
+
+.now-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0 0;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.now-list li {
+  position: relative;
+  padding-left: 1.25rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.now-list li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-family: var(--font-mono);
+}
+
+.now-list a {
+  color: var(--accent);
+}
+
+.now-list strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.now-credit p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  max-width: 60ch;
+}
+
+.contact-now {
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.contact-now a {
+  color: var(--accent);
+  font-family: var(--font-mono);
+}
+
+.footer-links {
+  margin-top: 0.5rem;
+}
+
+.footer-links a {
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+  color: var(--accent);
+}
