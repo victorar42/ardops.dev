@@ -1,6 +1,6 @@
 # Backlog 10 — Syntax highlighting build-time (Shiki)
 
-> **Estado**: backlog · **Prioridad**: P4 (esperar a publicar posts con código)
+> **Estado**: implementado · spec 016 · **Prioridad**: P4 (esperar a publicar posts con código)
 > **Esfuerzo estimado**: S (~3-4 horas) · **ROI networking**: medio (UX de lectura)
 
 ---

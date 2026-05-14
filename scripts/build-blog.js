@@ -38,6 +38,7 @@ const createDOMPurify = require('dompurify');
 const { renderHeader, renderFooter } = require('./lib/layout');
 const { META_REFERRER } = require('./lib/head');
 const { renderRss, renderJsonFeed } = require('./lib/feeds');
+const { highlight: shikiHighlight } = require('./lib/shiki-highlight');
 const {
   serialize: serializeJsonLd,
   articleSchema,
@@ -154,6 +155,9 @@ const FORBID_TAGS = [
   'video', 'audio', 'source', 'track', 'canvas', 'noscript',
 ];
 const FORBID_ATTR = [
+  // spec 016 (CSP I3): 'style' MUST remain forbidden — defense in depth
+  // for build-time syntax highlighting. See
+  // specs/016-syntax-highlighting/contracts/csp-invariants.md.
   'style', 'srcset', 'sizes',
   'onerror', 'onload', 'onclick', 'onmouseover', 'onfocus',
   'onmouseout', 'onkeydown', 'onkeyup', 'onkeypress', 'onchange',
@@ -595,6 +599,30 @@ function renderBodyHtml(bodyMd) {
   return sanitizeHtml(rawHtml);
 }
 
+/**
+ * spec 016 — async variant that pipes marked output through Shiki
+ * (build-time syntax highlighting) BEFORE DOMPurify, so the sanitizer
+ * remains the last word (defense in depth).
+ *
+ * CSP I3 — DOMPurify's FORBID_ATTR contains 'style', which guarantees
+ * any residual inline style introduced after Shiki is stripped.
+ * See specs/016-syntax-highlighting/contracts/csp-invariants.md.
+ *
+ * @returns {Promise<{ html: string, tokenizedBlockCount: number, fallbackBlockCount: number, unknownLanguages: string[] }>}
+ */
+async function renderBodyHtmlAsync(bodyMd) {
+  const rawHtml = marked.parse(bodyMd, {
+    gfm: true,
+    breaks: false,
+    headerIds: false,
+    mangle: false,
+  });
+  const { html: highlighted, tokenizedBlockCount, fallbackBlockCount, unknownLanguages } =
+    await shikiHighlight(rawHtml);
+  const cleaned = sanitizeHtml(highlighted);
+  return { html: cleaned, tokenizedBlockCount, fallbackBlockCount, unknownLanguages };
+}
+
 // ---------------------------------------------------------------------------
 // TOC (spec 007 — T007/T008) — build-time, deterministic ids
 // ---------------------------------------------------------------------------
@@ -982,6 +1010,12 @@ function renderPostPage(post, bodyHtml) {
   const tagsHeader = renderTags(post.tags);
   const tagsFooter = renderTags(post.tags);
   const shareBlock = renderShareLinks(post);
+  // spec 016 — conditional syntax stylesheet (load only if the post has
+  // at least one Shiki-tokenized code block).
+  const hasSyntax = /<pre class="shiki"/.test(bodyHtmlWithIds);
+  const syntaxLink = hasSyntax
+    ? '\n  <link rel="stylesheet" href="/assets/css/syntax.css">'
+    : '';
   return `<!doctype html>
 <html lang="es">
 <head>
@@ -1022,7 +1056,7 @@ function renderPostPage(post, bodyHtml) {
   <link rel="stylesheet" href="/assets/css/base.css">
   <link rel="stylesheet" href="/assets/css/motion.css">
   <link rel="stylesheet" href="/assets/css/layout.css">
-  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/components.css">${syntaxLink}
 
   ${FEED_DISCOVERY_LINKS}
 
@@ -1090,14 +1124,35 @@ function replaceLandingBlock(html, newBlock) {
 // ---------------------------------------------------------------------------
 
 function buildArtifacts(collection) {
+  return _buildArtifactsAsync(collection);
+}
+
+async function _buildArtifactsAsync(collection) {
   const { published, recent } = collection;
   const landingBlock = renderLandingBlock(recent);
   const blogIndexHtml = renderBlogIndex(published);
   const tagCss = renderTagCssFile(collectTags(published));
   const postPages = new Map();
+  let totalTokenized = 0;
+  let totalFallback = 0;
+  const allUnknown = new Set();
   for (const p of published) {
-    const bodyHtml = renderBodyHtml(p.bodyMd);
+    const { html: bodyHtml, tokenizedBlockCount, fallbackBlockCount, unknownLanguages } =
+      await renderBodyHtmlAsync(p.bodyMd);
+    totalTokenized += tokenizedBlockCount;
+    totalFallback += fallbackBlockCount;
+    for (const u of unknownLanguages) allUnknown.add(u);
+    if (tokenizedBlockCount > 0 || fallbackBlockCount > 0) {
+      process.stdout.write(
+        `blog-build:   ${p.slug} — ${tokenizedBlockCount} highlighted, ${fallbackBlockCount} fallback\n`,
+      );
+    }
     postPages.set(p.slug, renderPostPage(p, bodyHtml));
+  }
+  if (allUnknown.size > 0) {
+    process.stdout.write(
+      `blog-build: ⚠ unknown language(s): ${[...allUnknown].sort().join(', ')} — fallback applied\n`,
+    );
   }
   const { feedXml, feedJson } = buildFeeds(published);
   return { landingBlock, blogIndexHtml, tagCss, postPages, feedXml, feedJson };
@@ -1152,9 +1207,9 @@ function renderTagCssFile(tags) {
 // Write mode
 // ---------------------------------------------------------------------------
 
-function writeAll(collection) {
+async function writeAll(collection) {
   const { published } = collection;
-  const arts = buildArtifacts(collection);
+  const arts = await buildArtifacts(collection);
 
   // 1. landing
   const landingRaw = fs.readFileSync(LANDING_PATH, 'utf8');
@@ -1221,9 +1276,9 @@ function writeAll(collection) {
 // Check mode
 // ---------------------------------------------------------------------------
 
-function checkAll(collection) {
+async function checkAll(collection) {
   const { published } = collection;
-  const arts = buildArtifacts(collection);
+  const arts = await buildArtifacts(collection);
 
   // 1. landing block
   const landingRaw = fs.readFileSync(LANDING_PATH, 'utf8');
@@ -1365,6 +1420,14 @@ function parseArgs(argv) {
 
 function main() {
   const args = parseArgs(process.argv);
+  return _mainAsync(args).catch((e) => {
+    if (e instanceof BuildError) die(e.message);
+    process.stderr.write(`blog-build: ${e.stack || e.message}\n`);
+    process.exit(1);
+  });
+}
+
+async function _mainAsync(args) {
   try {
     if (args.checkOnlyValidation || args.emitSanitized) {
       if (!args.input) {
@@ -1373,7 +1436,7 @@ function main() {
       const file = path.resolve(args.input);
       if (!fs.existsSync(file)) die(`input not found: ${args.input}`);
       const post = loadSinglePost(file);
-      const bodyHtml = renderBodyHtml(post.bodyMd);
+      const { html: bodyHtml } = await renderBodyHtmlAsync(post.bodyMd);
       if (args.emitSanitized) {
         process.stdout.write(bodyHtml);
         if (!bodyHtml.endsWith('\n')) process.stdout.write('\n');
@@ -1387,8 +1450,8 @@ function main() {
     }
 
     const collection = loadAllPosts();
-    if (args.check) checkAll(collection);
-    else writeAll(collection);
+    if (args.check) await checkAll(collection);
+    else await writeAll(collection);
   } catch (e) {
     if (e instanceof BuildError) die(e.message);
     process.stderr.write(`blog-build: ${e.stack || e.message}\n`);
