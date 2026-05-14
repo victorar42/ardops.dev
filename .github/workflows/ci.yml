@@ -307,3 +307,41 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run now-freshness gate
         run: bash tests/now-freshness.sh
+
+  byte-budgets:
+    name: Byte budgets gate (spec 014)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build blog (post artifacts)
+        run: |
+          if [ -f scripts/build-blog.js ]; then
+            node scripts/build-blog.js || true
+          fi
+      - name: Build interviews (emit HTML)
+        run: node scripts/build-interviews.js --strict --include-fixtures --out interviews/
+      - name: Run byte-budgets gate
+        run: bash tests/byte-budgets.sh
+
+  img-attrs:
+    name: Image attributes gate (spec 014)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Build interviews (emit HTML)
+        run: node scripts/build-interviews.js --strict --include-fixtures --out interviews/
+      - name: Run img-attrs gate
+        run: bash tests/img-attrs.sh
+
+  fonts-policy:
+    name: Fonts policy gate (spec 014)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run no-third-party-fonts gate
+        run: bash tests/no-third-party-fonts.sh

@@ -1,6 +1,6 @@
 # Backlog 07 — Performance & a11y thresholds (refinamiento del baseline)
 
-> **Estado**: backlog · **Prioridad**: P3
+> **Estado**: ✅ completado en spec [014-perf-a11y-thresholds](../specs/014-perf-a11y-thresholds/) · **Prioridad original**: P3
 > **Esfuerzo estimado**: XS (~2 horas) · **ROI networking**: bajo (mantener estándar)
 
 ---

@@ -23,7 +23,10 @@
     "check:seo": "bash tests/seo-meta.sh",
     "check:headshot": "bash tests/headshot-size.sh",
     "check:now-freshness": "bash tests/now-freshness.sh",
-    "check:distribution": "npm run check:feeds && npm run check:jsonld && npm run check:seo && npm run check:headshot && npm run check:now-freshness",
+    "check:byte-budgets": "bash tests/byte-budgets.sh",
+    "check:img-attrs": "bash tests/img-attrs.sh",
+    "check:fonts": "bash tests/no-third-party-fonts.sh",
+    "check:distribution": "npm run check:feeds && npm run check:jsonld && npm run check:seo && npm run check:headshot && npm run check:now-freshness && npm run check:byte-budgets && npm run check:img-attrs && npm run check:fonts",
     "check:security": "npm run check:csp && npm run check:links && npm run check:sitemap"
   },
   "devDependencies": {
