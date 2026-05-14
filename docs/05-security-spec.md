@@ -166,3 +166,21 @@ protecciones están cubiertas por la meta CSP (`frame-ancestors 'none'`,
 servir HTTPS para dominios `*.github.io`; en dominio custom (`ardops.dev`)
 HSTS dependerá del navegador y de la lista preload (no controlable
 desde el sitio).
+
+---
+
+## Privacy by Default (spec 015)
+
+Codificado como **Principio XII** de la constitución. Resumen operativo:
+
+- Cero trackers, cero cookies, cero third-party scripts en runtime.
+- Política pública en [`/privacy/`](../privacy/index.html) (≈230 palabras,
+  es-CR, 5 secciones).
+- Enforcement automático vía dos gates:
+  - `bash tests/no-trackers.sh` — barre `.html/.css/.js` servidos contra
+    `tests/tracker-domains.txt` (≥27 patrones cubriendo Google, Meta,
+    LinkedIn, X/Twitter, TikTok, Hotjar, Plausible, Matomo, etc.).
+  - `bash tests/no-cookies.sh` — falla si encuentra `document.cookie` en
+    cualquier `.js` servido.
+- Excepción legítima futura: requiere spec dedicada + actualización
+  simultánea de `/privacy/` + bump constitucional si amplía la regla.

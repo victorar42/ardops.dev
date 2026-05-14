@@ -1,6 +1,6 @@
 # Backlog 08 — Privacy policy + no-tracking enforcement
 
-> **Estado**: backlog · **Prioridad**: P3
+> **Estado**: ✅ completado en spec [015-privacy-no-tracking](../specs/015-privacy-no-tracking/spec.md) · **Prioridad original**: P3
 > **Esfuerzo estimado**: XS (~1-2 horas) · **ROI networking**: bajo (coherencia de marca)
 
 ---

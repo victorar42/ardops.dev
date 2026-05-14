@@ -30,6 +30,7 @@ const URLS = [
   'http://localhost:8080/uses/',
   'http://localhost:8080/speaking/',
   'http://localhost:8080/now/',
+  'http://localhost:8080/privacy/',
   'http://localhost:8080/404',
   'http://localhost:8080/interviews/',
   'http://localhost:8080/interviews/valid-minimal.html'

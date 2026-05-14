@@ -345,3 +345,26 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run no-third-party-fonts gate
         run: bash tests/no-third-party-fonts.sh
+
+  no-trackers:
+    name: No-trackers gate (spec 015)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
+      - name: Build interviews (emit HTML)
+        run: node scripts/build-interviews.js --strict --include-fixtures --out interviews/
+      - name: Run no-trackers gate
+        run: bash tests/no-trackers.sh
+
+  no-cookies:
+    name: No-cookies gate (spec 015)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run no-cookies gate
+        run: bash tests/no-cookies.sh
