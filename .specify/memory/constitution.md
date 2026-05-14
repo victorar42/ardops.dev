@@ -78,11 +78,23 @@ Las decisiones viven en git, no en Slack ni en la cabeza de nadie.
   justificación, bump semántico y actualización de
   `docs/09-deployment-spec.md`.
 
+## XII. Privacy by Default
+Cero trackers, cero cookies, cero third-party scripts. El sitio no
+recopila, almacena ni transmite datos personales más allá de los logs de
+acceso que GitHub Pages procesa como hosting. Cualquier excepción
+(analytics auto-hospedados, embeds de video, etc.) requiere:
+(a) spec dedicada con justificación, (b) actualización simultánea de
+`/privacy/`, (c) deshabilitar el gate `tests/no-trackers.sh` con la
+justificación versionada en la misma spec. Los gates
+`tests/no-trackers.sh` y `tests/no-cookies.sh` automatizan la
+enforcement; cualquier patrón nuevo se agrega a
+`tests/tracker-domains.txt`.
+
 ---
 
 **Owner:** Victor Josue Ardón Rojas
-**Última revisión constitucional:** 2026-05-11
-**Versión:** 1.2.0
+**Última revisión constitucional:** 2026-05-14
+**Versión:** 1.3.0
 
 <!--
 Sync Impact Report (2026-05-11, v1.1.0 → v1.2.0):
@@ -96,6 +108,19 @@ Sync Impact Report (2026-05-11, v1.1.0 → v1.2.0):
 - Driven by spec 009 (Security headers hardening). Net-positive: closes
   the 'unsafe-inline' regression that was inadvertently introduced by
   spec 007 in blog/index.html.
+-->
+
+<!--
+Sync Impact Report (2026-05-14, v1.2.0 → v1.3.0):
+- New Principle XII (Privacy by Default) added.
+  - Codifies the de-facto no-tracking, no-cookies, no-third-party
+    invariant that has been implicit since project inception.
+  - Introduces two CI gates: tests/no-trackers.sh and tests/no-cookies.sh.
+  - Pattern list maintained in tests/tracker-domains.txt.
+  - Exception process: every deviation requires a dedicated spec + a
+    simultaneous update to /privacy/.
+- Driven by spec 015 (Privacy policy + no-tracking enforcement).
+- No renumbering of Principles I–XI; addition is purely additive.
 -->
 
 Modificar esta constitución requiere PR con justificación explícita y

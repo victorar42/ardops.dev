@@ -1,0 +1,43 @@
+# tracker-domains.txt — ERE patterns for tests/no-trackers.sh
+# One ERE per line. Lines starting with `#` and blank lines are ignored.
+# Special regex chars are escaped literally (\., \(, etc.).
+# Source of truth: spec 015, FR-06.
+
+# Google
+googletagmanager\.com
+google-analytics\.com
+gtag\(
+ga\.js
+analytics\.js
+
+# Session-recording / heatmaps
+hotjar\.com
+mouseflow\.com
+fullstory\.com
+
+# Product analytics
+segment\.com
+segment\.io
+mixpanel\.com
+amplitude\.com
+
+# Privacy-friendly analytics (still third-party at runtime — out by Principle XII)
+plausible\.io
+fathom\.com
+simpleanalytics\.com
+
+# Generic analytics hosts
+cloudflareinsights\.com
+matomo\.org
+piwik\.pro
+
+# Ad / social trackers
+facebook\.net/en_US/fbevents\.js
+connect\.facebook\.net
+twitter\.com/i/adsct
+static\.ads-twitter\.com
+linkedin\.com/li\.lms-analytics
+snap\.licdn\.com
+doubleclick\.net
+pinimg\.com/ct
+tiktok\.com/i18n/pixel

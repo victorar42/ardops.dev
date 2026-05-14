@@ -95,7 +95,7 @@ function renderFooter() {
   return `  <footer class="site-footer">
     <p><span class="footer-mono">ardops.dev</span> · Security as Code · Costa Rica · &copy; <span data-year>2026</span></p>
     <p class="footer-tagline">Built with intention. Deployed with CI/CD.</p>
-    <p class="footer-links"><a href="/now/">/now/</a></p>
+    <p class="footer-links"><a href="/now/">/now/</a> · <a href="/privacy/">/privacy/</a></p>
   </footer>`;
 }
 
