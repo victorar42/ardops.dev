@@ -313,11 +313,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build blog (post artifacts)
-        run: |
-          if [ -f scripts/build-blog.js ]; then
-            node scripts/build-blog.js || true
-          fi
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci || npm install --no-audit --no-fund
       - name: Build interviews (emit HTML)
         run: node scripts/build-interviews.js --strict --include-fixtures --out interviews/
       - name: Run byte-budgets gate
