@@ -79,3 +79,18 @@ home, blog index, último post, interviews, talks, speaking, now, 404.
 Imágenes: gate adicional [tests/img-attrs.sh](../tests/img-attrs.sh)
 requiere `alt`, `width`, `height`, `loading` (lazy o eager) y
 `decoding="async"` en cada `<img>` servido (FR-06).
+
+## Syntax highlighting (spec 016)
+
+Los bloques de código en posts del blog se tokenizan en **build-time**
+con Shiki (devDep, sin JS runtime). Cada post carga
+[`/assets/css/syntax.css`](../assets/css/syntax.css) **solo si**
+contiene ≥ 1 bloque tokenizado (carga condicional).
+
+Budget gate:
+
+| Métrica | Budget | Gate |
+|---|---:|---|
+| `syntax.css` gzip-9 | 5120 B (5 KiB) | [tests/syntax-css-size.sh](../tests/syntax-css-size.sh) |
+
+Detalles en [specs/016-syntax-highlighting/](../specs/016-syntax-highlighting/).

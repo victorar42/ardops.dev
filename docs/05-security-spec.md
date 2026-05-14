@@ -184,3 +184,22 @@ Codificado como **Principio XII** de la constitución. Resumen operativo:
     cualquier `.js` servido.
 - Excepción legítima futura: requiere spec dedicada + actualización
   simultánea de `/privacy/` + bump constitucional si amplía la regla.
+
+## Build-time syntax highlighting (spec 016)
+
+La integración de Shiki en `scripts/build-blog.js` mantiene la CSP
+`style-src 'self'` intacta mediante **tres capas de defensa**:
+
+1. **Transform en build**: `scripts/lib/shiki-highlight.js` reemplaza
+   cualquier `style="color:var(--shiki-X)"` que emita Shiki por
+   `class="tok-X"`. Si queda un `style=` residual, lanza error y aborta.
+2. **DOMPurify** con `FORBID_ATTR` incluyendo `'style'` (defensa reactiva
+   sobre la salida de Shiki).
+3. **CSP `style-src 'self'`** enforced por navegador (último recurso).
+
+Gates: [tests/no-inline-styles-blog.sh](../tests/no-inline-styles-blog.sh)
++ [tests/csp-no-unsafe-inline.sh](../tests/csp-no-unsafe-inline.sh) +
+[tests/build-blog-check.sh](../tests/build-blog-check.sh).
+
+Contrato completo en
+[specs/016-syntax-highlighting/contracts/csp-invariants.md](../specs/016-syntax-highlighting/contracts/csp-invariants.md).

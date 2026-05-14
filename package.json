@@ -12,8 +12,14 @@
     "build:layout": "node scripts/build-layout.js",
     "build:interviews": "node scripts/build-interviews.js --strict --out interviews/",
     "build:blog": "node scripts/build-blog.js",
-    "build": "npm run build:layout && npm run build:blog && npm run build:interviews",
+    "build:syntax-css": "node scripts/build-syntax-css.js",
+    "build": "npm run build:layout && npm run build:syntax-css && npm run build:blog && npm run build:interviews",
     "check:layout": "node scripts/build-layout.js --check",
+    "check:syntax-css": "node scripts/build-syntax-css.js --check",
+    "check:syntax-css-size": "bash tests/syntax-css-size.sh",
+    "check:syntax-css-conditional": "bash tests/syntax-css-conditional.sh",
+    "check:no-inline-styles-blog": "bash tests/no-inline-styles-blog.sh",
+    "check:build-blog": "bash tests/build-blog-check.sh",
     "check:nav": "bash tests/nav-consistency.sh",
     "check:csp": "bash tests/csp-no-unsafe-inline.sh",
     "check:links": "bash tests/external-links.sh",
@@ -40,6 +46,7 @@
     "jsdom": "^24.1.1",
     "marked": "^12.0.2",
     "pa11y-ci": "^3.1.0",
-    "puppeteer": "^22.15.0"
+    "puppeteer": "^22.15.0",
+    "shiki": "^4.0.2"
   }
 }
