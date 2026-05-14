@@ -496,11 +496,66 @@ ${siteFooter()}
 // Templates: index (listing) page
 // ---------------------------------------------------------------------------
 
+function renderCardHtml(it) {
+  const tags = (it.tags || [])
+    .map((t) => `<li>#${escapeHtml(t)}</li>`)
+    .join('');
+  const avatar = renderAvatar(it.interviewee, { size: 56 }).replace(
+    'class="interview-avatar"',
+    'class="interview-card-avatar"'
+  ).replace(
+    'class="interview-avatar interview-avatar--fallback"',
+    'class="interview-card-avatar"'
+  );
+  const minutes = (it.readingTime | 0);
+  return (
+    `<li class="interview-card">` +
+      `<a class="interview-card-link" href="/interviews/${escapeHtml(it.slug)}.html">` +
+        avatar +
+        `<div class="interview-card-content">` +
+          `<h2 class="interview-card-title">${escapeHtml(it.title)}</h2>` +
+          `<p class="interview-card-author">${escapeHtml(it.interviewee.name)} · ${escapeHtml(it.interviewee.role)} · ${escapeHtml(it.interviewee.company)}</p>` +
+          `<p class="interview-card-summary">${escapeHtml(it.summary)}</p>` +
+          `<p class="interview-card-meta">` +
+            `<time datetime="${escapeHtml(it.date)}">${escapeHtml(formatDateHuman(it.date))}</time>` +
+            `<span aria-hidden="true"> · </span>` +
+            `<span>${minutes} min</span>` +
+          `</p>` +
+          `<ul class="interview-card-tags">${tags}</ul>` +
+        `</div>` +
+      `</a>` +
+    `</li>`
+  );
+}
+
+function renderTagChipsHtml(interviews) {
+  const TOP_TAGS = 20;
+  const counts = new Map();
+  for (const it of interviews) {
+    for (const t of it.tags || []) {
+      counts.set(t, (counts.get(t) || 0) + 1);
+    }
+  }
+  const sorted = Array.from(counts.entries())
+    .sort((a, b) => (b[1] - a[1]) || a[0].localeCompare(b[0]))
+    .slice(0, TOP_TAGS);
+  return sorted
+    .map(
+      ([tag, count]) =>
+        `<button type="button" aria-pressed="false" data-tag="${escapeHtml(tag)}">#${escapeHtml(tag)} <span class="visually-hidden">(${count} entrevista${count === 1 ? '' : 's'})</span></button>`
+    )
+    .join('');
+}
+
 function renderIndexHtml(interviews) {
   const itemListItems = (interviews || []).map((it) => ({
     url: `https://ardops.dev/interviews/${it.slug}.html`,
     name: it.title,
   }));
+  const cardsHtml = (interviews || []).map(renderCardHtml).join('');
+  const chipsHtml = renderTagChipsHtml(interviews || []);
+  const total = (interviews || []).length;
+  const countText = total === 0 ? '' : (total === 1 ? '1 entrevista' : `${total} entrevistas`);
   return `<!doctype html>
 <html lang="es">
 <head>
@@ -545,18 +600,16 @@ ${siteHeader()}
           enterkeyhint="search">
       </label>
 
-      <div class="interviews-tag-filter" role="group" aria-label="Filtrar por tema" id="interviews-tag-filter">
-        <!-- chips renderizados por /assets/js/interviews.js -->
-      </div>
+      <div class="interviews-tag-filter" role="group" aria-label="Filtrar por tema" id="interviews-tag-filter">${chipsHtml}</div>
 
       <button type="button" class="interviews-clear btn btn-ghost" id="interviews-clear-btn" hidden>
         Limpiar filtros
       </button>
     </section>
 
-    <p class="interviews-count" id="interviews-count" aria-live="polite" aria-atomic="true"></p>
+    <p class="interviews-count" id="interviews-count" aria-live="polite" aria-atomic="true">${escapeHtml(countText)}</p>
 
-    <ul class="interviews-list" id="interviews-list"></ul>
+    <ul class="interviews-list" id="interviews-list">${cardsHtml}</ul>
 
     <p class="interviews-empty" id="interviews-empty" hidden>
       No encontramos entrevistas que coincidan. Probá con otra búsqueda o quitá filtros.

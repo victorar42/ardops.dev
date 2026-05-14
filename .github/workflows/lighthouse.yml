@@ -28,6 +28,8 @@ jobs:
           node-version: "20"
           cache: npm
       - run: npm ci || npm install --no-audit --no-fund
+      - name: Build interviews (emit HTML for /interviews/index.html)
+        run: node scripts/build-interviews.js --strict --include-fixtures --out interviews/
       - name: Resolve config path
         id: cfg
         run: |
