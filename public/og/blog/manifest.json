@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "templateVersion": "v1",
+  "entries": {
+    "pipeline-seguridad-spec-driven": {
+      "hash": "59a8499364c9a9944e650322ffdfd1e6c9ddbe650df61c39b331123c695133de",
+      "title": "Cómo construí mi pipeline de seguridad spec-driven",
+      "tags": [
+        "devsecops",
+        "github-actions",
+        "spec-driven",
+        "seguridad"
+      ]
+    }
+  }
+}

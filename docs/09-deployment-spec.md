@@ -130,3 +130,22 @@ Tres workflows en `.github/workflows/`:
 
 **Dominio personalizado**: GoDaddy DNS apuntando a GitHub Pages (registros
 A/AAAA + CNAME `www`). `CNAME` en raíz del repo declara `ardops.dev`.
+
+### Artefactos build-time commiteados
+
+Hay artefactos generados por scripts de build que se versionan en el
+repo (no se generan en CI deploy, porque GitHub Pages sirve archivos
+tal cual):
+
+- `assets/css/syntax.css` — generado por `scripts/build-syntax-css.js` (spec 016).
+- `public/og/blog/<slug>.png` + `public/og/blog/manifest.json` —
+  generados por `scripts/build-og.js` (spec 017).
+- `blog/<slug>.html`, `blog/index.html`, `blog/feed.xml`, `blog/feed.json`
+  — generados por `scripts/build-blog.js`.
+- `interviews/<slug>.html`, `interviews/index.json` — generados por
+  `scripts/build-interviews.js`.
+
+El workflow `pages-deploy.yml` despliega estos archivos como parte del
+package; un drift entre el código fuente (Markdown, plantilla SVG) y el
+artefacto commiteado se detecta antes de merge mediante los respectivos
+gates `--check`.

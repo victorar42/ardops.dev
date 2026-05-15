@@ -62,7 +62,18 @@ en `content/interviews/` (Markdown + frontmatter YAML); el HTML servido y el
 - **Gates en CI**: `interviews-strict-build`, `interviews-xss`, `interviews-size`,
   más la cobertura habitual de `html-validate` y `a11y` extendida a las nuevas URLs.
 
-> Cero dependencias de terceros en runtime. `gray-matter`, `marked`, `dompurify`
-> y `jsdom` se usan solo en build time.
+> Cero dependencias de terceros en runtime. `gray-matter`, `marked`, `dompurify`,
+> `jsdom`, `shiki` y `sharp` se usan solo en build time.
+
+### OG images dinámicas (spec 017)
+
+Cada post del blog publica un PNG 1200×630 en `public/og/blog/<slug>.png`
+generado en build-time desde `scripts/og/template.svg` con `sharp`.
+
+- **Generar**: `npm run build:og` (parte de `npm run build`).
+- **Validar drift**: `npm run check:og-drift` (falla si título/tags
+  cambiaron y el PNG no se regeneró).
+- **Validar cobertura + budget + meta tags**: `npm run check:og-images`.
+- Detalles: [specs/017-og-images-dynamic/quickstart.md](specs/017-og-images-dynamic/quickstart.md).
 
 

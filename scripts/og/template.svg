@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0e17"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <style>
+      {{FONT_FACES}}
+      .title { font-family: 'Outfit', system-ui, sans-serif; font-weight: 700; font-size: 64px; fill: #e2e8f0; }
+      .section-label { font-family: 'Outfit', system-ui, sans-serif; font-weight: 600; font-size: 24px; fill: #22d3ee; letter-spacing: 0.04em; }
+      .chip-bg { fill: #1a2235; }
+      .chip-text { font-family: 'Outfit', system-ui, sans-serif; font-weight: 600; font-size: 22px; fill: #22d3ee; }
+      .logo { font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 700; font-size: 28px; fill: #e2e8f0; }
+    </style>
+  </defs>
+
+  <!-- Background gradient -->
+  <rect x="0" y="0" width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Accent rail (right edge) -->
+  <rect x="1192" y="0" width="8" height="630" fill="#22d3ee" fill-opacity="0.6"/>
+
+  <!-- Section label -->
+  <text x="64" y="96" class="section-label">// blog</text>
+
+  <!-- Title lines (1 or 2) -->
+  {{TITLE_LINES}}
+
+  <!-- Tag chips row (may be empty) -->
+  {{TAGS_SVG}}
+
+  <!-- Logo bottom-right -->
+  <text x="1136" y="555" text-anchor="end" class="logo">{{LOGO_TEXT}}</text>
+</svg>

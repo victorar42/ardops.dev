@@ -100,6 +100,42 @@ const COVER_PATH_RE = /^[A-Za-z0-9._/-]+$/;
 const TOC_MIN_H2 = 3;
 const CANONICAL_ORIGIN = 'https://ardops.dev';
 
+// spec 017 — OG image manifest. Loaded lazily on first use.
+const OG_MANIFEST_PATH = path.join(
+  __dirname,
+  '..',
+  'public',
+  'og',
+  'blog',
+  'manifest.json',
+);
+let _ogManifestCache = null;
+function getOgManifest() {
+  if (_ogManifestCache !== null) return _ogManifestCache;
+  try {
+    if (fs.existsSync(OG_MANIFEST_PATH)) {
+      const raw = fs.readFileSync(OG_MANIFEST_PATH, 'utf8');
+      const obj = JSON.parse(raw);
+      _ogManifestCache = obj && obj.entries ? obj : { entries: {} };
+    } else {
+      _ogManifestCache = { entries: {} };
+    }
+  } catch (_e) {
+    _ogManifestCache = { entries: {} };
+  }
+  return _ogManifestCache;
+}
+function ogImageUrlFor(slug) {
+  const m = getOgManifest();
+  if (m.entries && m.entries[slug]) {
+    return `https://ardops.dev/public/og/blog/${slug}.png`;
+  }
+  process.stderr.write(
+    `[blog-build] ⚠ no OG image for slug=${slug} — falling back to og-default.png. Run \`node scripts/build-og.js\` and commit.\n`,
+  );
+  return 'https://ardops.dev/public/og/og-default.png';
+}
+
 const MARKER_START = '<!-- blog:start -->';
 const MARKER_END = '<!-- blog:end -->';
 
@@ -1035,7 +1071,7 @@ function renderPostPage(post, bodyHtml) {
   <meta property="og:title" content="${escapeHTML(post.title)}">
   <meta property="og:description" content="${escapeHTML(post.summary)}">
   <meta property="og:url" content="${escapeHTML(canonicalUrl(post.slug))}">
-  <meta property="og:image" content="https://ardops.dev/public/og/og-default.png">
+  <meta property="og:image" content="${escapeHTML(ogImageUrlFor(post.slug))}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="${escapeHTML(post.title)}">
@@ -1043,7 +1079,7 @@ function renderPostPage(post, bodyHtml) {
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escapeHTML(post.title)}">
   <meta name="twitter:description" content="${escapeHTML(post.summary)}">
-  <meta name="twitter:image" content="https://ardops.dev/public/og/og-default.png">
+  <meta name="twitter:image" content="${escapeHTML(ogImageUrlFor(post.slug))}">
 
   <link rel="icon" href="/public/favicon/favicon.svg" type="image/svg+xml">
   <link rel="alternate icon" href="/public/favicon/favicon.ico" sizes="any">
