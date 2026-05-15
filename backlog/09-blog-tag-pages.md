@@ -5,6 +5,27 @@
 
 ---
 
+Base Prompt:
+/speckit.specify
+
+Implementar el Backlog 11 — OG images dinámicas por post
+
+Contexto completo y requisitos en backlog/11-og-images-dynamic.md
+
+Por favor leé ese archivo entero antes de generar la spec, y usalo como
+fuente de verdad para:
+
+Problema y objetivo
+FRs (FR-01 a FR-06)
+Alcance técnico y archivos a tocar
+Gates / tests
+Out of scope
+Edge cases
+Criterios de aceptación
+Generá la spec en specs/017-og-images-dynamic/spec.md respetando
+la constitución (.specify/memory/constitution.md) y la referencia visual
+en .reference/v1-design/index.html.
+
 ## Por qué
 
 Hoy el blog tiene un solo post. Los filtros del index (spec 007) cubren
