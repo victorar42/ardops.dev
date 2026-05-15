@@ -13,7 +13,11 @@
     "build:interviews": "node scripts/build-interviews.js --strict --out interviews/",
     "build:blog": "node scripts/build-blog.js",
     "build:syntax-css": "node scripts/build-syntax-css.js",
-    "build": "npm run build:layout && npm run build:syntax-css && npm run build:blog && npm run build:interviews",
+    "build:og": "node scripts/build-og.js",
+    "build": "npm run build:layout && npm run build:syntax-css && npm run build:og && npm run build:blog && npm run build:interviews",
+    "check:og": "node scripts/build-og.js --check",
+    "check:og-images": "bash tests/og-images.sh",
+    "check:og-drift": "bash tests/og-drift.sh",
     "check:layout": "node scripts/build-layout.js --check",
     "check:syntax-css": "node scripts/build-syntax-css.js --check",
     "check:syntax-css-size": "bash tests/syntax-css-size.sh",
@@ -34,7 +38,7 @@
     "check:fonts": "bash tests/no-third-party-fonts.sh",
     "check:no-trackers": "bash tests/no-trackers.sh",
     "check:no-cookies": "bash tests/no-cookies.sh",
-    "check:distribution": "npm run check:feeds && npm run check:jsonld && npm run check:seo && npm run check:headshot && npm run check:now-freshness && npm run check:byte-budgets && npm run check:img-attrs && npm run check:fonts && npm run check:no-trackers && npm run check:no-cookies",
+    "check:distribution": "npm run check:feeds && npm run check:jsonld && npm run check:seo && npm run check:headshot && npm run check:now-freshness && npm run check:byte-budgets && npm run check:img-attrs && npm run check:fonts && npm run check:no-trackers && npm run check:no-cookies && npm run check:og-images && npm run check:og-drift",
     "check:security": "npm run check:csp && npm run check:links && npm run check:sitemap"
   },
   "devDependencies": {
@@ -47,6 +51,7 @@
     "marked": "^12.0.2",
     "pa11y-ci": "^3.1.0",
     "puppeteer": "^22.15.0",
+    "sharp": "^0.33.5",
     "shiki": "^4.0.2"
   }
 }

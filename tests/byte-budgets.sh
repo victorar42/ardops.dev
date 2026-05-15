@@ -7,8 +7,10 @@
 #   - css-sum:    sum of assets/css/**/*.css <= 30720 B gzip-9
 #   - js-sum:     sum of assets/js/**/*.js  <= 51200 B gzip-9
 #   - img-each:   each assets/img/** binary <= 204800 B raw
+#   - og-each:    each public/og/blog/*.png      <= 100000 B raw  (spec 017)
 #
 # Contract: specs/014-perf-a11y-thresholds/contracts/byte-budgets.md
+#           specs/017-og-images-dynamic/contracts/og-template.md
 #
 # Usage:    bash tests/byte-budgets.sh
 # Exit:     0 ok | 1 budget exceeded | 2 I/O error
@@ -23,6 +25,7 @@ HTML_MAX="${BB_HTML_MAX:-51200}"
 CSS_SUM_MAX="${BB_CSS_SUM_MAX:-30720}"
 JS_SUM_MAX="${BB_JS_SUM_MAX:-51200}"
 IMG_MAX="${BB_IMG_MAX:-204800}"
+OG_MAX="${BB_OG_MAX:-100000}"
 
 # HTML servido: páginas estáticas + posts/interviews emitidos.
 # Excluye fixtures de interviews.
@@ -110,6 +113,23 @@ while IFS= read -r f; do
   fi
 done < <(find assets/img -type f 2>/dev/null)
 
+# 5) og-each (spec 017): per-PNG budget for OG images.
+max_og=0
+max_og_file=""
+while IFS= read -r f; do
+  [ -n "$f" ] || continue
+  sz=$(wc -c < "$f" | tr -d ' ')
+  if [ "$sz" -gt "$max_og" ]; then
+    max_og=$sz
+    max_og_file=$f
+  fi
+  if [ "$sz" -gt "$OG_MAX" ]; then
+    over=$((sz - OG_MAX))
+    errors+=("og-each: $f is $sz B raw exceeds budget $OG_MAX B by $over B")
+    FAIL=1
+  fi
+done < <(find public/og/blog -type f -name '*.png' 2>/dev/null)
+
 if [ "$FAIL" -eq 0 ]; then
   printf '✓ byte-budgets gate\n'
   printf '  html-each:  max=%d B (%s)  ≤ %d B  [margin: +%d]\n' \
@@ -123,6 +143,12 @@ if [ "$FAIL" -eq 0 ]; then
       "$max_img" "$max_img_file" "$IMG_MAX" $((IMG_MAX - max_img))
   else
     printf '  img-each:   (no images)\n'
+  fi
+  if [ -n "$max_og_file" ]; then
+    printf '  og-each:    max=%d B (%s)  ≤ %d B  [margin: +%d]\n' \
+      "$max_og" "$max_og_file" "$OG_MAX" $((OG_MAX - max_og))
+  else
+    printf '  og-each:    (no OG images)\n'
   fi
   exit 0
 fi

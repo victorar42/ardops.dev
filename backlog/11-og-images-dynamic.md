@@ -1,6 +1,6 @@
 # Backlog 11 — OG images dinámicas por post (diferido)
 
-> **Estado**: backlog · **Prioridad**: P5 (deferido — feature de pulido)
+> **Estado**: implementado · spec 017 · **Prioridad**: P5 (deferido — feature de pulido)
 > **Esfuerzo estimado**: M (~1 día) · **ROI networking**: medio (CTR de social)
 
 ---

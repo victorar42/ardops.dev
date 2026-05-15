@@ -69,6 +69,7 @@ formaliza los thresholds vigentes y agrega byte budgets enforced en CI.
 | `css-sum` | 30720 B (30 KiB) | gzip-9 |
 | `js-sum` | 51200 B (50 KiB) | gzip-9 |
 | `img-each` | 204800 B (200 KiB) | raw |
+| `og-each` | 100000 B (~98 KiB) | raw |
 
 Gate: [tests/byte-budgets.sh](../tests/byte-budgets.sh). Wired en
 `npm run check:byte-budgets` y como job CI `byte-budgets`.
@@ -94,3 +95,24 @@ Budget gate:
 | `syntax.css` gzip-9 | 5120 B (5 KiB) | [tests/syntax-css-size.sh](../tests/syntax-css-size.sh) |
 
 Detalles en [specs/016-syntax-highlighting/](../specs/016-syntax-highlighting/).
+
+## OG images dinámicas (spec 017)
+
+Cada post del blog publica un PNG 1200×630 propio en
+`public/og/blog/<slug>.png`, generado en **build-time** con `sharp`
+(devDep) a partir de `scripts/og/template.svg`. Cero impacto en runtime
+del sitio: los PNGs se sirven a crawlers (LinkedIn, X, Slack, Mastodon,
+Facebook) por HTTP estándar igual que cualquier `<img>` self-hosted.
+
+Budget gate (parte de byte-budgets):
+
+| Métrica | Budget | Gate |
+|---|---:|---|
+| `og-each` raw | 100000 B (~98 KiB) | [tests/byte-budgets.sh](../tests/byte-budgets.sh) |
+
+Drift gate: [tests/og-drift.sh](../tests/og-drift.sh) detecta si un
+post cambió título/tags y olvidó regenerar la imagen. Cobertura gate:
+[tests/og-images.sh](../tests/og-images.sh) verifica dimensiones,
+tamaño y meta tags por slug.
+
+Detalles en [specs/017-og-images-dynamic/](../specs/017-og-images-dynamic/).
